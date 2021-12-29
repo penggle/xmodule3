@@ -1,0 +1,13 @@
+spring:
+    #数据源连接池配置
+    datasource:
+        #默认库
+        default:
+            username: root
+            password: 123456
+            url: jdbc:mysql://127.0.0.1:3306/xmodule?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true&useCursorFetch=true
+        #商品库
+        product:
+            username: root
+            password: 123456
+            url: jdbc:mysql://127.0.0.1:3306/dt_product?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8&useSSL=false&rewriteBatchedStatements=true&useCursorFetch=true

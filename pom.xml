@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.5</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.penglecode</groupId>
+    <artifactId>xmodule3</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>xmodule3</name>
+    <description>基于Spring、SpringBoot、SpringCloud等技术栈的后台开发基础代码及示例</description>
+
+    <properties>
+        <xmodule3.version>1.0.0</xmodule3.version>
+
+        <mybatis.version>3.5.7</mybatis.version>
+        <mybatis-spring.version>2.0.6</mybatis-spring.version>
+        <mybatis-spring-boot-starter.version>2.1.4</mybatis-spring-boot-starter.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
+        <guava.version>30.0-jre</guava.version>
+        <jackson.version>2.12.3</jackson.version>
+        <mysql.version>8.0.25</mysql.version>
+        <jmh.version>1.31</jmh.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring-cloud-dependencies -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2020.0.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- xmodule3-common-facade -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-facade</artifactId>
+                <version>${xmodule3.version}</version>
+            </dependency>
+
+            <!-- xmodule3-common-domain -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-domain</artifactId>
+                <version>${xmodule3.version}</version>
+            </dependency>
+
+            <!-- xmodule3-common-core -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-core</artifactId>
+                <version>${xmodule3.version}</version>
+            </dependency>
+
+            <!-- xmodule3-common-codegen -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-codegen</artifactId>
+                <version>${xmodule3.version}</version>
+            </dependency>
+
+            <!-- xmodule3-sample -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-sample</artifactId>
+                <version>${xmodule3.version}</version>
+            </dependency>
+
+            <!-- commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+
+            <!-- mybatis-spring -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+
+            <!-- mybatis-spring-boot-starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- JMH -->
+            <dependency>
+                <groupId>org.openjdk.jmh</groupId>
+                <artifactId>jmh-generator-annprocess</artifactId>
+                <version>${jmh.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>xmodule3</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+                <!--
+                    设置新的版本号1.2.0-SNAPSHOT,则在根项目pom.xml文件夹下执行: mvn versions:set -DnewVersion=1.2.0-SNAPSHOT
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.8.1</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <resources>
+            <!-- 处理src/main/java包下的资源文件 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.ftl</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.yaml</include>
+                    <include>**/*.yml</include>
+                </includes>
+                <!-- false:不进行maven属性替换 -->
+                <filtering>false</filtering>
+            </resource>
+            <!-- 处理src/main/resources下面的资源文件 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- true:进行maven属性替换 -->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <modules>
+        <module>xmodule3-common</module>
+		 <module>xmodule3-sample1</module>
+		 <module>xmodule3-sample2</module>
+    </modules>
+
+    <profiles>
+        <!-- 开发环境 -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <!-- 集成测试环境 -->
+        <profile>
+            <id>uat</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>uat</spring.profiles.active>
+            </properties>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>prd</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>prd</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+</project>

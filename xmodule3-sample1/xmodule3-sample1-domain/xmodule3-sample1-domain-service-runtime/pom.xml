@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xmodule3-sample1-domain</artifactId>
+        <groupId>com.penglecode</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xmodule3-sample1-domain-service-runtime</artifactId>
+    <name>xmodule3-sample1-domain-service-runtime</name>
+    <description>示例领域服务实现(该模块不直接被其他模块依赖，仅在运行时(starter模块)出现)</description>
+
+    <dependencies>
+        <!-- xmodule3-sample1-common -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-sample1-common</artifactId>
+        </dependency>
+
+        <!-- xmodule3-sample1-dal -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-sample1-dal</artifactId>
+        </dependency>
+
+        <!-- xmodule3-sample1-domain-service-sdk -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-sample1-domain-service-sdk</artifactId>
+        </dependency>
+
+        <!-- spring-boot-starter-validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>xmodule3-sample1-domain-service-runtime</finalName>
+    </build>
+</project>

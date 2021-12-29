@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xmodule3</artifactId>
+        <groupId>com.penglecode</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xmodule3-common</artifactId>
+    <packaging>pom</packaging>
+    <name>xmodule3-common</name>
+    <description>公共模块</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- xmodule3-common-facade -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-facade</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- xmodule3-common-domain -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			
+			<!-- xmodule3-common-core -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			
+			<!-- xmodule3-common-codegen -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-codegen</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>xmodule3-common</finalName>
+    </build>
+
+    <modules>
+		<module>xmodule3-common-facade</module>
+		<module>xmodule3-common-domain</module>
+        <module>xmodule3-common-core</module>
+        <module>xmodule3-common-codegen</module>
+    </modules>
+</project>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xmodule3-sample2</artifactId>
+        <groupId>com.penglecode</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xmodule3-sample2-domain</artifactId>
+    <packaging>pom</packaging>
+    <name>xmodule3-sample2-domain</name>
+    <description>示例领域层</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- xmodule3-sample2-domain-model -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-sample2-domain-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- xmodule3-sample2-domain-service-sdk -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-sample2-domain-service-sdk</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- xmodule3-sample2-domain-service-runtime -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-sample2-domain-service-runtime</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>xmodule3-sample2-domain</finalName>
+    </build>
+
+    <modules>
+        <module>xmodule3-sample2-domain-model</module>
+        <module>xmodule3-sample2-domain-service-sdk</module>
+        <module>xmodule3-sample2-domain-service-runtime</module>
+    </modules>
+</project>

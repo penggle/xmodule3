@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xmodule3-sample1-api</artifactId>
+        <groupId>com.penglecode</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xmodule3-sample1-api-facade</artifactId>
+    <name>xmodule3-sample1-api-facade</name>
+    <description>提供给他方微服务调用的接口声明(支持SpringCloud、Dubbo两种类型接口，该模块将会独立发布出去共他方调用)</description>
+
+    <dependencies>
+        <!-- xmodule3-common-facade -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-common-facade</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>xmodule3-sample1-api-facade</finalName>
+    </build>
+</project>

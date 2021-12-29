@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xmodule3-sample2-api</artifactId>
+        <groupId>com.penglecode</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xmodule3-sample2-api-runtime</artifactId>
+    <name>xmodule3-sample2-api-runtime</name>
+    <description>微服务接口实现(支持SpringCloud、Dubbo两种类型接口)</description>
+
+    <dependencies>
+        <!-- xmodule3-sample2-domain-service-sdk -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-sample2-domain-service-sdk</artifactId>
+        </dependency>
+
+        <!-- xmodule3-sample2-app -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-sample2-app</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>xmodule3-sample2-api-runtime</finalName>
+    </build>
+</project>
