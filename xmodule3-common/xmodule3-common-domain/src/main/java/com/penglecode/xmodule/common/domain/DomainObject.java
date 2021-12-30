@@ -15,7 +15,7 @@ public interface DomainObject extends Serializable {
      * Domain-Object数据出站（从存储介质输出出去）时的加工处理
      * 例如根据statusCode(字典值)设置statusName(字典值的字面意思字段)
      *
-     * @return
+     * @return 返回处理过得实体对象
      */
     default DomainObject processOutbound() {
         return this;
@@ -24,7 +24,7 @@ public interface DomainObject extends Serializable {
     /**
      * Domain-Object数据入站（从外界进入当前应用）时的加工处理
      *
-     * @return
+     * @return 返回处理过得实体对象
      */
     default DomainObject processInbound() {
         return this;

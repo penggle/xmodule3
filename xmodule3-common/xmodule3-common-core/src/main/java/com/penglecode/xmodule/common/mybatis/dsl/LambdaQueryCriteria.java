@@ -131,6 +131,11 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
         return (LambdaQueryCriteria<E>) super.orderBy(orders);
     }
 
+    @Override
+    public LambdaQueryCriteria<E> limit(int limit) {
+        return (LambdaQueryCriteria<E>) super.limit(limit);
+    }
+
     /**
      * 排序
      * (注意：使用实体Java类中的字段作为排序SQL中的字段)

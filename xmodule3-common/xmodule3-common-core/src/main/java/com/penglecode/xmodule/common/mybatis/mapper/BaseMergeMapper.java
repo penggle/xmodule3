@@ -10,7 +10,7 @@ import com.penglecode.xmodule.common.domain.DomainObject;
  * @version 1.0
  * @since 2021/7/20 23:15
  */
-public interface UpsertMybatisMapper<T extends DomainObject> {
+public interface BaseMergeMapper<T extends DomainObject> extends BaseBatchMapper {
 
     /**
      * 根据唯一键来insert或update记录
@@ -18,6 +18,6 @@ public interface UpsertMybatisMapper<T extends DomainObject> {
      * @param model - 实体对象
      * @return 返回更新记录数
      */
-    int upsertModelByUniqueKey(T model);
+    int mergeModelByUniqueKey(T model);
 
 }

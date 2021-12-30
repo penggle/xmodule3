@@ -113,7 +113,7 @@
     <update id="updateModelByCriteria" parameterType="java.util.Map" statementType="PREPARED">
         UPDATE t_product_base_info t
            SET <include refid="UpdateDynamicColumnsClause"/>
-        <include refid="CommonMybatisMapper.UpdateWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </update>
 
     <delete id="deleteModelById" parameterType="java.util.Map" statementType="PREPARED">
@@ -131,7 +131,7 @@
 
     <delete id="deleteModelByCriteria" parameterType="java.util.Map" statementType="PREPARED">
         DELETE t FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.DeleteWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </delete>
 
     <select id="selectModelById" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
@@ -143,13 +143,13 @@
     <select id="selectModelByCriteria" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
 
     <select id="selectModelCountByCriteria" parameterType="java.util.Map" resultType="java.lang.Integer" statementType="PREPARED">
         SELECT COUNT(*)
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
 
     <select id="selectModelListByIds" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
@@ -173,21 +173,21 @@
     <select id="selectModelListByCriteria" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
-        <include refid="CommonMybatisMapper.SelectOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
 
     <select id="selectModelPageListByCriteria" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
-        <include refid="CommonMybatisMapper.SelectOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
 
     <select id="selectModelPageCountByCriteria" parameterType="java.util.Map" resultType="java.lang.Integer" statementType="PREPARED">
         SELECT COUNT(*)
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
     <!-- Auto-Generation Code End -->
 

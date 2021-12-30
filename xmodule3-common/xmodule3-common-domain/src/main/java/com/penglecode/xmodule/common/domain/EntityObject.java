@@ -14,7 +14,7 @@ public interface EntityObject extends DomainObject {
     /**
      * 实体对象的唯一标识
      *
-     * @return
+     * @return 返回实体对象的唯一标识
      */
     default Serializable identity() {
         return null;

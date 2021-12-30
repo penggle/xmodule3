@@ -1,13 +1,12 @@
 package com.penglecode.xmodule.common.mybatis;
 /**
- * 数据库方言
- * (其中声明了各种数据库的分页语句实现)
+ * 数据库方言SQL
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/5/15 14:02
  */
-public interface PageDialect {
+public interface SqlDialect {
 
 	/**
 	 * 根据原始查询sql语句及分页参数获取分页sql,
@@ -18,5 +17,14 @@ public interface PageDialect {
 	 * @return
 	 */
 	String getPageSql(String sql, int offset, int limit);
-	
+
+	/**
+	 * 根据原始查询sql语句及limit参数获取限制查询返回记录数的sql
+	 *
+	 * @param sql
+	 * @param limit
+	 * @return
+	 */
+	String getLimitSql(String sql, int limit);
+
 }

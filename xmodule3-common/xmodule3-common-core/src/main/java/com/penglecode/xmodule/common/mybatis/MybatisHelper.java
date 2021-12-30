@@ -5,7 +5,7 @@ import com.penglecode.xmodule.common.domain.DomainObject;
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import com.penglecode.xmodule.common.mybatis.executor.JdbcBatchOperation;
-import com.penglecode.xmodule.common.mybatis.mapper.BaseMybatisMapper;
+import com.penglecode.xmodule.common.mybatis.mapper.BaseCrudMapper;
 import com.penglecode.xmodule.common.util.ObjectUtils;
 import org.apache.ibatis.session.RowBounds;
 
@@ -40,7 +40,7 @@ public class MybatisHelper {
      * @param <T>
      * @return 返回分页结果列表
      */
-    public static <T extends DomainObject> List<T> selectDomainObjectListByPage(BaseMybatisMapper<T> domainMybatisMapper, QueryCriteria<T> criteria, Page page) {
+    public static <T extends DomainObject> List<T> selectDomainObjectListByPage(BaseCrudMapper<T> domainMybatisMapper, QueryCriteria<T> criteria, Page page) {
         List<T> pageList = null;
         int totalRowCount = domainMybatisMapper.selectModelPageCountByCriteria(criteria);
         if(totalRowCount > 0) {
@@ -58,8 +58,8 @@ public class MybatisHelper {
      * @param domainMybatisMapper   - 领域对象的MybatisMapper
      * @param <T>
      */
-    public static <T extends DomainObject> void batchUpdateDomainObjects(List<T> domainObjects, Consumer<T> updateOperation, BaseMybatisMapper<T> domainMybatisMapper) {
-        batchUpdateDomainObjects(domainObjects, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, updateOperation, domainMybatisMapper);
+    public static <T extends DomainObject> void bulkUpdateDomainObjects(List<T> domainObjects, Consumer<T> updateOperation, BaseCrudMapper<T> domainMybatisMapper) {
+        bulkUpdateDomainObjects(domainObjects, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, updateOperation, domainMybatisMapper);
     }
 
     /**
@@ -71,8 +71,8 @@ public class MybatisHelper {
      * @param domainMybatisMapper   - 领域对象的MybatisMapper
      * @param <T>
      */
-    public static <T extends DomainObject> void batchUpdateDomainObjects(List<T> domainObjects, int batchSize, Consumer<T> updateOperation, BaseMybatisMapper<T> domainMybatisMapper) {
-        executeBatchUpdateDomainObjects(domainObjects, batchSize, updateOperation, domainMybatisMapper);
+    public static <T extends DomainObject> void bulkUpdateDomainObjects(List<T> domainObjects, int batchSize, Consumer<T> updateOperation, BaseCrudMapper<T> domainMybatisMapper) {
+        executeBulkUpdateDomainObjects(domainObjects, batchSize, updateOperation, domainMybatisMapper);
     }
 
     /**
@@ -82,8 +82,8 @@ public class MybatisHelper {
      * @param domainMybatisMapper   - 领域对象的MybatisMapper
      * @param <T>
      */
-    public static <T extends Serializable, D extends DomainObject> void batchDeleteDomainObjects(List<T> ids, BaseMybatisMapper<D> domainMybatisMapper) {
-        batchDeleteDomainObjects(ids, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, domainMybatisMapper);
+    public static <T extends Serializable, D extends DomainObject> void bulkDeleteDomainObjects(List<T> ids, BaseCrudMapper<D> domainMybatisMapper) {
+        bulkDeleteDomainObjects(ids, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, domainMybatisMapper);
     }
 
     /**
@@ -95,9 +95,9 @@ public class MybatisHelper {
      * @param <T>                   - 操作目标
      * @param <D>                   - 操作领域对象
      */
-    public static <T extends Serializable, D extends DomainObject> void batchDeleteDomainObjects(List<T> ids, int batchSize, BaseMybatisMapper<D> domainMybatisMapper) {
+    public static <T extends Serializable, D extends DomainObject> void bulkDeleteDomainObjects(List<T> ids, int batchSize, BaseCrudMapper<D> domainMybatisMapper) {
         if(ids.size() > IN_SQL_LIMITS) {
-            executeBatchUpdateDomainObjects(ids, batchSize, domainMybatisMapper::deleteModelById, domainMybatisMapper);
+            executeBulkUpdateDomainObjects(ids, batchSize, domainMybatisMapper::deleteModelById, domainMybatisMapper);
         } else {
             domainMybatisMapper.deleteModelByIds(ids);
         }
@@ -113,7 +113,7 @@ public class MybatisHelper {
      * @param <T>                   - 操作目标
      * @param <D>                   - 操作领域对象
      */
-    protected static <T extends Serializable, D extends DomainObject> void executeBatchUpdateDomainObjects(List<T> targetList, int batchSize, Consumer<T> updateOperation, BaseMybatisMapper<D> domainMybatisMapper) {
+    protected static <T extends Serializable, D extends DomainObject> void executeBulkUpdateDomainObjects(List<T> targetList, int batchSize, Consumer<T> updateOperation, BaseCrudMapper<D> domainMybatisMapper) {
         batchSize = batchSize > 0 ? batchSize : GlobalConstants.DEFAULT_JDBC_BATCH_SIZE;
         try(JdbcBatchOperation batchOperation = new JdbcBatchOperation()) {
             for(int i = 0, size = targetList.size(); i < size; i++) {

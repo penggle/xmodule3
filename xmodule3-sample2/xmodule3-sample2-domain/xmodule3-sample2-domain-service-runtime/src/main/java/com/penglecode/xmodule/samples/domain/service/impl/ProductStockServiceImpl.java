@@ -55,7 +55,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void batchCreateProductStock(List<ProductStock> productStockList) {
         ValidationAssert.notEmpty(productStockList, MessageSupplier.of("message.parameter.required", "productStockList"));
-        MybatisHelper.batchUpdateDomainObjects(productStockList, this::createProductStock, productStockMapper);
+        MybatisHelper.bulkUpdateDomainObjects(productStockList, this::createProductStock, productStockMapper);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void batchModifyProductStockById(List<ProductStock> productStockList) {
         ValidationAssert.notEmpty(productStockList, MessageSupplier.of("message.parameter.required", "productStockList"));
-        MybatisHelper.batchUpdateDomainObjects(productStockList, this::modifyProductStockById, productStockMapper);
+        MybatisHelper.bulkUpdateDomainObjects(productStockList, this::modifyProductStockById, productStockMapper);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ProductStockServiceImpl implements ProductStockService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void removeProductStockByIds(List<ID> ids) {
         ValidationAssert.notEmpty(ids, MessageSupplier.of("message.parameter.required", "ids"));
-        MybatisHelper.batchDeleteDomainObjects(ids, productStockMapper);
+        MybatisHelper.bulkDeleteDomainObjects(ids, productStockMapper);
     }
 
     @Override

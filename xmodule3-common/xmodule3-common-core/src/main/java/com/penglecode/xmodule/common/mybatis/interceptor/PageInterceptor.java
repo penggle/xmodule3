@@ -1,9 +1,9 @@
 package com.penglecode.xmodule.common.mybatis.interceptor;
 
 import com.penglecode.xmodule.common.mybatis.DatabaseType;
-import com.penglecode.xmodule.common.mybatis.MySQLPageDialect;
-import com.penglecode.xmodule.common.mybatis.OraclePageDialect;
-import com.penglecode.xmodule.common.mybatis.PageDialect;
+import com.penglecode.xmodule.common.mybatis.MySQLDialect;
+import com.penglecode.xmodule.common.mybatis.OracleDialect;
+import com.penglecode.xmodule.common.mybatis.SqlDialect;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.DefaultReflectorFactory;
@@ -25,13 +25,13 @@ import java.util.Properties;
  * @since 2021/5/15 14:02
  */
 @Intercepts({@Signature(type= StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
-public class PaginationInterceptor implements Interceptor {
+public class PageInterceptor implements Interceptor {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PaginationInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PageInterceptor.class);
 
 	private String dialectType;
 
-	private PageDialect pageDialect;
+	private SqlDialect sqlDialect;
 
 	public Object intercept(Invocation invocation) throws Throwable {
 		StatementHandler statementHandler = (StatementHandler)invocation.getTarget();
@@ -40,36 +40,36 @@ public class PaginationInterceptor implements Interceptor {
 		if(rowBounds == null || rowBounds == RowBounds.DEFAULT){
 			return invocation.proceed();
 		}
-		PageDialect dialectToUse = getPageDialect();
-		if(dialectToUse != null) {
+		SqlDialect pageDialect = getSqlDialect();
+		if(pageDialect != null) {
 			String originalSql = statementHandlerMeta.getValue("delegate.boundSql.sql").toString();
-			statementHandlerMeta.setValue("delegate.boundSql.sql", dialectToUse.getPageSql(originalSql, rowBounds.getOffset(), rowBounds.getLimit()));
+			statementHandlerMeta.setValue("delegate.boundSql.sql", pageDialect.getPageSql(originalSql, rowBounds.getOffset(), rowBounds.getLimit()));
 			statementHandlerMeta.setValue("delegate.rowBounds.offset", RowBounds.NO_ROW_OFFSET);
 			statementHandlerMeta.setValue("delegate.rowBounds.limit", RowBounds.NO_ROW_LIMIT);
 		} else {
-			LOGGER.warn("No PageDialect implementation available for dialect: {}", dialectType);
+			LOGGER.warn("No SqlDialect implementation available for dialect: {}", dialectType);
 		}
 		return invocation.proceed();
 	}
 
 	protected void initPageDialect(Properties properties) {
 		dialectType = properties.getProperty("dialect");
-		pageDialect = determinePageDialect(dialectType);
+		sqlDialect = determinePageDialect(dialectType);
 	}
 
-	protected PageDialect determinePageDialect(String dialectType) {
+	protected SqlDialect determinePageDialect(String dialectType) {
 		DatabaseType databaseType = DatabaseType.of(dialectType);
-		PageDialect dialect = null;
+		SqlDialect dialect = null;
 		if (DatabaseType.MYSQL.equals(databaseType)) { // MySQL分页
-			dialect = new MySQLPageDialect();
+			dialect = new MySQLDialect();
 		} else if(DatabaseType.ORACLE.equals(databaseType)) { // Oracle分页
-			dialect = new OraclePageDialect();
+			dialect = new OracleDialect();
 		}
 		return dialect;
 	}
 
-	protected PageDialect getPageDialect() {
-		return pageDialect;
+	protected SqlDialect getSqlDialect() {
+		return sqlDialect;
 	}
 
 	@Override

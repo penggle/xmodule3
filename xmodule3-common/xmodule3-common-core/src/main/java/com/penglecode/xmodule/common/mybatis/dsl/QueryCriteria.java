@@ -40,6 +40,11 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
     private final List<Order> orders;
 
     /**
+     * 查询限制返回行数
+     */
+    private Integer limit;
+
+    /**
      * 冻结条件
      * 例如在调用dynamic()方法之后就需要冻结条件
      */
@@ -89,6 +94,22 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
         return this;
     }
 
+    /**
+     * 应用指定的查询限制返回行数
+     * 需要底层数据库支持：
+     *  1、对于MySQL则使用limit字句实现
+     *  2、对于Oracle则使用rownum隐藏列来实现
+     *  n、对于不支持的数据库不会报错，即没有任何效果
+     * 注意如果当前是分页查询，则忽略该limit设置
+     * @param limit - 该值必须大于0，否则忽略
+     * @return
+     */
+    protected QueryCriteria<E> limit(int limit) {
+        Assert.isTrue(limit > 0, "Parameter 'limit' must be > 0!");
+        this.limit = limit;
+        return this;
+    }
+
     protected void checkCriteriaFrozen() {
         Assert.state(!isFrozenCriteria(), "All query criteria is frozen, can not add new query criteria!");
     }
@@ -129,6 +150,10 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
 
     protected List<Order> getOrders() {
         return orders;
+    }
+
+    public Integer getLimit() {
+        return limit;
     }
 
     protected boolean isFrozenCriteria() {

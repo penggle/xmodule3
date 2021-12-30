@@ -141,6 +141,11 @@ public abstract class NestedLambdaQueryCriteria<E extends DomainObject> extends 
         return (NestedLambdaQueryCriteria<E>) super.orderBy(orders);
     }
 
+    @Override
+    protected NestedLambdaQueryCriteria<E> limit(int limit) {
+        return (NestedLambdaQueryCriteria<E>) super.limit(limit);
+    }
+
     protected <C> NestedLambdaQueryCriteria<E> addColumnCriterion(ConditionOperator operator, SerializableFunction<E,C> column, C... overrideValue) {
         checkCriteriaFrozen();
         Assert.notNull(column, "Parameter 'column' can not be null!");

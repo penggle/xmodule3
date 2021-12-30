@@ -55,7 +55,7 @@ public class ProductSpecServiceImpl implements ProductSpecService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void batchCreateProductSpec(List<ProductSpec> productSpecList) {
         ValidationAssert.notEmpty(productSpecList, MessageSupplier.of("message.parameter.required", "productSpecList"));
-        MybatisHelper.batchUpdateDomainObjects(productSpecList, this::createProductSpec, productSpecMapper);
+        MybatisHelper.bulkUpdateDomainObjects(productSpecList, this::createProductSpec, productSpecMapper);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ProductSpecServiceImpl implements ProductSpecService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void batchModifyProductSpecById(List<ProductSpec> productSpecList) {
         ValidationAssert.notEmpty(productSpecList, MessageSupplier.of("message.parameter.required", "productSpecList"));
-        MybatisHelper.batchUpdateDomainObjects(productSpecList, this::modifyProductSpecById, productSpecMapper);
+        MybatisHelper.bulkUpdateDomainObjects(productSpecList, this::modifyProductSpecById, productSpecMapper);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ProductSpecServiceImpl implements ProductSpecService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void removeProductSpecByIds(List<ID> ids) {
         ValidationAssert.notEmpty(ids, MessageSupplier.of("message.parameter.required", "ids"));
-        MybatisHelper.batchDeleteDomainObjects(ids, productSpecMapper);
+        MybatisHelper.bulkDeleteDomainObjects(ids, productSpecMapper);
     }
 
     @Override

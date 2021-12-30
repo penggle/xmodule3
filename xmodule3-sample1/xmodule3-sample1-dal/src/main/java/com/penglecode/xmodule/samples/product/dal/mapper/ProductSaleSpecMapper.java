@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.dal.mapper;
 
-import com.penglecode.xmodule.common.mybatis.mapper.BaseMybatisMapper;
+import com.penglecode.xmodule.common.mybatis.mapper.BaseCrudMapper;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleSpec;
 import org.springframework.boot.autoconfigure.dal.NamedDatabase;
 
@@ -12,6 +12,6 @@ import org.springframework.boot.autoconfigure.dal.NamedDatabase;
  * @since 2021年10月28日 下午 23:11
  */
 @NamedDatabase("product")
-public interface ProductSaleSpecMapper extends BaseMybatisMapper<ProductSaleSpec> {
+public interface ProductSaleSpecMapper extends BaseCrudMapper<ProductSaleSpec> {
 
 }
