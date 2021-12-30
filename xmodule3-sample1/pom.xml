@@ -82,7 +82,6 @@
         <module>xmodule3-sample1-dal</module>
         <module>xmodule3-sample1-app</module>
         <module>xmodule3-sample1-api</module>
-        <module>xmodule3-sample1-codegen</module>
 		<module>xmodule3-sample1-starter</module>
         <module>xmodule3-sample1-common</module>
     </modules>

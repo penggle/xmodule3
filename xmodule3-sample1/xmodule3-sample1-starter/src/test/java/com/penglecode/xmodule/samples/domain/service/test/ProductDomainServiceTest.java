@@ -2,7 +2,7 @@ package com.penglecode.xmodule.samples.domain.service.test;
 
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.SamplesApplication;
-import com.penglecode.xmodule.samples.domain.service.ProductInfoService;
+import com.penglecode.xmodule.samples.domain.service.ProductBaseInfoService;
 import com.penglecode.xmodule.samples.domain.service.ProductStockService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class ProductDomainServiceTest {
 
     @Autowired
-    private ProductInfoService productInfoService;
+    private ProductBaseInfoService productInfoService;
 
     @Autowired
     private ProductStockService productStockService;

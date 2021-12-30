@@ -18,7 +18,7 @@ import com.penglecode.xmodule.samples.dal.mapper.ProductStockMapper;
 import com.penglecode.xmodule.samples.domain.enums.ProductAuditStatusEnum;
 import com.penglecode.xmodule.samples.domain.enums.ProductOnlineStatusEnum;
 import com.penglecode.xmodule.samples.domain.enums.ProductTypeEnum;
-import com.penglecode.xmodule.samples.domain.model.ProductInfo;
+import com.penglecode.xmodule.samples.domain.model.ProductBaseInfo;
 import com.penglecode.xmodule.samples.domain.model.ProductSpec;
 import com.penglecode.xmodule.samples.domain.model.ProductStock;
 import org.apache.ibatis.session.RowBounds;
@@ -64,7 +64,7 @@ public class ProductModuleMapperTest {
 
     protected Object doCreateProduct(TransactionStatus status) {
         String nowTime = DateTimeUtils.formatNow();
-        ProductInfo productInfo = new ProductInfo();
+        ProductBaseInfo productInfo = new ProductBaseInfo();
         productInfo.setProductName("24期免息【当天发】Huawei/华为Mate40 5G手机官方旗舰店50pro直降mate40e官网30正品4G鸿蒙正品30全网通40");
         productInfo.setProductUrl("https://detail.tmall.com/item.htm?id=633658852628");
         productInfo.setProductTags("华为手机 5G mate40pro");
@@ -142,7 +142,7 @@ public class ProductModuleMapperTest {
     @Test
     public void updateProduct() {
         Long productId = 7L;
-        ProductInfo productInfo = productInfoMapper.selectModelById(productId);
+        ProductBaseInfo productInfo = productInfoMapper.selectModelById(productId);
         System.out.println(JsonUtils.object2Json(productInfo));
 
         QueryCriteria<ProductStock> criteria = LambdaQueryCriteria.ofEmpty(ProductStock::new)
@@ -159,9 +159,9 @@ public class ProductModuleMapperTest {
         productInfo.setOnlineStatus(ProductOnlineStatusEnum.ONLINE.getStatusCode());
         productInfo.setUpdateTime(nowTime);
         Map<String,Object> paramMap1 = MapLambdaBuilder.of(productInfo)
-                .with(ProductInfo::getAuditStatus)
-                .with(ProductInfo::getOnlineStatus)
-                .with(ProductInfo::getUpdateTime)
+                .with(ProductBaseInfo::getAuditStatus)
+                .with(ProductBaseInfo::getOnlineStatus)
+                .with(ProductBaseInfo::getUpdateTime)
                 .build();
         productInfoMapper.updateModelById(productInfo.getProductId(), paramMap1);
 
@@ -175,8 +175,8 @@ public class ProductModuleMapperTest {
     @Test
     public void queryProduct() {
         Long productId = 7L;
-        List<ProductInfo> productInfos = productInfoMapper.selectModelListByIds(Arrays.asList(5L, 6L, 7L, 8L, 9L),
-                new QueryColumns(ProductInfo::getProductId, ProductInfo::getProductName, ProductInfo::getProductType));
+        List<ProductBaseInfo> productInfos = productInfoMapper.selectModelListByIds(Arrays.asList(5L, 6L, 7L, 8L, 9L),
+                new QueryColumns(ProductBaseInfo::getProductId, ProductBaseInfo::getProductName, ProductBaseInfo::getProductType));
         if(!CollectionUtils.isEmpty(productInfos)) {
             productInfos.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
         }

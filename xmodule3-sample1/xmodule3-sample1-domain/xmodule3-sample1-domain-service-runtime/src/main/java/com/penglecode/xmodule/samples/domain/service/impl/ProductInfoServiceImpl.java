@@ -13,8 +13,8 @@ import com.penglecode.xmodule.common.util.DateTimeUtils;
 import com.penglecode.xmodule.common.util.ObjectUtils;
 import com.penglecode.xmodule.common.util.StringUtils;
 import com.penglecode.xmodule.samples.dal.mapper.ProductInfoMapper;
-import com.penglecode.xmodule.samples.domain.model.ProductInfo;
-import com.penglecode.xmodule.samples.domain.service.ProductInfoService;
+import com.penglecode.xmodule.samples.domain.model.ProductBaseInfo;
+import com.penglecode.xmodule.samples.domain.service.ProductBaseInfoService;
 import javax.annotation.Resource;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
@@ -34,50 +34,50 @@ import java.util.function.ObjIntConsumer;
  * @since 2021年10月25日 下午 23:29
  */
 @Service("productInfoService")
-public class ProductInfoServiceImpl implements ProductInfoService {
+public class ProductInfoServiceImpl implements ProductBaseInfoService {
 
     @Resource(name="productProductInfoMapper")
     private ProductInfoMapper productInfoMapper;
 
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
-    public void createProduct(ProductInfo product) {
+    public void createProduct(ProductBaseInfo product) {
         ValidationAssert.notNull(product, MessageSupplier.of("message.parameter.required", "product"));
         product.setCreateTime(StringUtils.defaultIfBlank(product.getCreateTime(), DateTimeUtils.formatNow()));
         product.setUpdateTime(product.getCreateTime());
-        BeanValidator.validateBean(product, ProductInfo::getProductName, ProductInfo::getProductUrl, ProductInfo::getProductTags, ProductInfo::getProductType, ProductInfo::getAuditStatus, ProductInfo::getOnlineStatus, ProductInfo::getShopId, ProductInfo::getCreateTime, ProductInfo::getUpdateTime);
+        BeanValidator.validateBean(product, ProductBaseInfo::getProductName, ProductBaseInfo::getProductUrl, ProductBaseInfo::getProductTags, ProductBaseInfo::getProductType, ProductBaseInfo::getAuditStatus, ProductBaseInfo::getOnlineStatus, ProductBaseInfo::getShopId, ProductBaseInfo::getCreateTime, ProductBaseInfo::getUpdateTime);
         productInfoMapper.insertModel(product);
     }
 
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
-    public void batchCreateProduct(List<ProductInfo> productList) {
+    public void batchCreateProduct(List<ProductBaseInfo> productList) {
         ValidationAssert.notEmpty(productList, MessageSupplier.of("message.parameter.required", "productList"));
         MybatisHelper.batchUpdateDomainObjects(productList, this::createProduct, productInfoMapper);
     }
 
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
-    public void modifyProductById(ProductInfo product) {
+    public void modifyProductById(ProductBaseInfo product) {
         ValidationAssert.notNull(product, MessageSupplier.of("message.parameter.required", "product"));
         product.setUpdateTime(StringUtils.defaultIfBlank(product.getUpdateTime(), DateTimeUtils.formatNow()));
-        BeanValidator.validateBean(product, ProductInfo::getProductId, ProductInfo::getProductName, ProductInfo::getProductUrl, ProductInfo::getProductTags, ProductInfo::getProductType, ProductInfo::getAuditStatus, ProductInfo::getOnlineStatus, ProductInfo::getUpdateTime);
+        BeanValidator.validateBean(product, ProductBaseInfo::getProductId, ProductBaseInfo::getProductName, ProductBaseInfo::getProductUrl, ProductBaseInfo::getProductTags, ProductBaseInfo::getProductType, ProductBaseInfo::getAuditStatus, ProductBaseInfo::getOnlineStatus, ProductBaseInfo::getUpdateTime);
         Map<String,Object> updateColumns = MapLambdaBuilder.of(product)
-                .with(ProductInfo::getProductName)
-                .with(ProductInfo::getProductUrl)
-                .with(ProductInfo::getProductTags)
-                .with(ProductInfo::getProductType)
-                .with(ProductInfo::getAuditStatus)
-                .with(ProductInfo::getOnlineStatus)
-                .with(ProductInfo::getRemark)
-                .with(ProductInfo::getUpdateTime)
+                .with(ProductBaseInfo::getProductName)
+                .with(ProductBaseInfo::getProductUrl)
+                .with(ProductBaseInfo::getProductTags)
+                .with(ProductBaseInfo::getProductType)
+                .with(ProductBaseInfo::getAuditStatus)
+                .with(ProductBaseInfo::getOnlineStatus)
+                .with(ProductBaseInfo::getRemark)
+                .with(ProductBaseInfo::getUpdateTime)
                 .build();
         productInfoMapper.updateModelById(product.identity(), updateColumns);
     }
 
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
-    public void batchModifyProductById(List<ProductInfo> productList) {
+    public void batchModifyProductById(List<ProductBaseInfo> productList) {
         ValidationAssert.notEmpty(productList, MessageSupplier.of("message.parameter.required", "productList"));
         MybatisHelper.batchUpdateDomainObjects(productList, this::modifyProductById, productInfoMapper);
     }
@@ -85,7 +85,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void removeProductById(Long id) {
-        BeanValidator.validateProperty(id, ProductInfo::getProductId);
+        BeanValidator.validateProperty(id, ProductBaseInfo::getProductId);
         productInfoMapper.deleteModelById(id);
     }
 
@@ -97,27 +97,27 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     }
 
     @Override
-    public ProductInfo getProductById(Long id) {
+    public ProductBaseInfo getProductById(Long id) {
         return ObjectUtils.isEmpty(id) ? null : productInfoMapper.selectModelById(id);
     }
 
     @Override
-    public List<ProductInfo> getProductListByIds(List<Long> ids) {
+    public List<ProductBaseInfo> getProductListByIds(List<Long> ids) {
         return CollectionUtils.isEmpty(ids) ? Collections.emptyList() : productInfoMapper.selectModelListByIds(ids);
     }
 
     @Override
-    public List<ProductInfo> getProductListByPage(ProductInfo condition, Page page) {
-        QueryCriteria<ProductInfo> criteria = LambdaQueryCriteria.of(condition)
-                .like(ProductInfo::getProductTags)
-                .eq(ProductInfo::getProductType)
-                .eq(ProductInfo::getAuditStatus)
-                .eq(ProductInfo::getOnlineStatus)
-                .eq(ProductInfo::getShopId)
-                .eq(ProductInfo::getCreateTime)
-                .in(ProductInfo::getAuditStatus, condition.getAuditStatuses())
-                .gte(ProductInfo::getCreateTime, condition.getStartCreateTime())
-                .lte(ProductInfo::getCreateTime, condition.getEndCreateTime())
+    public List<ProductBaseInfo> getProductListByPage(ProductBaseInfo condition, Page page) {
+        QueryCriteria<ProductBaseInfo> criteria = LambdaQueryCriteria.of(condition)
+                .like(ProductBaseInfo::getProductTags)
+                .eq(ProductBaseInfo::getProductType)
+                .eq(ProductBaseInfo::getAuditStatus)
+                .eq(ProductBaseInfo::getOnlineStatus)
+                .eq(ProductBaseInfo::getShopId)
+                .eq(ProductBaseInfo::getCreateTime)
+                .in(ProductBaseInfo::getAuditStatus, condition.getAuditStatuses())
+                .gte(ProductBaseInfo::getCreateTime, condition.getStartCreateTime())
+                .lte(ProductBaseInfo::getCreateTime, condition.getEndCreateTime())
                 .dynamic(true)
                 .orderBy(page.getOrders());
         return MybatisHelper.selectDomainObjectListByPage(productInfoMapper, criteria, page);
@@ -125,16 +125,16 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", readOnly=true)
-    public void forEachProduct(Consumer<ProductInfo> consumer) {
+    public void forEachProduct(Consumer<ProductBaseInfo> consumer) {
         productInfoMapper.selectAllModelList().forEach(consumer);
     }
 
     @Override
     @Transactional(transactionManager="productDataSourceTransactionManager", readOnly=true)
-    public void forEachProduct(ObjIntConsumer<ProductInfo> consumer) {
-        Cursor<ProductInfo> cursor = productInfoMapper.selectAllModelList();
+    public void forEachProduct(ObjIntConsumer<ProductBaseInfo> consumer) {
+        Cursor<ProductBaseInfo> cursor = productInfoMapper.selectAllModelList();
         int index = 0;
-        for (ProductInfo item : cursor) {
+        for (ProductBaseInfo item : cursor) {
             consumer.accept(item, index++);
         }
     }

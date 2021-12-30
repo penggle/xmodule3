@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleSpecMapper">
+
+    <!-- Auto-Generation Code Start -->
+    <!--
+        注意事项：
+        1、代码生成器自动生成的代码尽量不要轻易修改!!! 如有修改则在重新生成时需要仔细比对合并，以防止代码覆盖问题发生!!!
+        2、代码生成器自动生成的代码无法满足需求时，例如自定义的复杂统计查询，请严格写在最下的Customized Code区域，这样重新生成代码时也容易做合并!!!
+    -->
+
+    <sql id="SelectBaseColumnsClause">
+        <trim suffixOverrides=",">
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'productId')">
+                t.product_id   productId,
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'specNo')">
+                t.spec_no   specNo,
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'specName')">
+                t.spec_name   specName,
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'specIndex')">
+                t.spec_index   specIndex,
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'remark')">
+                t.remark   remark,
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'createTime')">
+                DATE_FORMAT(t.create_time, '%Y-%m-%d %T')   createTime,
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'updateTime')">
+                DATE_FORMAT(t.update_time, '%Y-%m-%d %T')   updateTime,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="UpdateDynamicColumnsClause">
+        <trim suffixOverrides=",">
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'specName')">
+                t.spec_name = #{columns.specName, jdbcType=VARCHAR},
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'specIndex')">
+                t.spec_index = #{columns.specIndex, jdbcType=INTEGER},
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'remark')">
+                t.remark = #{columns.remark, jdbcType=VARCHAR},
+            </if>
+            <if test="@com.penglecode.xmodule.common.mybatis.MapperHelper@containsColumn(columns, 'updateTime')">
+                t.update_time = #{columns.updateTime, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insertModel"  parameterType="ProductSaleSpec" statementType="PREPARED" useGeneratedKeys="true">
+        INSERT INTO t_product_sale_spec(
+            product_id,
+            spec_no,
+            spec_name,
+            spec_index,
+            remark,
+            create_time,
+            update_time
+        ) VALUES (
+            #{productId, jdbcType=BIGINT},
+            #{specNo, jdbcType=VARCHAR},
+            #{specName, jdbcType=VARCHAR},
+            #{specIndex, jdbcType=INTEGER},
+            #{remark, jdbcType=VARCHAR},
+            #{createTime, jdbcType=VARCHAR},
+            #{updateTime, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateModelById" parameterType="java.util.Map" statementType="PREPARED">
+        UPDATE t_product_sale_spec t
+           SET <include refid="UpdateDynamicColumnsClause"/>
+         WHERE t.product_id = #{id.productId, jdbcType=BIGINT} AND t.spec_no = #{id.specNo, jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateModelByCriteria" parameterType="java.util.Map" statementType="PREPARED">
+        UPDATE t_product_sale_spec t
+           SET <include refid="UpdateDynamicColumnsClause"/>
+        <include refid="CommonMybatisMapper.UpdateWhereCriteriaClause"/>
+    </update>
+
+    <delete id="deleteModelById" parameterType="java.util.Map" statementType="PREPARED">
+        DELETE t FROM t_product_sale_spec t
+         WHERE t.product_id = #{id.productId, jdbcType=BIGINT} AND t.spec_no = #{id.specNo, jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteModelByIds" parameterType="java.util.Map" statementType="PREPARED">
+        DELETE t FROM t_product_sale_spec t
+         WHERE <foreach collection="ids" index="index" item="id" open="" separator=" OR " close="">(t.product_id = #{id.productId, jdbcType=BIGINT} AND t.spec_no = #{id.specNo, jdbcType=VARCHAR})</foreach>
+    </delete>
+
+    <delete id="deleteModelByCriteria" parameterType="java.util.Map" statementType="PREPARED">
+        DELETE t FROM t_product_sale_spec t
+        <include refid="CommonMybatisMapper.DeleteWhereCriteriaClause"/>
+    </delete>
+
+    <select id="selectModelById" parameterType="java.util.Map" resultType="ProductSaleSpec" statementType="PREPARED">
+        SELECT <include refid="SelectBaseColumnsClause"/>
+          FROM t_product_sale_spec t
+         WHERE t.product_id = #{id.productId, jdbcType=BIGINT} AND t.spec_no = #{id.specNo, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectModelByCriteria" parameterType="java.util.Map" resultType="ProductSaleSpec" statementType="PREPARED">
+        SELECT <include refid="SelectBaseColumnsClause"/>
+          FROM t_product_sale_spec t
+        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+    </select>
+
+    <select id="selectModelCountByCriteria" parameterType="java.util.Map" resultType="java.lang.Integer" statementType="PREPARED">
+        SELECT COUNT(*)
+          FROM t_product_sale_spec t
+        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+    </select>
+
+    <select id="selectModelListByIds" parameterType="java.util.Map" resultType="ProductSaleSpec" statementType="PREPARED">
+        SELECT <include refid="SelectBaseColumnsClause"/>
+          FROM t_product_sale_spec t
+         WHERE <foreach collection="ids" index="index" item="id" open="" separator=" OR " close="">(t.product_id = #{id.productId, jdbcType=BIGINT} AND t.spec_no = #{id.specNo, jdbcType=VARCHAR})</foreach>
+    </select>
+
+    <select id="selectAllModelList" parameterType="java.util.Map" resultType="ProductSaleSpec" resultSetType="FORWARD_ONLY" fetchSize="1000" statementType="PREPARED">
+        SELECT <include refid="SelectBaseColumnsClause"/>
+          FROM t_product_sale_spec t
+    </select>
+
+    <select id="selectAllModelCount" parameterType="java.util.Map" resultType="java.lang.Integer" statementType="PREPARED">
+        SELECT COUNT(*) FROM t_product_sale_spec t
+    </select>
+
+    <select id="selectModelListByCriteria" parameterType="java.util.Map" resultType="ProductSaleSpec" statementType="PREPARED">
+        SELECT <include refid="SelectBaseColumnsClause"/>
+          FROM t_product_sale_spec t
+        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.SelectOrderByCriteriaClause"/>
+    </select>
+
+    <select id="selectModelPageListByCriteria" parameterType="java.util.Map" resultType="ProductSaleSpec" statementType="PREPARED">
+        SELECT <include refid="SelectBaseColumnsClause"/>
+          FROM t_product_sale_spec t
+        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+        <include refid="CommonMybatisMapper.SelectOrderByCriteriaClause"/>
+    </select>
+
+    <select id="selectModelPageCountByCriteria" parameterType="java.util.Map" resultType="java.lang.Integer" statementType="PREPARED">
+        SELECT COUNT(*)
+          FROM t_product_sale_spec t
+        <include refid="CommonMybatisMapper.SelectWhereCriteriaClause"/>
+    </select>
+    <!-- Auto-Generation Code End -->
+
+    <!-- Customized Code Start -->
+    <!-- 自定义的代码请严格写在该区域内!!! -->
+
+
+    <!-- Customized Code End -->
+</mapper>
