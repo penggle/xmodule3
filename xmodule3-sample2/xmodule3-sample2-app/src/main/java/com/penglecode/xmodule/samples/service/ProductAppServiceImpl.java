@@ -55,9 +55,9 @@ public class ProductAppServiceImpl implements ProductAppService {
         BeanValidator.validateBean(product, Product::getProductSpecList, Product::getProductStockList);
         productInfoService.modifyProductById(product);
         List<ProductSpec> persistentProductSpecList = productSpecService.getProductSpecListByProductId(product.getProductId());
-        AppServiceHelper.batchSaveDomainObjects(product.getProductSpecList(), persistentProductSpecList, ProductSpec::identity, productSpecService::batchCreateProductSpec, productSpecService::batchModifyProductSpecById, productSpecService::removeProductSpecByIds);
+        ApplicationServiceHelper.batchSaveDomainObjects(product.getProductSpecList(), persistentProductSpecList, ProductSpec::identity, productSpecService::batchCreateProductSpec, productSpecService::batchModifyProductSpecById, productSpecService::removeProductSpecByIds);
         List<ProductStock> persistentProductStockList = productStockService.getProductStockListByProductId(product.getProductId());
-        AppServiceHelper.batchSaveDomainObjects(product.getProductStockList(), persistentProductStockList, ProductStock::identity, productStockService::batchCreateProductStock, productStockService::batchModifyProductStockById, productStockService::removeProductStockByIds);
+        ApplicationServiceHelper.batchSaveDomainObjects(product.getProductStockList(), persistentProductStockList, ProductStock::identity, productStockService::batchCreateProductStock, productStockService::batchModifyProductStockById, productStockService::removeProductStockByIds);
     }
 
     @Override

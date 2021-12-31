@@ -6,7 +6,7 @@ import com.penglecode.xmodule.common.codegen.support.*;
 import com.penglecode.xmodule.common.mybatis.DatabaseType;
 import com.penglecode.xmodule.common.mybatis.MapperHelper;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
-import com.penglecode.xmodule.common.mybatis.mapper.BaseCrudMapper;
+import com.penglecode.xmodule.common.mybatis.mapper.BaseMybatisMapper;
 import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.SpringUtils;
 import com.penglecode.xmodule.common.util.TemplateUtils;
@@ -62,7 +62,7 @@ public class MybatisCodeGenerator extends ModuleCodeGenerator<MybatisCodegenConf
         Set<FullyQualifiedJavaType> allImportedTypes = new HashSet<>();
         addCommonTemplateParameter(templateParameter, codegenConfig, targetConfig, "MybatisJavaMapper.ftl");
         allImportedTypes.add(new FullyQualifiedJavaType(targetConfig.getDomainObjectConfig().getGeneratedTargetName(targetConfig, true, false)));
-        allImportedTypes.add(new FullyQualifiedJavaType(BaseCrudMapper.class.getName()));
+        allImportedTypes.add(new FullyQualifiedJavaType(BaseMybatisMapper.class.getName()));
 
         Set<String> mapperAnnotationSet = codegenConfig.getMybatis().getJavaMapperConfig().getMapperAnnotations();
         List<String> mapperAnnotations = new ArrayList<>();

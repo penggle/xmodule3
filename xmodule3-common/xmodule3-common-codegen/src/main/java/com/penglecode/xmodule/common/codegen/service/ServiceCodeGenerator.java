@@ -133,7 +133,7 @@ public class ServiceCodeGenerator extends ModuleCodeGenerator<ServiceCodegenConf
     protected void addRequiredImportedTypes4AppServiceImplement(AppServiceCodegenContext codegenContext) {
         addRequiredImportedTypes4ServiceImplement(codegenContext.getCodegenConfig(), codegenContext.getTargetConfig(), codegenContext.getAllImportedTypes());
         codegenContext.getAllImportedTypes().add(new FullyQualifiedJavaType(codegenContext.getCodegenConfig().getService().getApp().getInterfaceConfig().getGeneratedTargetName(codegenContext.getTargetConfig(), true, false)));
-        codegenContext.getAllImportedTypes().add(new FullyQualifiedJavaType(AppServiceHelper.class.getName()));
+        codegenContext.getAllImportedTypes().add(new FullyQualifiedJavaType(ApplicationServiceHelper.class.getName()));
     }
 
     protected void addRequiredImportedTypes4ServiceImplement(ServiceCodegenConfigProperties codegenConfig, DomainBoundedTargetConfigProperties<ServiceImplementConfigProperties> targetConfig, Set<FullyQualifiedJavaType> allImportedTypes) {

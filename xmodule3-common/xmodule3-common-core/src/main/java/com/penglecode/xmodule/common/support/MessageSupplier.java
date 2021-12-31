@@ -14,6 +14,10 @@ import java.util.function.Function;
  */
 public interface MessageSupplier extends Function<MessageSourceAccessor,String> {
 
+    static MessageSupplier ofRequiredParameter(String parameterName) {
+        return messageSourceAccessor -> messageSourceAccessor.getMessage("message.parameter.required", parameterName);
+    }
+
     static MessageSupplier of(String code, Object... args) {
         return messageSourceAccessor -> messageSourceAccessor.getMessage(code, args);
     }

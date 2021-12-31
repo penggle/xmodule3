@@ -1,10 +1,5 @@
 package com.penglecode.xmodule.samples.product.domain.model;
 
-import com.penglecode.xmodule.samples.domain.model.ProductBaseInfo;
-import com.penglecode.xmodule.samples.domain.model.ProductExtraInfo;
-import com.penglecode.xmodule.samples.domain.model.ProductSaleSpec;
-import com.penglecode.xmodule.samples.domain.model.ProductSaleStock;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

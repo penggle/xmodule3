@@ -10,7 +10,11 @@ public class MySQLDialect implements SqlDialect {
 
 	@Override
 	public String getPageSql(String sql, int offset, int limit) {
-		return sql + " LIMIT " + offset + ", " + limit;
+		String upperSql = sql.toUpperCase();
+		if(upperSql.startsWith("SELECT")) {
+			return sql + " LIMIT " + offset + ", " + limit;
+		}
+		return sql;
 	}
 
 	@Override

@@ -15,7 +15,7 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <plugins>
-        <plugin interceptor="com.penglecode.xmodule.common.mybatis.interceptor.PageInterceptor"/>
-        <plugin interceptor="com.penglecode.xmodule.common.mybatis.interceptor.DomainObjectQueryInterceptor"></plugin>
+        <plugin interceptor="com.penglecode.xmodule.common.mybatis.interceptor.PageLimitInterceptor"/>
+        <plugin interceptor="com.penglecode.xmodule.common.mybatis.interceptor.DomainObjectQueryInterceptor"/>
     </plugins>
 </configuration>

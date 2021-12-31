@@ -53,7 +53,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void batchCreateProduct(List<ProductInfo> productList) {
         ValidationAssert.notEmpty(productList, MessageSupplier.of("message.parameter.required", "productList"));
-        MybatisHelper.bulkUpdateDomainObjects(productList, this::createProduct, productInfoMapper);
+        MybatisHelper.batchUpdateDomainObjects(productList, this::createProduct, productInfoMapper);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void batchModifyProductById(List<ProductInfo> productList) {
         ValidationAssert.notEmpty(productList, MessageSupplier.of("message.parameter.required", "productList"));
-        MybatisHelper.bulkUpdateDomainObjects(productList, this::modifyProductById, productInfoMapper);
+        MybatisHelper.batchUpdateDomainObjects(productList, this::modifyProductById, productInfoMapper);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Transactional(transactionManager="productDataSourceTransactionManager", rollbackFor=Exception.class)
     public void removeProductByIds(List<Long> ids) {
         ValidationAssert.notEmpty(ids, MessageSupplier.of("message.parameter.required", "ids"));
-        MybatisHelper.bulkDeleteDomainObjects(ids, productInfoMapper);
+        MybatisHelper.batchDeleteDomainObjects(ids, productInfoMapper);
     }
 
     @Override
