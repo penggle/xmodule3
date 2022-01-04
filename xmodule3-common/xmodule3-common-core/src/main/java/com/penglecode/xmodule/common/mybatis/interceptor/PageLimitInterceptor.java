@@ -72,7 +72,7 @@ public class PageLimitInterceptor implements Interceptor {
 			}
 		}
 		Object parameterObject = boundSql.getParameterObject();
-		if(parameterObject instanceof Map) {
+		if(parameterObject instanceof Map && ((Map<?, ?>) parameterObject).containsKey(paramName)) {
 			Object paramValue = ((Map<?, ?>) parameterObject).get(paramName);
 			if(paramValue instanceof QueryCriteria) {
 				return ((QueryCriteria<?>) paramValue).getLimit();

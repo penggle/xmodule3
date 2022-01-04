@@ -173,21 +173,21 @@
     <select id="selectModelListByCriteria" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonWhereCriteriaClause"/>
         <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
 
     <select id="selectModelPageListByCriteria" parameterType="java.util.Map" resultType="ProductBaseInfo" statementType="PREPARED">
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonWhereCriteriaClause"/>
         <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
     </select>
 
     <select id="selectModelPageCountByCriteria" parameterType="java.util.Map" resultType="java.lang.Integer" statementType="PREPARED">
         SELECT COUNT(*)
           FROM t_product_base_info t
-        <include refid="CommonMybatisMapper.CommonOrderByCriteriaClause"/>
+        <include refid="CommonMybatisMapper.CommonWhereCriteriaClause"/>
     </select>
     <!-- Auto-Generation Code End -->
 

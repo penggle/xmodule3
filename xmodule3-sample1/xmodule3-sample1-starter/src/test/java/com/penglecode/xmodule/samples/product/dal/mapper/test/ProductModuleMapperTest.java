@@ -13,12 +13,14 @@ import com.penglecode.xmodule.common.util.DateTimeUtils;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductBaseInfoMapper;
+import com.penglecode.xmodule.samples.product.dal.mapper.ProductExtraInfoMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleSpecMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleStockMapper;
 import com.penglecode.xmodule.samples.product.domain.enums.ProductAuditStatusEnum;
 import com.penglecode.xmodule.samples.product.domain.enums.ProductOnlineStatusEnum;
 import com.penglecode.xmodule.samples.product.domain.enums.ProductTypeEnum;
 import com.penglecode.xmodule.samples.product.domain.model.ProductBaseInfo;
+import com.penglecode.xmodule.samples.product.domain.model.ProductExtraInfo;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleSpec;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleStock;
 import org.apache.ibatis.session.RowBounds;
@@ -41,11 +43,14 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2021/7/24 14:33
  */
-@SpringBootTest(classes= Sample1Application.class)
+@SpringBootTest(classes=Sample1Application.class)
 public class ProductModuleMapperTest {
 
     @Autowired
     private ProductBaseInfoMapper productBaseInfoMapper;
+
+    @Autowired
+    private ProductExtraInfoMapper productExtraInfoMapper;
 
     @Autowired
     private ProductSaleSpecMapper productSaleSpecMapper;
@@ -64,19 +69,28 @@ public class ProductModuleMapperTest {
 
     protected Object doCreateProduct(TransactionStatus status) {
         String nowTime = DateTimeUtils.formatNow();
-        ProductBaseInfo productInfo = new ProductBaseInfo();
-        productInfo.setProductName("24期免息【当天发】Huawei/华为Mate40 5G手机官方旗舰店50pro直降mate40e官网30正品4G鸿蒙正品30全网通40");
-        productInfo.setProductUrl("https://detail.tmall.com/item.htm?id=633658852628");
-        productInfo.setProductTags("华为手机 5G mate40pro");
-        productInfo.setProductType(ProductTypeEnum.PHYSICAL_PRODUCT.getTypeCode());
-        productInfo.setAuditStatus(ProductAuditStatusEnum.WAIT_AUDIT.getStatusCode());
-        productInfo.setOnlineStatus(ProductOnlineStatusEnum.OFFLINE.getStatusCode());
-        productInfo.setShopId(111212422L);
-        productInfo.setRemark("当天发货 保修3年 送影视会员 咨询客服");
-        productInfo.setCreateTime(nowTime);
-        productInfo.setUpdateTime(nowTime);
-        //System.out.println(JsonUtils.object2Json(productInfo));
-        productBaseInfoMapper.insertModel(productInfo);
+        ProductBaseInfo productBase = new ProductBaseInfo();
+        productBase.setProductName("24期免息【当天发】Huawei/华为Mate40 5G手机官方旗舰店50pro直降mate40e官网30正品4G鸿蒙正品30全网通40");
+        productBase.setProductUrl("https://detail.tmall.com/item.htm?id=633658852628");
+        productBase.setProductTags("华为手机 5G mate40pro");
+        productBase.setProductType(ProductTypeEnum.PHYSICAL_PRODUCT.getTypeCode());
+        productBase.setAuditStatus(ProductAuditStatusEnum.WAIT_AUDIT.getStatusCode());
+        productBase.setOnlineStatus(ProductOnlineStatusEnum.OFFLINE.getStatusCode());
+        productBase.setShopId(111212422L);
+        productBase.setRemark("当天发货 保修3年 送影视会员 咨询客服");
+        productBase.setCreateTime(nowTime);
+        productBase.setUpdateTime(nowTime);
+        //System.out.println(JsonUtils.object2Json(productBase));
+        productBaseInfoMapper.insertModel(productBase);
+
+        ProductExtraInfo productExtra = new ProductExtraInfo();
+        productExtra.setProductId(productBase.getProductId());
+        productExtra.setProductDetails("商品详情");
+        productExtra.setProductSpecifications("商品规格参数");
+        productExtra.setProductServices("商品服务");
+        productExtra.setCreateTime(nowTime);
+        productExtra.setUpdateTime(nowTime);
+        productExtraInfoMapper.insertModel(productExtra);
 
         List<String> nets = Arrays.asList("4G全网通", "5G全网通");
         List<String> colors = Arrays.asList("亮黑色", "釉白色", "秘银色", "夏日胡杨", "秋日胡杨");
@@ -89,7 +103,7 @@ public class ProductModuleMapperTest {
                 for(int j = 0, len2 = specs.get(i).size(); j < len2; j++) {
                     String specNo = i + "" + j;
                     ProductSaleSpec productSpec = new ProductSaleSpec();
-                    productSpec.setProductId(productInfo.getProductId());
+                    productSpec.setProductId(productBase.getProductId());
                     productSpec.setSpecName(specs.get(i).get(j));
                     productSpec.setSpecNo(specNo);
                     productSpec.setSpecIndex(i + j);
@@ -124,7 +138,7 @@ public class ProductModuleMapperTest {
                     }
                 }
                 ProductSaleStock productStock = new ProductSaleStock();
-                productStock.setProductId(productInfo.getProductId());
+                productStock.setProductId(productBase.getProductId());
                 productStock.setSpecNo(specNos.toString());
                 productStock.setSpecName(specNames.toString());
                 productStock.setSellPrice(619900L);
@@ -141,9 +155,9 @@ public class ProductModuleMapperTest {
 
     @Test
     public void updateProduct() {
-        Long productId = 7L;
-        ProductBaseInfo productInfo = productBaseInfoMapper.selectModelById(productId);
-        System.out.println(JsonUtils.object2Json(productInfo));
+        Long productId = 1L;
+        ProductBaseInfo productBase = productBaseInfoMapper.selectModelById(productId);
+        System.out.println(JsonUtils.object2Json(productBase));
 
         QueryCriteria<ProductSaleStock> criteria = LambdaQueryCriteria.ofEmpty(ProductSaleStock::new)
                 .eq(ProductSaleStock::getProductId, productId)
@@ -155,39 +169,59 @@ public class ProductModuleMapperTest {
         }
 
         String nowTime = DateTimeUtils.formatNow();
-        productInfo.setAuditStatus(ProductAuditStatusEnum.AUDIT_PASSED.getStatusCode());
-        productInfo.setOnlineStatus(ProductOnlineStatusEnum.ONLINE.getStatusCode());
-        productInfo.setUpdateTime(nowTime);
-        Map<String,Object> paramMap1 = MapLambdaBuilder.of(productInfo)
+        productBase.setAuditStatus(ProductAuditStatusEnum.AUDIT_PASSED.getStatusCode());
+        productBase.setOnlineStatus(ProductOnlineStatusEnum.ONLINE.getStatusCode());
+        productBase.setUpdateTime(nowTime);
+        Map<String,Object> paramMap1 = MapLambdaBuilder.of(productBase)
                 .with(ProductBaseInfo::getAuditStatus)
                 .with(ProductBaseInfo::getOnlineStatus)
                 .with(ProductBaseInfo::getUpdateTime)
                 .build();
-        productBaseInfoMapper.updateModelById(productInfo.getProductId(), paramMap1);
+        productBaseInfoMapper.updateModelById(productBase.getProductId(), paramMap1);
 
-        Map<String,Object> paramMap2 = MapLambdaBuilder.of(new ProductSaleStock())
+        ProductExtraInfo productExtra = productExtraInfoMapper.selectModelById(productId);
+        productExtra.setProductServices("商品服务111");
+        productExtra.setUpdateTime(nowTime);
+        Map<String,Object> paramMap2 = MapLambdaBuilder.of(productExtra)
+                .with(ProductExtraInfo::getProductServices)
+                .with(ProductExtraInfo::getUpdateTime)
+                .build();
+        productExtraInfoMapper.updateModelById(productExtra.getProductId(), paramMap2);
+
+        Map<String,Object> paramMap3 = MapLambdaBuilder.of(new ProductSaleStock())
                 .with(ProductSaleStock::getSellPrice, 599700)
                 .with(ProductSaleStock::getUpdateTime, nowTime)
                 .build();
-        productSaleStockMapper.updateModelByCriteria(criteria, paramMap2);
+        productSaleStockMapper.updateModelByCriteria(criteria, paramMap3);
     }
 
     @Test
     public void queryProduct() {
-        Long productId = 7L;
-        List<ProductBaseInfo> productInfos = productBaseInfoMapper.selectModelListByIds(Arrays.asList(5L, 6L, 7L, 8L, 9L),
+        Long productId = 1L;
+        List<ProductBaseInfo> productBases = productBaseInfoMapper.selectModelListByIds(Arrays.asList(5L, 6L, 7L, 8L, 9L),
                 new QueryColumns(ProductBaseInfo::getProductId, ProductBaseInfo::getProductName, ProductBaseInfo::getProductType));
-        if(!CollectionUtils.isEmpty(productInfos)) {
-            productInfos.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
+        if(!CollectionUtils.isEmpty(productBases)) {
+            productBases.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
         }
 
         System.out.println("-----------------------------------------");
 
-        QueryCriteria<ProductSaleStock> criteria = LambdaQueryCriteria.ofEmpty(ProductSaleStock::new)
+        QueryCriteria<ProductBaseInfo> criteria1 = LambdaQueryCriteria.ofEmpty(ProductBaseInfo::new)
+                .eq(ProductBaseInfo::getProductType, 1)
+                .orderBy(Order.desc(ProductBaseInfo::getCreateTime))
+                .limit(10);
+        productBases = productBaseInfoMapper.selectModelListByCriteria(criteria1);
+        if(!CollectionUtils.isEmpty(productBases)) {
+            productBases.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
+        }
+
+        System.out.println("-----------------------------------------");
+
+        QueryCriteria<ProductSaleStock> criteria2 = LambdaQueryCriteria.ofEmpty(ProductSaleStock::new)
                 .eq(ProductSaleStock::getProductId, productId)
                 .likeRight(ProductSaleStock::getSpecNo, "00")
                 .orderBy(Order.desc(ProductSaleStock::getSellPrice));
-        List<ProductSaleStock> productStocks = productSaleStockMapper.selectModelListByCriteria(criteria, new QueryColumns(ProductSaleStock::getProductId, ProductSaleStock::getSpecNo, ProductSaleStock::getSellPrice, ProductSaleStock::getStock));
+        List<ProductSaleStock> productStocks = productSaleStockMapper.selectModelListByCriteria(criteria2, new QueryColumns(ProductSaleStock::getProductId, ProductSaleStock::getSpecNo, ProductSaleStock::getSellPrice, ProductSaleStock::getStock));
         if(!CollectionUtils.isEmpty(productStocks)) {
             productStocks.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
         }
@@ -209,10 +243,11 @@ public class ProductModuleMapperTest {
 
     @Test
     public void queryProductByPage() {
-        Long productId = 7L;
+        Long productId = 1L;
         QueryCriteria<ProductSaleStock> criteria = LambdaQueryCriteria.ofEmpty(ProductSaleStock::new)
                 .eq(ProductSaleStock::getProductId, productId)
-                .orderBy(Order.desc(ProductSaleStock::getSellPrice));
+                .orderBy(Order.desc(ProductSaleStock::getSellPrice))
+                .limit(5); //limit与在分页查询(selectModelPageListByCriteria)时会失效
         System.out.println("totalCount = " + productSaleStockMapper.selectModelPageCountByCriteria(criteria));
         System.out.println("--------------------------第1页------------------------");
         List<ProductSaleStock> productStocks1 = productSaleStockMapper.selectModelPageListByCriteria(criteria, new RowBounds(0, 10));
@@ -228,7 +263,7 @@ public class ProductModuleMapperTest {
 
     @Test
     public void deleteProduct() {
-        Long productId = 7L;
+        Long productId = 1L;
         productSaleStockMapper.deleteModelById(new ID().addKey("productId", productId).addKey("specNo", "00:10:20"));
 
         List<ID> idList = new ArrayList<>();

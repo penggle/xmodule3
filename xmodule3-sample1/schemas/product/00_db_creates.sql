@@ -14,7 +14,7 @@ CREATE TABLE t_product_base_info (
 ) COMMENT='商品基础信息表' ENGINE=InnoDB;
 
 CREATE TABLE t_product_extra_info (
-    product_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品ID',
+    product_id BIGINT UNSIGNED NOT NULL COMMENT '商品ID',
     product_details TEXT NOT NULL COMMENT '商品详情(HTML片段)',
     product_specifications TEXT COMMENT '商品规则参数(HTML片段)',
     product_services TEXT COMMENT '商品服务(HTML片段)',

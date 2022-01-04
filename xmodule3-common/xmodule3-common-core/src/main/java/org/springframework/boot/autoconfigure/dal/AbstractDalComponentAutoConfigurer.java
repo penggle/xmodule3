@@ -67,7 +67,7 @@ public abstract class AbstractDalComponentAutoConfigurer implements BeanFactoryA
     protected boolean hasRequiredConfig(DalComponentConfigPrefix configPrefix, String database, boolean databaseDifferentiated) {
         Set<String> configProperties = configPrefix.getRequiredProperties();
         if(!CollectionUtils.isEmpty(configProperties)) {
-            String propertyPrefix =  configPrefix + "." + (databaseDifferentiated ? database + "." : "");
+            String propertyPrefix =  configPrefix.getConfigPrefix() + "." + (databaseDifferentiated ? database + "." : "");
             return configProperties.stream().allMatch(name -> {
                 String[] propertyNames = name.split("\\|");
                 return Stream.of(propertyNames)

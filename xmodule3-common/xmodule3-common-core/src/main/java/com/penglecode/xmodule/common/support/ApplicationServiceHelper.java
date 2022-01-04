@@ -76,18 +76,18 @@ public class ApplicationServiceHelper {
      * 处理新增和修改逻辑
      */
     private static <T extends EntityObject, K extends Serializable> void groupByCreateAndModify(List<T> transientEntityObjects, List<T> persistedEntityObjects, Function<T,K> entityObjectIdGetter, EnumMap<OperationGroup,List<T>> groupedEntityObjects) {
-        for(T updateEntityObject : transientEntityObjects) {
-            Serializable updateEntityObjectId = entityObjectIdGetter.apply(updateEntityObject);
-            if(!ObjectUtils.isEmpty(updateEntityObjectId)) {
-                for(T dbEntityObject : persistedEntityObjects) {
-                    Serializable dbEntityObjectId = entityObjectIdGetter.apply(dbEntityObject);
-                    if(updateEntityObjectId.equals(dbEntityObjectId)) { //客户端传来的实体对象的ID在数据库中存在，则表示更新
-                        groupedEntityObjects.get(OperationGroup.MODIFY).add(updateEntityObject);
+        for(T transientEntityObject : transientEntityObjects) {
+            Serializable transientEntityObjectId = entityObjectIdGetter.apply(transientEntityObject);
+            if(!ObjectUtils.isEmpty(transientEntityObjectId)) { //客户端传来的实体对象的ID不为空，则表示为更新
+                for(T persistedEntityObject : persistedEntityObjects) {
+                    Serializable persistedEntityObjectId = entityObjectIdGetter.apply(persistedEntityObject);
+                    if(transientEntityObjectId.equals(persistedEntityObjectId)) { //客户端传来的实体对象的ID在数据库中存在，则表示更新
+                        groupedEntityObjects.get(OperationGroup.MODIFY).add(transientEntityObject);
                         break;
                     }
                 }
             } else { //客户端传来的实体对象的ID为空，则表示新增
-                groupedEntityObjects.get(OperationGroup.CREATE).add(updateEntityObject);
+                groupedEntityObjects.get(OperationGroup.CREATE).add(transientEntityObject);
             }
         }
     }
@@ -96,17 +96,17 @@ public class ApplicationServiceHelper {
      * 处理删除逻辑
      */
     private static <T extends EntityObject, K extends Serializable> void groupByRemove(List<T> transientEntityObjects, List<T> persistedEntityObjects, Function<T,K> entityObjectIdGetter, EnumMap<OperationGroup,List<T>> groupedEntityObjects) {
-        for(T dbEntityObject : persistedEntityObjects) {
+        for(T persistedEntityObject : persistedEntityObjects) {
             boolean remove = true;
-            Serializable dbEntityObjectId = entityObjectIdGetter.apply(dbEntityObject);
-            for(T updateEntityObject : transientEntityObjects) {
-                Serializable updateEntityObjectId = entityObjectIdGetter.apply(updateEntityObject);
-                if(!ObjectUtils.isEmpty(updateEntityObjectId) && updateEntityObjectId.equals(dbEntityObjectId)) {
+            Serializable persistedEntityObjectId = entityObjectIdGetter.apply(persistedEntityObject);
+            for(T transientEntityObject : transientEntityObjects) {
+                Serializable transientEntityObjectId = entityObjectIdGetter.apply(transientEntityObject);
+                if(!ObjectUtils.isEmpty(transientEntityObjectId) && transientEntityObjectId.equals(persistedEntityObjectId)) {
                     remove = false;
                 }
             }
             if(remove) { //数据库的实体对象ID在客户端传来的实体对象中不存在，则表示删除
-                groupedEntityObjects.get(OperationGroup.REMOVE).add(dbEntityObject);
+                groupedEntityObjects.get(OperationGroup.REMOVE).add(persistedEntityObject);
             }
         }
     }
