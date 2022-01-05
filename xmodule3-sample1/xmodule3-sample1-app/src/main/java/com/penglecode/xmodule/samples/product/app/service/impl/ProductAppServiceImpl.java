@@ -1,19 +1,17 @@
-package com.penglecode.xmodule.samples.product.service.impl;
+package com.penglecode.xmodule.samples.product.app.service.impl;
 
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.support.*;
-import com.penglecode.xmodule.common.util.CollectionUtils;
-import com.penglecode.xmodule.samples.product.domain.model.ProductAggregate;
-import com.penglecode.xmodule.samples.product.domain.model.ProductBaseInfo;
-import com.penglecode.xmodule.samples.product.domain.model.ProductSaleSpec;
-import com.penglecode.xmodule.samples.product.domain.model.ProductSaleStock;
+import com.penglecode.xmodule.common.util.AppServiceUtils;
+import com.penglecode.xmodule.samples.product.domain.model.*;
 import com.penglecode.xmodule.samples.product.domain.service.ProductBaseInfoService;
 import com.penglecode.xmodule.samples.product.domain.service.ProductExtraInfoService;
 import com.penglecode.xmodule.samples.product.domain.service.ProductSaleSpecService;
 import com.penglecode.xmodule.samples.product.domain.service.ProductSaleStockService;
-import com.penglecode.xmodule.samples.product.service.ProductApplicationService;
+import com.penglecode.xmodule.samples.product.app.service.ProductAppService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -29,7 +27,7 @@ import java.util.stream.Collectors;
  * @since 2021/10/23 14:42
  */
 @Service("productApplicationService")
-public class ProductApplicationServiceImpl implements ProductApplicationService {
+public class ProductAppServiceImpl implements ProductAppService {
 
     @Resource(name="productBaseInfoService")
     private ProductBaseInfoService productBaseInfoService;
@@ -49,9 +47,21 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         ValidationAssert.notNull(product, MessageSupplier.ofRequiredParameter("product"));
         BeanValidator.validateBean(product, ProductAggregate::getProductExtraInfo, ProductAggregate::getProductSaleSpecs, ProductAggregate::getProductSaleStocks);
         productBaseInfoService.createProductBase(product);
-        productExtraInfoService.createProductExtra(product.getProductExtraInfo());
-        productSaleSpecService.batchCreateProductSaleSpec(product.getProductSaleSpecs());
-        productSaleStockService.batchCreateProductSaleStock(product.getProductSaleStocks());
+        ProductExtraInfo productExtra = product.getProductExtraInfo();
+        if(productExtra != null) {
+            productExtra.setProductId(product.getProductId());
+            productExtraInfoService.createProductExtra(productExtra);
+        }
+        List<ProductSaleSpec> productSaleSpecs = product.getProductSaleSpecs();
+        if(!CollectionUtils.isEmpty(productSaleSpecs)) {
+            productSaleSpecs.forEach(item -> item.setProductId(product.getProductId()));
+            productSaleSpecService.batchCreateProductSaleSpec(productSaleSpecs);
+        }
+        List<ProductSaleStock> productSaleStocks = product.getProductSaleStocks();
+        if(!CollectionUtils.isEmpty(productSaleStocks)) {
+            productSaleStocks.forEach(item -> item.setProductId(product.getProductId()));
+            productSaleStockService.batchCreateProductSaleStock(productSaleStocks);
+        }
     }
 
     @Override
@@ -60,11 +70,21 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         ValidationAssert.notNull(product, MessageSupplier.ofRequiredParameter("product"));
         BeanValidator.validateBean(product, ProductAggregate::getProductExtraInfo, ProductAggregate::getProductSaleSpecs, ProductAggregate::getProductSaleStocks);
         productBaseInfoService.modifyProductBaseById(product);
-        productExtraInfoService.modifyProductExtraById(product.getProductExtraInfo());
-        List<ProductSaleSpec> persistedProductSaleSpecs = productSaleSpecService.getProductSaleSpecsByProductId(product.getProductId());
-        ApplicationServiceHelper.batchSaveEntityObjects(product.getProductSaleSpecs(), persistedProductSaleSpecs, ProductSaleSpec::identity, productSaleSpecService::batchCreateProductSaleSpec, productSaleSpecService::batchModifyProductSaleSpecById, productSaleSpecService::removeProductSaleSpecByIds);
-        List<ProductSaleStock> persistedProductSaleStocks = productSaleStockService.getProductSaleStocksByProductId(product.getProductId());
-        ApplicationServiceHelper.batchSaveEntityObjects(product.getProductSaleStocks(), persistedProductSaleStocks, ProductSaleStock::identity, productSaleStockService::batchCreateProductSaleStock, productSaleStockService::batchModifyProductSaleStockById, productSaleStockService::removeProductSaleStockByIds);
+        ProductExtraInfo productExtra = product.getProductExtraInfo();
+        if(productExtra != null) {
+            productExtra.setProductId(product.getProductId());
+            productExtraInfoService.modifyProductExtraById(product.getProductExtraInfo());
+        }
+        List<ProductSaleSpec> transientProductSaleSpecs = product.getProductSaleSpecs();
+        if(!CollectionUtils.isEmpty(transientProductSaleSpecs)) {
+            List<ProductSaleSpec> persistedProductSaleSpecs = productSaleSpecService.getProductSaleSpecsByProductId(product.getProductId());
+            AppServiceUtils.batchMergeEntityObjects(transientProductSaleSpecs, persistedProductSaleSpecs, ProductSaleSpec::identity, productSaleSpecService::batchCreateProductSaleSpec, productSaleSpecService::batchModifyProductSaleSpecById, productSaleSpecService::removeProductSaleSpecByIds);
+        }
+        List<ProductSaleStock> transientProductSaleStocks = product.getProductSaleStocks();
+        if(!CollectionUtils.isEmpty(transientProductSaleStocks)) {
+            List<ProductSaleStock> persistedProductSaleStocks = productSaleStockService.getProductSaleStocksByProductId(product.getProductId());
+            AppServiceUtils.batchMergeEntityObjects(transientProductSaleStocks, persistedProductSaleStocks, ProductSaleStock::identity, productSaleStockService::batchCreateProductSaleStock, productSaleStockService::batchModifyProductSaleStockById, productSaleStockService::removeProductSaleStockByIds);
+        }
     }
 
     @Override

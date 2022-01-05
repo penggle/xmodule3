@@ -2,6 +2,7 @@ package com.penglecode.xmodule.samples.service;
 
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.support.*;
+import com.penglecode.xmodule.common.util.AppServiceUtils;
 import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.samples.domain.model.Product;
 import com.penglecode.xmodule.samples.domain.model.ProductInfo;
@@ -55,9 +56,9 @@ public class ProductAppServiceImpl implements ProductAppService {
         BeanValidator.validateBean(product, Product::getProductSpecList, Product::getProductStockList);
         productInfoService.modifyProductById(product);
         List<ProductSpec> persistentProductSpecList = productSpecService.getProductSpecListByProductId(product.getProductId());
-        ApplicationServiceHelper.batchSaveDomainObjects(product.getProductSpecList(), persistentProductSpecList, ProductSpec::identity, productSpecService::batchCreateProductSpec, productSpecService::batchModifyProductSpecById, productSpecService::removeProductSpecByIds);
+        AppServiceUtils.batchMergeEntityObjects(product.getProductSpecList(), persistentProductSpecList, ProductSpec::identity, productSpecService::batchCreateProductSpec, productSpecService::batchModifyProductSpecById, productSpecService::removeProductSpecByIds);
         List<ProductStock> persistentProductStockList = productStockService.getProductStockListByProductId(product.getProductId());
-        ApplicationServiceHelper.batchSaveDomainObjects(product.getProductStockList(), persistentProductStockList, ProductStock::identity, productStockService::batchCreateProductStock, productStockService::batchModifyProductStockById, productStockService::removeProductStockByIds);
+        AppServiceUtils.batchMergeEntityObjects(product.getProductStockList(), persistentProductStockList, ProductStock::identity, productStockService::batchCreateProductStock, productStockService::batchModifyProductStockById, productStockService::removeProductStockByIds);
     }
 
     @Override

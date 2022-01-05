@@ -12,11 +12,8 @@ import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import com.penglecode.xmodule.common.support.*;
-import com.penglecode.xmodule.common.util.CollectionUtils;
-import com.penglecode.xmodule.common.util.DateTimeUtils;
+import com.penglecode.xmodule.common.util.*;
 import com.penglecode.xmodule.common.mybatis.MybatisHelper;
-import com.penglecode.xmodule.common.util.ObjectUtils;
-import com.penglecode.xmodule.common.util.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.boot.autoconfigure.dal.DalComponentUtils;
 import org.springframework.stereotype.Service;
@@ -133,7 +130,7 @@ public class ServiceCodeGenerator extends ModuleCodeGenerator<ServiceCodegenConf
     protected void addRequiredImportedTypes4AppServiceImplement(AppServiceCodegenContext codegenContext) {
         addRequiredImportedTypes4ServiceImplement(codegenContext.getCodegenConfig(), codegenContext.getTargetConfig(), codegenContext.getAllImportedTypes());
         codegenContext.getAllImportedTypes().add(new FullyQualifiedJavaType(codegenContext.getCodegenConfig().getService().getApp().getInterfaceConfig().getGeneratedTargetName(codegenContext.getTargetConfig(), true, false)));
-        codegenContext.getAllImportedTypes().add(new FullyQualifiedJavaType(ApplicationServiceHelper.class.getName()));
+        codegenContext.getAllImportedTypes().add(new FullyQualifiedJavaType(AppServiceUtils.class.getName()));
     }
 
     protected void addRequiredImportedTypes4ServiceImplement(ServiceCodegenConfigProperties codegenConfig, DomainBoundedTargetConfigProperties<ServiceImplementConfigProperties> targetConfig, Set<FullyQualifiedJavaType> allImportedTypes) {

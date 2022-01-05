@@ -1,8 +1,8 @@
-package com.penglecode.xmodule.common.support;
+package com.penglecode.xmodule.common.util;
 
 import com.penglecode.xmodule.common.domain.EntityObject;
-import com.penglecode.xmodule.common.util.CollectionUtils;
-import com.penglecode.xmodule.common.util.ObjectUtils;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
 import java.util.*;
@@ -17,11 +17,13 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2021/7/23 19:18
  */
-public class ApplicationServiceHelper {
+public class AppServiceUtils {
 
-    private ApplicationServiceHelper() {}
+    private AppServiceUtils() {}
 
     /**
+     * 批量Merge客户端传来的实体对象进入数据库
+     *
      * 对于客户端提交过来的待修改实体对象列表(transientEntityObjects)，通过数据库中的参照实体对象列表(persistedEntityObjects)来对其进行分组，
      * 分成待新增、待更新、待删除的三组，然后依次对其进行新增、修改、删除操作
      *
@@ -34,7 +36,7 @@ public class ApplicationServiceHelper {
      * @param <T>                      - 被保存实体对象
      * @param <K>                      - 实体对象的ID
      */
-    public static <T extends EntityObject, K extends Serializable> void batchSaveEntityObjects(List<T> transientEntityObjects, List<T> persistedEntityObjects, Function<T,K> entityObjectIdGetter, Consumer<List<T>> batchCreator, Consumer<List<T>> batchModifier, Consumer<List<K>> batchRemover) {
+    public static <T extends EntityObject, K extends Serializable> void batchMergeEntityObjects(List<T> transientEntityObjects, List<T> persistedEntityObjects, Function<T,K> entityObjectIdGetter, Consumer<List<T>> batchCreator, Consumer<List<T>> batchModifier, Consumer<List<K>> batchRemover) {
         Map<OperationGroup,List<T>> groupedEntityObjects = groupByOperation(transientEntityObjects, persistedEntityObjects, entityObjectIdGetter);
         List<T> createEntityObjects = groupedEntityObjects.get(OperationGroup.CREATE);
         if(!CollectionUtils.isEmpty(createEntityObjects)) {
@@ -78,13 +80,19 @@ public class ApplicationServiceHelper {
     private static <T extends EntityObject, K extends Serializable> void groupByCreateAndModify(List<T> transientEntityObjects, List<T> persistedEntityObjects, Function<T,K> entityObjectIdGetter, EnumMap<OperationGroup,List<T>> groupedEntityObjects) {
         for(T transientEntityObject : transientEntityObjects) {
             Serializable transientEntityObjectId = entityObjectIdGetter.apply(transientEntityObject);
-            if(!ObjectUtils.isEmpty(transientEntityObjectId)) { //客户端传来的实体对象的ID不为空，则表示为更新
+            if(!ObjectUtils.isEmpty(transientEntityObjectId)) {
+                boolean existsed = false;
                 for(T persistedEntityObject : persistedEntityObjects) {
                     Serializable persistedEntityObjectId = entityObjectIdGetter.apply(persistedEntityObject);
-                    if(transientEntityObjectId.equals(persistedEntityObjectId)) { //客户端传来的实体对象的ID在数据库中存在，则表示更新
-                        groupedEntityObjects.get(OperationGroup.MODIFY).add(transientEntityObject);
+                    if(transientEntityObjectId.equals(persistedEntityObjectId)) {
+                        existsed = true;
                         break;
                     }
+                }
+                if(existsed) { //客户端传来的实体对象的ID在数据库中存在，则表示修改
+                    groupedEntityObjects.get(OperationGroup.MODIFY).add(transientEntityObject);
+                } else { //客户端传来的实体对象的ID在数据库中不存在，则表示新增
+                    groupedEntityObjects.get(OperationGroup.CREATE).add(transientEntityObject);
                 }
             } else { //客户端传来的实体对象的ID为空，则表示新增
                 groupedEntityObjects.get(OperationGroup.CREATE).add(transientEntityObject);

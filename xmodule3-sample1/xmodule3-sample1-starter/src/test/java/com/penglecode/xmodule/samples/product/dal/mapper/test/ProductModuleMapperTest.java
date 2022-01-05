@@ -1,6 +1,5 @@
 package com.penglecode.xmodule.samples.product.dal.mapper.test;
 
-import com.google.common.collect.Lists;
 import com.penglecode.xmodule.common.domain.ID;
 import com.penglecode.xmodule.common.domain.Order;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
@@ -12,13 +11,13 @@ import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.DateTimeUtils;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
+import com.penglecode.xmodule.samples.product.ProductTestHelper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductBaseInfoMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductExtraInfoMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleSpecMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleStockMapper;
 import com.penglecode.xmodule.samples.product.domain.enums.ProductAuditStatusEnum;
 import com.penglecode.xmodule.samples.product.domain.enums.ProductOnlineStatusEnum;
-import com.penglecode.xmodule.samples.product.domain.enums.ProductTypeEnum;
 import com.penglecode.xmodule.samples.product.domain.model.ProductBaseInfo;
 import com.penglecode.xmodule.samples.product.domain.model.ProductExtraInfo;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleSpec;
@@ -36,13 +35,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author pengpeng
  * @version 1.0
  * @since 2021/7/24 14:33
  */
+@SuppressWarnings("unchecked")
 @SpringBootTest(classes=Sample1Application.class)
 public class ProductModuleMapperTest {
 
@@ -68,85 +67,29 @@ public class ProductModuleMapperTest {
     }
 
     protected Object doCreateProduct(TransactionStatus status) {
-        String nowTime = DateTimeUtils.formatNow();
-        ProductBaseInfo productBase = new ProductBaseInfo();
-        productBase.setProductName("24期免息【当天发】Huawei/华为Mate40 5G手机官方旗舰店50pro直降mate40e官网30正品4G鸿蒙正品30全网通40");
-        productBase.setProductUrl("https://detail.tmall.com/item.htm?id=633658852628");
-        productBase.setProductTags("华为手机 5G mate40pro");
-        productBase.setProductType(ProductTypeEnum.PHYSICAL_PRODUCT.getTypeCode());
-        productBase.setAuditStatus(ProductAuditStatusEnum.WAIT_AUDIT.getStatusCode());
-        productBase.setOnlineStatus(ProductOnlineStatusEnum.OFFLINE.getStatusCode());
-        productBase.setShopId(111212422L);
-        productBase.setRemark("当天发货 保修3年 送影视会员 咨询客服");
-        productBase.setCreateTime(nowTime);
-        productBase.setUpdateTime(nowTime);
+        Object[] productTests = ProductTestHelper.genProductTests4Create();
+        ProductBaseInfo productBase = (ProductBaseInfo) productTests[0];
         //System.out.println(JsonUtils.object2Json(productBase));
         productBaseInfoMapper.insertModel(productBase);
 
-        ProductExtraInfo productExtra = new ProductExtraInfo();
+        ProductExtraInfo productExtra = (ProductExtraInfo) productTests[1];
         productExtra.setProductId(productBase.getProductId());
-        productExtra.setProductDetails("商品详情");
-        productExtra.setProductSpecifications("商品规格参数");
-        productExtra.setProductServices("商品服务");
-        productExtra.setCreateTime(nowTime);
-        productExtra.setUpdateTime(nowTime);
         productExtraInfoMapper.insertModel(productExtra);
 
-        List<String> nets = Arrays.asList("4G全网通", "5G全网通");
-        List<String> colors = Arrays.asList("亮黑色", "釉白色", "秘银色", "夏日胡杨", "秋日胡杨");
-        List<String> storages = Arrays.asList("8+128GB", "8+256GB");
-        List<List<String>> specs = Arrays.asList(nets, colors, storages);
-
-        List<ProductSaleSpec> productSpecs = new ArrayList<>();
+        List<ProductSaleSpec> productSaleSpecs = (List<ProductSaleSpec>) productTests[2];
         try(JdbcBatchOperation batchOperation = new JdbcBatchOperation()) {
-            for(int i = 0, len1 = specs.size(); i < len1; i++) {
-                for(int j = 0, len2 = specs.get(i).size(); j < len2; j++) {
-                    String specNo = i + "" + j;
-                    ProductSaleSpec productSpec = new ProductSaleSpec();
-                    productSpec.setProductId(productBase.getProductId());
-                    productSpec.setSpecName(specs.get(i).get(j));
-                    productSpec.setSpecNo(specNo);
-                    productSpec.setSpecIndex(i + j);
-                    productSpec.setCreateTime(nowTime);
-                    productSpec.setUpdateTime(nowTime);
-                    //System.out.println(JsonUtils.object2Json(productSpec));
-                    productSpecs.add(productSpec);
-                    productSaleSpecMapper.insertModel(productSpec);
-                }
+            for(ProductSaleSpec productSaleSpec : productSaleSpecs) {
+                productSaleSpec.setProductId(productBase.getProductId());
+                productSaleSpecMapper.insertModel(productSaleSpec);
             }
             productSaleSpecMapper.flushStatements(); //批量提交
         }
 
-        Map<Character,List<ProductSaleSpec>> groupedProductSpecs = productSpecs.stream().collect(Collectors.groupingBy(spec -> spec.getSpecNo().charAt(0)));
-
-        List<ProductSaleSpec> productSpecs0 = groupedProductSpecs.get('0');
-        List<ProductSaleSpec> productSpecs1 = groupedProductSpecs.get('1');
-        List<ProductSaleSpec> productSpecs2 = groupedProductSpecs.get('2');
-
-        List<List<ProductSaleSpec>> cartesians = Lists.cartesianProduct(productSpecs0, productSpecs1, productSpecs2); //笛卡尔积
-
+        List<ProductSaleStock> productSaleStocks = (List<ProductSaleStock>) productTests[3];
         try(JdbcBatchOperation batchOperation = new JdbcBatchOperation()) {
-            for (int i = 0, len1 = cartesians.size(); i < len1; i++) {
-                StringBuilder specNos = new StringBuilder();
-                StringBuilder specNames = new StringBuilder();
-                for (int j = 0, len2 = cartesians.get(i).size(); j < len2; j++) {
-                    specNos.append(cartesians.get(i).get(j).getSpecNo());
-                    specNames.append(cartesians.get(i).get(j).getSpecName());
-                    if (j != len2 - 1) {
-                        specNos.append(":");
-                        specNames.append(":");
-                    }
-                }
-                ProductSaleStock productStock = new ProductSaleStock();
-                productStock.setProductId(productBase.getProductId());
-                productStock.setSpecNo(specNos.toString());
-                productStock.setSpecName(specNames.toString());
-                productStock.setSellPrice(619900L);
-                productStock.setStock(999);
-                productStock.setCreateTime(nowTime);
-                productStock.setUpdateTime(nowTime);
-                //System.out.println(JsonUtils.object2Json(productStock));
-                productSaleStockMapper.insertModel(productStock);
+            for(ProductSaleStock productSaleStock : productSaleStocks) {
+                productSaleStock.setProductId(productBase.getProductId());
+                productSaleStockMapper.insertModel(productSaleStock);
             }
             productSaleStockMapper.flushStatements(); //批量提交
         }

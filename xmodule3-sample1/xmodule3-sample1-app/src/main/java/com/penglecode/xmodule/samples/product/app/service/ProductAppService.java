@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.samples.product.service;
+package com.penglecode.xmodule.samples.product.app.service;
 
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.samples.product.domain.model.ProductAggregate;
@@ -14,7 +14,7 @@ import java.util.function.ObjIntConsumer;
  * @version 1.0
  * @since 2021年10月23日 上午 10:38
  */
-public interface ProductApplicationService {
+public interface ProductAppService {
 
     /**
      * 创建商品(默认会级联保存关联的领域对象)
