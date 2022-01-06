@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.samples.product.app.service.impl;
+package com.penglecode.xmodule.samples.product.application.service.impl;
 
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.support.*;
@@ -8,7 +8,7 @@ import com.penglecode.xmodule.samples.product.domain.service.ProductBaseInfoServ
 import com.penglecode.xmodule.samples.product.domain.service.ProductExtraInfoService;
 import com.penglecode.xmodule.samples.product.domain.service.ProductSaleSpecService;
 import com.penglecode.xmodule.samples.product.domain.service.ProductSaleStockService;
-import com.penglecode.xmodule.samples.product.app.service.ProductAppService;
+import com.penglecode.xmodule.samples.product.application.service.ProductAppService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

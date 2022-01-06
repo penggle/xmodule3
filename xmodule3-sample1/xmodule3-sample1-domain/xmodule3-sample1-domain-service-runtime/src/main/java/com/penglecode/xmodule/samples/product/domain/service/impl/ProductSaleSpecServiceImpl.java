@@ -29,6 +29,9 @@ import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 import java.util.stream.Collectors;
 
+import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
 /**
  * 商品销售规格信息 领域服务实现
  *
@@ -138,7 +141,7 @@ public class ProductSaleSpecServiceImpl implements ProductSaleSpecService {
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
+    @Transactional(transactionManager="productTransactionManager", propagation=REQUIRES_NEW, readOnly=true, isolation=REPEATABLE_READ)
     public List<ProductSaleSpec> getProductSaleSpecsByPage(ProductSaleSpec condition, Page page) {
         QueryCriteria<ProductSaleSpec> criteria = LambdaQueryCriteria.of(condition)
                 .eq(ProductSaleSpec::getProductId)

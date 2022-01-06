@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.samples.product.app.service;
+package com.penglecode.xmodule.samples.product.application.service;
 
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.samples.product.domain.model.ProductAggregate;

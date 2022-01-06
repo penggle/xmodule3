@@ -27,6 +27,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
+import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
 /**
  * 商品基础信息 领域服务实现
  *
@@ -94,7 +97,7 @@ public class ProductBaseInfoServiceImpl implements ProductBaseInfoService {
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
+    @Transactional(transactionManager="productTransactionManager", propagation=REQUIRES_NEW, readOnly=true, isolation=REPEATABLE_READ)
     public List<ProductBaseInfo> getProductBasesByPage(ProductBaseInfo condition, Page page) {
         QueryCriteria<ProductBaseInfo> criteria = LambdaQueryCriteria.of(condition)
                 .like(ProductBaseInfo::getProductTags)

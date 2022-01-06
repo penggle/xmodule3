@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.samples.product.app.service.test;
+package com.penglecode.xmodule.samples.product.application.service.test;
 
 import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.support.BeanMapper;
@@ -6,7 +6,7 @@ import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
 import com.penglecode.xmodule.samples.product.ProductTestHelper;
 import com.penglecode.xmodule.samples.product.TestProduct;
-import com.penglecode.xmodule.samples.product.app.service.ProductAppService;
+import com.penglecode.xmodule.samples.product.application.service.ProductAppService;
 import com.penglecode.xmodule.samples.product.domain.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
