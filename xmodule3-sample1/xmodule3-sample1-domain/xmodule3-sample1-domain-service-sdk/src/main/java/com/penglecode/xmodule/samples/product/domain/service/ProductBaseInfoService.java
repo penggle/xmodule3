@@ -70,6 +70,13 @@ public interface ProductBaseInfoService {
     List<ProductBaseInfo> getProductBasesByPage(ProductBaseInfo condition, Page page);
 
     /**
+     * 获取商品基本信息总记录数
+     *
+     * @return 返回商品基本信息总记录数
+     */
+    int getProductTotalCount();
+
+    /**
      * 基于Mybatis游标操作，遍历所有商品基本信息
      * (在数据量大的情况下，避免一次加载出所有数据而引起内存溢出)
      * 典型示例1、(数据量不大的情况下一次获取所有元素)：

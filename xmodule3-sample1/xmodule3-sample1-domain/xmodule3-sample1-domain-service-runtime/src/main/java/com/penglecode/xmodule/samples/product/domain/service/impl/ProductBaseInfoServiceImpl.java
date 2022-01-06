@@ -8,18 +8,18 @@ import com.penglecode.xmodule.common.support.BeanValidator;
 import com.penglecode.xmodule.common.support.MapLambdaBuilder;
 import com.penglecode.xmodule.common.support.MessageSupplier;
 import com.penglecode.xmodule.common.support.ValidationAssert;
-import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.DateTimeUtils;
-import com.penglecode.xmodule.common.util.ObjectUtils;
-import com.penglecode.xmodule.common.util.StringUtils;
 import com.penglecode.xmodule.samples.product.domain.service.ProductBaseInfoService;
 import javax.annotation.Resource;
 
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductBaseInfoMapper;
 import com.penglecode.xmodule.samples.product.domain.model.ProductBaseInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -94,6 +94,7 @@ public class ProductBaseInfoServiceImpl implements ProductBaseInfoService {
     }
 
     @Override
+    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public List<ProductBaseInfo> getProductBasesByPage(ProductBaseInfo condition, Page page) {
         QueryCriteria<ProductBaseInfo> criteria = LambdaQueryCriteria.of(condition)
                 .like(ProductBaseInfo::getProductTags)
@@ -110,13 +111,16 @@ public class ProductBaseInfoServiceImpl implements ProductBaseInfoService {
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
+    public int getProductTotalCount() {
+        return productBaseInfoMapper.selectAllModelCount();
+    }
+
+    @Override
     public void forEachProductBase(Consumer<ProductBaseInfo> consumer) {
         productBaseInfoMapper.selectAllModelList().forEach(consumer);
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public void forEachProductBase(ObjIntConsumer<ProductBaseInfo> consumer) {
         Cursor<ProductBaseInfo> cursor = productBaseInfoMapper.selectAllModelList();
         int index = 0;

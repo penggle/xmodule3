@@ -201,7 +201,7 @@ public abstract class NestedLambdaQueryCriteria<E extends DomainObject> extends 
                 break;
             default : //in条件,例如: type in (1, 2, 3, 4)
                 if(overrideValue == null || overrideValue.length == 0) {
-                    preferValue = new Object[] {fieldValue};
+                    preferValue = new Object[0];
                 } else if(overrideValue.length == 1) {
                     if(overrideValue[0] instanceof Collection) { //特殊处理in语句中传Collection类型的情况
                         preferValue = ((Collection<?>) overrideValue[0]).toArray();

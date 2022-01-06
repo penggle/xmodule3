@@ -141,6 +141,11 @@ public class ProductAppServiceImpl implements ProductAppService {
     }
 
     @Override
+    public int getProductTotalCount() {
+        return productBaseInfoService.getProductTotalCount();
+    }
+
+    @Override
     public void forEachProduct(Consumer<ProductAggregate> consumer) {
         productBaseInfoService.forEachProductBase(productInfo -> consumer.accept(BeanMapper.map(productInfo, ProductAggregate::new)));
     }

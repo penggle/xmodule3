@@ -8,16 +8,16 @@ import com.penglecode.xmodule.common.support.BeanValidator;
 import com.penglecode.xmodule.common.support.MapLambdaBuilder;
 import com.penglecode.xmodule.common.support.MessageSupplier;
 import com.penglecode.xmodule.common.support.ValidationAssert;
-import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.DateTimeUtils;
-import com.penglecode.xmodule.common.util.ObjectUtils;
-import com.penglecode.xmodule.common.util.StringUtils;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductExtraInfoMapper;
 import com.penglecode.xmodule.samples.product.domain.model.ProductExtraInfo;
 import com.penglecode.xmodule.samples.product.domain.service.ProductExtraInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -89,6 +89,7 @@ public class ProductExtraInfoServiceImpl implements ProductExtraInfoService {
     }
 
     @Override
+    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public List<ProductExtraInfo> getProductExtrasByPage(ProductExtraInfo condition, Page page) {
         QueryCriteria<ProductExtraInfo> criteria = LambdaQueryCriteria.of(condition)
                 .eq(ProductExtraInfo::getProductId)
@@ -98,13 +99,16 @@ public class ProductExtraInfoServiceImpl implements ProductExtraInfoService {
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
+    public int getProductTotalCount() {
+        return productExtraInfoMapper.selectAllModelCount();
+    }
+
+    @Override
     public void forEachProductExtra(Consumer<ProductExtraInfo> consumer) {
         productExtraInfoMapper.selectAllModelList().forEach(consumer);
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public void forEachProductExtra(ObjIntConsumer<ProductExtraInfo> consumer) {
         Cursor<ProductExtraInfo> cursor = productExtraInfoMapper.selectAllModelList();
         int index = 0;

@@ -4,6 +4,7 @@ import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
 import com.penglecode.xmodule.samples.product.ProductTestHelper;
+import com.penglecode.xmodule.samples.product.TestProduct;
 import com.penglecode.xmodule.samples.product.domain.model.ProductBaseInfo;
 import com.penglecode.xmodule.samples.product.domain.model.ProductExtraInfo;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleSpec;
@@ -53,17 +54,17 @@ public class ProductDomainServiceTest {
     }
 
     protected Object doCreateProduct(TransactionStatus status) {
-        Object[] productTests = ProductTestHelper.genProductTests4Create();
-        ProductBaseInfo productBase = (ProductBaseInfo) productTests[0];
+        TestProduct testProduct = ProductTestHelper.genTestProduct4Create();
+        ProductBaseInfo productBase = testProduct.getProductBase();
         //System.out.println(JsonUtils.object2Json(productBase));
         productBaseInfoService.createProductBase(productBase);
 
-        ProductExtraInfo productExtra = (ProductExtraInfo) productTests[1];
+        ProductExtraInfo productExtra = testProduct.getProductExtra();
         productExtra.setProductId(productBase.getProductId());
         productExtraInfoService.createProductExtra(productExtra);
 
-        List<ProductSaleSpec> productSaleSpecs = (List<ProductSaleSpec>) productTests[2];
-        List<ProductSaleStock> productSaleStocks = (List<ProductSaleStock>) productTests[3];
+        List<ProductSaleSpec> productSaleSpecs = testProduct.getProductSaleSpecs();
+        List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
         productSaleSpecService.batchCreateProductSaleSpec(productSaleSpecs);
         productSaleStockService.batchCreateProductSaleStock(productSaleStocks);
         return null;

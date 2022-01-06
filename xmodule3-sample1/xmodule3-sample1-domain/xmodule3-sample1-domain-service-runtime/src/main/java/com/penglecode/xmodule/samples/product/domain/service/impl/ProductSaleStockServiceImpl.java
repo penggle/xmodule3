@@ -9,18 +9,18 @@ import com.penglecode.xmodule.common.support.BeanValidator;
 import com.penglecode.xmodule.common.support.MapLambdaBuilder;
 import com.penglecode.xmodule.common.support.MessageSupplier;
 import com.penglecode.xmodule.common.support.ValidationAssert;
-import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.DateTimeUtils;
-import com.penglecode.xmodule.common.util.ObjectUtils;
-import com.penglecode.xmodule.common.util.StringUtils;
 import javax.annotation.Resource;
 
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleStockMapper;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleStock;
 import com.penglecode.xmodule.samples.product.domain.service.ProductSaleStockService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -138,6 +138,7 @@ public class ProductSaleStockServiceImpl implements ProductSaleStockService {
     }
 
     @Override
+    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public List<ProductSaleStock> getProductSaleStocksByPage(ProductSaleStock condition, Page page) {
         QueryCriteria<ProductSaleStock> criteria = LambdaQueryCriteria.of(condition)
                 .eq(ProductSaleStock::getProductId)
@@ -154,13 +155,16 @@ public class ProductSaleStockServiceImpl implements ProductSaleStockService {
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
+    public int getProductTotalCount() {
+        return productSaleStockMapper.selectAllModelCount();
+    }
+
+    @Override
     public void forEachProductSaleStock(Consumer<ProductSaleStock> consumer) {
         productSaleStockMapper.selectAllModelList().forEach(consumer);
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public void forEachProductSaleStock(ObjIntConsumer<ProductSaleStock> consumer) {
         Cursor<ProductSaleStock> cursor = productSaleStockMapper.selectAllModelList();
         int index = 0;

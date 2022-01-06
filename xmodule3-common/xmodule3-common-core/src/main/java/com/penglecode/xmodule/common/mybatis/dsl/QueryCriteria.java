@@ -89,8 +89,9 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
      * @return
      */
     protected QueryCriteria<E> orderBy(List<Order> orders) {
-        Assert.notEmpty(orders, "Parameter 'orders' can not be null!");
-        this.orders.addAll(orders);
+        if(orders != null) {
+            this.orders.addAll(orders);
+        }
         return this;
     }
 
@@ -136,8 +137,8 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
         }
     }
 
-    protected boolean addCriterion(Criterion abstractCriterion) {
-        return criteria1.add(abstractCriterion);
+    protected void addCriterion(Criterion abstractCriterion) {
+        criteria1.add(abstractCriterion);
     }
 
     protected E getExample() {

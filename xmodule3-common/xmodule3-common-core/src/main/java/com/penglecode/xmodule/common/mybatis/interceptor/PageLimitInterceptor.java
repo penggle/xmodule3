@@ -54,7 +54,9 @@ public class PageLimitInterceptor implements Interceptor {
 		//开始处理分页逻辑
 		String originalSql = boundSql.getSql();
 		metaObject.setValue("delegate.boundSql.sql", dialect.getPageSql(originalSql, rowBounds.getOffset(), rowBounds.getLimit()));
-		metaObject.setValue("delegate.rowBounds", RowBounds.DEFAULT);
+		//metaObject.setValue("delegate.rowBounds", RowBounds.DEFAULT); //不能重置rowBounds引用为DEFAULT(应该使用下面方式设置offset和limit)，否则会出现结果集为0的问题
+		metaObject.setValue("delegate.rowBounds.offset", RowBounds.NO_ROW_OFFSET);
+		metaObject.setValue("delegate.rowBounds.limit", RowBounds.NO_ROW_LIMIT);
 		return invocation.proceed();
 	}
 

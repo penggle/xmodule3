@@ -9,18 +9,18 @@ import com.penglecode.xmodule.common.support.BeanValidator;
 import com.penglecode.xmodule.common.support.MapLambdaBuilder;
 import com.penglecode.xmodule.common.support.MessageSupplier;
 import com.penglecode.xmodule.common.support.ValidationAssert;
-import com.penglecode.xmodule.common.util.CollectionUtils;
 import com.penglecode.xmodule.common.util.DateTimeUtils;
-import com.penglecode.xmodule.common.util.ObjectUtils;
-import com.penglecode.xmodule.common.util.StringUtils;
 import javax.annotation.Resource;
 
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleSpecMapper;
 import com.penglecode.xmodule.samples.product.domain.model.ProductSaleSpec;
 import com.penglecode.xmodule.samples.product.domain.service.ProductSaleSpecService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -138,6 +138,7 @@ public class ProductSaleSpecServiceImpl implements ProductSaleSpecService {
     }
 
     @Override
+    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public List<ProductSaleSpec> getProductSaleSpecsByPage(ProductSaleSpec condition, Page page) {
         QueryCriteria<ProductSaleSpec> criteria = LambdaQueryCriteria.of(condition)
                 .eq(ProductSaleSpec::getProductId)
@@ -149,13 +150,16 @@ public class ProductSaleSpecServiceImpl implements ProductSaleSpecService {
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
+    public int getProductTotalCount() {
+        return productSaleSpecMapper.selectAllModelCount();
+    }
+
+    @Override
     public void forEachProductSaleSpec(Consumer<ProductSaleSpec> consumer) {
         productSaleSpecMapper.selectAllModelList().forEach(consumer);
     }
 
     @Override
-    @Transactional(transactionManager="productTransactionManager", readOnly=true)
     public void forEachProductSaleSpec(ObjIntConsumer<ProductSaleSpec> consumer) {
         Cursor<ProductSaleSpec> cursor = productSaleSpecMapper.selectAllModelList();
         int index = 0;

@@ -25,7 +25,7 @@ CREATE TABLE t_product_extra_info (
 
 CREATE TABLE t_product_sale_spec (
     product_id BIGINT UNSIGNED NOT NULL COMMENT '商品ID',
-    spec_no VARCHAR(2) NOT NULL COMMENT '商品规格编号,两位数字组成',
+    spec_no VARCHAR(16) NOT NULL COMMENT '商品规格编号,两位数字组成',
     spec_name VARCHAR(191) NOT NULL COMMENT '商品规格名称',
     spec_index INT NOT NULL DEFAULT '1' COMMENT '商品规格顺序',
     remark VARCHAR(255) NULL DEFAULT NULL COMMENT '商品规格备注',

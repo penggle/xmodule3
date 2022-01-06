@@ -12,6 +12,7 @@ import com.penglecode.xmodule.common.util.DateTimeUtils;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
 import com.penglecode.xmodule.samples.product.ProductTestHelper;
+import com.penglecode.xmodule.samples.product.TestProduct;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductBaseInfoMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductExtraInfoMapper;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductSaleSpecMapper;
@@ -67,16 +68,16 @@ public class ProductModuleMapperTest {
     }
 
     protected Object doCreateProduct(TransactionStatus status) {
-        Object[] productTests = ProductTestHelper.genProductTests4Create();
-        ProductBaseInfo productBase = (ProductBaseInfo) productTests[0];
+        TestProduct testProduct = ProductTestHelper.genTestProduct4Create();
+        ProductBaseInfo productBase = testProduct.getProductBase();
         //System.out.println(JsonUtils.object2Json(productBase));
         productBaseInfoMapper.insertModel(productBase);
 
-        ProductExtraInfo productExtra = (ProductExtraInfo) productTests[1];
+        ProductExtraInfo productExtra = testProduct.getProductExtra();
         productExtra.setProductId(productBase.getProductId());
         productExtraInfoMapper.insertModel(productExtra);
 
-        List<ProductSaleSpec> productSaleSpecs = (List<ProductSaleSpec>) productTests[2];
+        List<ProductSaleSpec> productSaleSpecs = testProduct.getProductSaleSpecs();
         try(JdbcBatchOperation batchOperation = new JdbcBatchOperation()) {
             for(ProductSaleSpec productSaleSpec : productSaleSpecs) {
                 productSaleSpec.setProductId(productBase.getProductId());
@@ -85,7 +86,7 @@ public class ProductModuleMapperTest {
             productSaleSpecMapper.flushStatements(); //批量提交
         }
 
-        List<ProductSaleStock> productSaleStocks = (List<ProductSaleStock>) productTests[3];
+        List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
         try(JdbcBatchOperation batchOperation = new JdbcBatchOperation()) {
             for(ProductSaleStock productSaleStock : productSaleStocks) {
                 productSaleStock.setProductId(productBase.getProductId());
