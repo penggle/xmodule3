@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2021/10/23 14:42
  */
-@Service("productApplicationService")
+@Service("productAppService")
 public class ProductAppServiceImpl implements ProductAppService {
 
     @Resource(name="productBaseInfoService")
@@ -45,9 +45,9 @@ public class ProductAppServiceImpl implements ProductAppService {
     @Transactional(transactionManager="productTransactionManager", rollbackFor=Exception.class)
     public void createProduct(ProductAggregate product) {
         ValidationAssert.notNull(product, MessageSupplier.ofRequiredParameter("product"));
-        BeanValidator.validateBean(product, ProductAggregate::getProductExtraInfo, ProductAggregate::getProductSaleSpecs, ProductAggregate::getProductSaleStocks);
+        BeanValidator.validateBean(product, ProductAggregate::getProductExtra, ProductAggregate::getProductSaleSpecs, ProductAggregate::getProductSaleStocks);
         productBaseInfoService.createProductBase(product);
-        ProductExtraInfo productExtra = product.getProductExtraInfo();
+        ProductExtraInfo productExtra = product.getProductExtra();
         if(productExtra != null) {
             productExtra.setProductId(product.getProductId());
             productExtraInfoService.createProductExtra(productExtra);
@@ -68,12 +68,12 @@ public class ProductAppServiceImpl implements ProductAppService {
     @Transactional(transactionManager="productTransactionManager", rollbackFor=Exception.class)
     public void modifyProductById(ProductAggregate product) {
         ValidationAssert.notNull(product, MessageSupplier.ofRequiredParameter("product"));
-        BeanValidator.validateBean(product, ProductAggregate::getProductExtraInfo, ProductAggregate::getProductSaleSpecs, ProductAggregate::getProductSaleStocks);
+        BeanValidator.validateBean(product, ProductAggregate::getProductExtra, ProductAggregate::getProductSaleSpecs, ProductAggregate::getProductSaleStocks);
         productBaseInfoService.modifyProductBaseById(product);
-        ProductExtraInfo productExtra = product.getProductExtraInfo();
+        ProductExtraInfo productExtra = product.getProductExtra();
         if(productExtra != null) {
             productExtra.setProductId(product.getProductId());
-            productExtraInfoService.modifyProductExtraById(product.getProductExtraInfo());
+            productExtraInfoService.modifyProductExtraById(product.getProductExtra());
         }
         List<ProductSaleSpec> transientProductSaleSpecs = product.getProductSaleSpecs();
         if(!CollectionUtils.isEmpty(transientProductSaleSpecs)) {
@@ -97,12 +97,20 @@ public class ProductAppServiceImpl implements ProductAppService {
     }
 
     @Override
+    @Transactional(transactionManager="productTransactionManager", rollbackFor=Exception.class)
+    public void removeProductByIds(List<Long> ids) {
+        for(Long id : ids) {
+            removeProductById(id);
+        }
+    }
+
+    @Override
     public ProductAggregate getProductById(Long id, boolean cascade) {
         ProductBaseInfo productInfo = productBaseInfoService.getProductBaseById(id);
         if(productInfo != null) {
             ProductAggregate product = BeanMapper.map(productInfo, ProductAggregate::new);
             if(cascade) {
-                product.setProductExtraInfo(productExtraInfoService.getProductExtraById(id));
+                product.setProductExtra(productExtraInfoService.getProductExtraById(id));
                 product.setProductSaleSpecs(productSaleSpecService.getProductSaleSpecsByProductId(id));
                 product.setProductSaleStocks(productSaleStockService.getProductSaleStocksByProductId(id));
             }
@@ -112,13 +120,13 @@ public class ProductAppServiceImpl implements ProductAppService {
     }
 
     @Override
-    public List<ProductAggregate> getProductListByIds(List<Long> ids, boolean cascade) {
+    public List<ProductAggregate> getProductsByIds(List<Long> ids, boolean cascade) {
         List<ProductBaseInfo> productBases = productBaseInfoService.getProductBasesByIds(ids);
         return prepareProductList(productBases, cascade);
     }
 
     @Override
-    public List<ProductAggregate> getProductListByPage(ProductAggregate condition, Page page, boolean cascade) {
+    public List<ProductAggregate> getProductsByPage(ProductAggregate condition, Page page, boolean cascade) {
         List<ProductBaseInfo> productBases = productBaseInfoService.getProductBasesByPage(condition, page);
         return prepareProductList(productBases, cascade);
     }

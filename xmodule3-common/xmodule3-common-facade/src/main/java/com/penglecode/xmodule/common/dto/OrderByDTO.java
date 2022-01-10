@@ -7,7 +7,7 @@ package com.penglecode.xmodule.common.dto;
  * @version 1.0
  * @since 2021/6/15 23:12
  */
-public class OrderDTO implements BaseDTO {
+public class OrderByDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -17,10 +17,10 @@ public class OrderDTO implements BaseDTO {
     /** 排序顺序：asc|desc */
     private String direction;
 
-    public OrderDTO() {
+    public OrderByDTO() {
     }
 
-    public OrderDTO(String property, String direction) {
+    public OrderByDTO(String property, String direction) {
         this.property = property;
         this.direction = direction;
     }

@@ -13,16 +13,16 @@ import java.util.Map;
  * @version 1.0
  * @since 2021/5/15 15:15
  */
-public class PagedResult<T> extends Result<T> {
+public class PageResult<T> extends Result<T> {
 
 	private static final long serialVersionUID = 1L;
 	
 	/** 当存在分页查询时此值为总记录数 */
 	private int totalRowCount;
 
-	PagedResult() {}
+	PageResult() {}
 
-	PagedResult(Result<T> result, int totalRowCount) {
+	PageResult(Result<T> result, int totalRowCount) {
 		super(result);
 		this.totalRowCount = totalRowCount;
 	}
@@ -92,8 +92,8 @@ public class PagedResult<T> extends Result<T> {
 		}
 
 		@Override
-		public <T> PagedResult<T> build() {
-			return new PagedResult<>(super.build(), totalRowCount);
+		public <T> PageResult<T> build() {
+			return new PageResult<>(super.build(), totalRowCount);
 		}
 		
 	}

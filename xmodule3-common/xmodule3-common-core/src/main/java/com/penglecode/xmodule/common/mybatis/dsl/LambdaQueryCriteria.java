@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.mybatis.dsl;
 
 import com.penglecode.xmodule.common.domain.DomainObject;
-import com.penglecode.xmodule.common.domain.Order;
+import com.penglecode.xmodule.common.domain.OrderBy;
 import com.penglecode.xmodule.common.support.BeanIntrospector;
 import com.penglecode.xmodule.common.support.SerializableFunction;
 import org.springframework.util.Assert;
@@ -87,7 +87,7 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
      * @return
      */
     public <C> LambdaQueryCriteria<E> asc(SerializableFunction<E,C> column) {
-        return orderBy(column, Order.Direction.ASC);
+        return orderBy(column, OrderBy.Direction.ASC);
     }
 
     /**
@@ -98,7 +98,7 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
      * @return
      */
     public <C> LambdaQueryCriteria<E> desc(SerializableFunction<E,C> column) {
-        return orderBy(column, Order.Direction.DESC);
+        return orderBy(column, OrderBy.Direction.DESC);
     }
 
     /**
@@ -108,7 +108,7 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
      * @return
      */
     public LambdaQueryCriteria<E> asc(String property) {
-        return orderBy(property, Order.Direction.ASC);
+        return orderBy(property, OrderBy.Direction.ASC);
     }
 
     /**
@@ -118,17 +118,17 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
      * @return
      */
     public LambdaQueryCriteria<E> desc(String property) {
-        return orderBy(property, Order.Direction.DESC);
+        return orderBy(property, OrderBy.Direction.DESC);
     }
 
     @Override
-    public LambdaQueryCriteria<E> orderBy(Order... orders) {
-        return (LambdaQueryCriteria<E>) super.orderBy(orders);
+    public LambdaQueryCriteria<E> orderBy(OrderBy... orderBys) {
+        return (LambdaQueryCriteria<E>) super.orderBy(orderBys);
     }
 
     @Override
-    public LambdaQueryCriteria<E> orderBy(List<Order> orders) {
-        return (LambdaQueryCriteria<E>) super.orderBy(orders);
+    public LambdaQueryCriteria<E> orderBy(List<OrderBy> orderBys) {
+        return (LambdaQueryCriteria<E>) super.orderBy(orderBys);
     }
 
     @Override
@@ -143,10 +143,10 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
      * @param direction
      * @return
      */
-    protected LambdaQueryCriteria<E> orderBy(String property, Order.Direction direction) {
+    protected LambdaQueryCriteria<E> orderBy(String property, OrderBy.Direction direction) {
         Assert.hasText(property, "Parameter 'property' can not be null!");
         Assert.notNull(direction, "Parameter 'direction' can not be null!");
-        getOrders().add(Order.by(property, direction));
+        getOrders().add(OrderBy.by(property, direction));
         return this;
     }
 
@@ -158,11 +158,11 @@ public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQue
      * @param <C>
      * @return
      */
-    protected  <C> LambdaQueryCriteria<E> orderBy(SerializableFunction<E,C> column, Order.Direction direction) {
+    protected  <C> LambdaQueryCriteria<E> orderBy(SerializableFunction<E,C> column, OrderBy.Direction direction) {
         Assert.notNull(column, "Parameter 'column' can not be null!");
         Assert.notNull(direction, "Parameter 'direction' can not be null!");
         Field field = BeanIntrospector.introspectField(column);
-        getOrders().add(Order.by(field.getName(), direction));
+        getOrders().add(OrderBy.by(field.getName(), direction));
         return this;
     }
 

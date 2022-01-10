@@ -18,7 +18,7 @@ public class ProductAggregate extends ProductBaseInfo {
 
     /** 商品额外信息 */
     @NotNull(message="商品额外信息不能为空!")
-    private ProductExtraInfo productExtraInfo;
+    private ProductExtraInfo productExtra;
 
     /** 商品销售规格信息 */
     @NotEmpty(message="商品销售规格信息不能为空!")
@@ -28,12 +28,12 @@ public class ProductAggregate extends ProductBaseInfo {
     @NotEmpty(message="商品销售库存信息不能为空!")
     private List<ProductSaleStock> productSaleStocks;
 
-    public ProductExtraInfo getProductExtraInfo() {
-        return productExtraInfo;
+    public ProductExtraInfo getProductExtra() {
+        return productExtra;
     }
 
-    public void setProductExtraInfo(ProductExtraInfo productExtraInfo) {
-        this.productExtraInfo = productExtraInfo;
+    public void setProductExtra(ProductExtraInfo productExtra) {
+        this.productExtra = productExtra;
     }
 
     public List<ProductSaleSpec> getProductSaleSpecs() {

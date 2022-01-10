@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.samples.product.dal.mapper.test;
 
 import com.penglecode.xmodule.common.domain.ID;
-import com.penglecode.xmodule.common.domain.Order;
+import com.penglecode.xmodule.common.domain.OrderBy;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryColumns;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
@@ -152,7 +152,7 @@ public class ProductModuleMapperTest {
 
         QueryCriteria<ProductBaseInfo> criteria1 = LambdaQueryCriteria.ofEmpty(ProductBaseInfo::new)
                 .eq(ProductBaseInfo::getProductType, 1)
-                .orderBy(Order.desc(ProductBaseInfo::getCreateTime))
+                .orderBy(OrderBy.desc(ProductBaseInfo::getCreateTime))
                 .limit(10);
         productBases = productBaseInfoMapper.selectModelListByCriteria(criteria1);
         if(!CollectionUtils.isEmpty(productBases)) {
@@ -164,7 +164,7 @@ public class ProductModuleMapperTest {
         QueryCriteria<ProductSaleStock> criteria2 = LambdaQueryCriteria.ofEmpty(ProductSaleStock::new)
                 .eq(ProductSaleStock::getProductId, productId)
                 .likeRight(ProductSaleStock::getSpecNo, "00")
-                .orderBy(Order.desc(ProductSaleStock::getSellPrice));
+                .orderBy(OrderBy.desc(ProductSaleStock::getSellPrice));
         List<ProductSaleStock> productStocks = productSaleStockMapper.selectModelListByCriteria(criteria2, new QueryColumns(ProductSaleStock::getProductId, ProductSaleStock::getSpecNo, ProductSaleStock::getSellPrice, ProductSaleStock::getStock));
         if(!CollectionUtils.isEmpty(productStocks)) {
             productStocks.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
@@ -190,7 +190,7 @@ public class ProductModuleMapperTest {
         Long productId = 1L;
         QueryCriteria<ProductSaleStock> criteria = LambdaQueryCriteria.ofEmpty(ProductSaleStock::new)
                 .eq(ProductSaleStock::getProductId, productId)
-                .orderBy(Order.desc(ProductSaleStock::getSellPrice))
+                .orderBy(OrderBy.desc(ProductSaleStock::getSellPrice))
                 .limit(5); //limit与在分页查询(selectModelPageListByCriteria)时会失效
         System.out.println("totalCount = " + productSaleStockMapper.selectModelPageCountByCriteria(criteria));
         System.out.println("--------------------------第1页------------------------");

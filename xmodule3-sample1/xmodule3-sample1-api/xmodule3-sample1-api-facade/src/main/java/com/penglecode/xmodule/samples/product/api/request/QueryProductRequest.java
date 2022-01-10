@@ -1,29 +1,18 @@
-package com.penglecode.xmodule.samples.product.api.dto;
+package com.penglecode.xmodule.samples.product.api.request;
 
-import com.penglecode.xmodule.common.dto.BaseDTO;
+import com.penglecode.xmodule.common.dto.PageDTO;
 
 /**
- * 商品基础信息入站DTO
+ * 查询商品请求DTO
  *
- * @author AutoCodeGenerator
+ * @author pengpeng
  * @version 1.0
  * @since 2021年10月21日 下午 23:18
  */
-public class ProductBaseIDTO implements BaseDTO {
-
-    private static final long serialVersionUID = 1L;
-
-    /** 商品ID */
-    private Long productId;
+public class QueryProductRequest extends PageDTO {
 
     /** 商品名称 */
     private String productName;
-
-    /** 商品URL */
-    private String productUrl;
-
-    /** 商品标签 */
-    private String productTags;
 
     /** 商品类型：0-虚拟商品,1-实物商品 */
     private Integer productType;
@@ -37,16 +26,11 @@ public class ProductBaseIDTO implements BaseDTO {
     /** 所属店铺ID */
     private Long shopId;
 
-    /** 商品备注 */
-    private String remark;
+    /** createTime的范围查询条件辅助字段 */
+    private String startCreateTime;
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
+    /** createTime的范围查询条件辅助字段 */
+    private String endCreateTime;
 
     public String getProductName() {
         return productName;
@@ -54,22 +38,6 @@ public class ProductBaseIDTO implements BaseDTO {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getProductUrl() {
-        return productUrl;
-    }
-
-    public void setProductUrl(String productUrl) {
-        this.productUrl = productUrl;
-    }
-
-    public String getProductTags() {
-        return productTags;
-    }
-
-    public void setProductTags(String productTags) {
-        this.productTags = productTags;
     }
 
     public Integer getProductType() {
@@ -104,12 +72,20 @@ public class ProductBaseIDTO implements BaseDTO {
         this.shopId = shopId;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getStartCreateTime() {
+        return startCreateTime;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setStartCreateTime(String startCreateTime) {
+        this.startCreateTime = startCreateTime;
+    }
+
+    public String getEndCreateTime() {
+        return endCreateTime;
+    }
+
+    public void setEndCreateTime(String endCreateTime) {
+        this.endCreateTime = endCreateTime;
     }
 
 }

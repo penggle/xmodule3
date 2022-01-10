@@ -2,7 +2,7 @@ package com.penglecode.xmodule.samples.product.dal.mapper.test;
 
 import com.google.common.collect.Lists;
 import com.penglecode.xmodule.common.domain.ID;
-import com.penglecode.xmodule.common.domain.Order;
+import com.penglecode.xmodule.common.domain.OrderBy;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryColumns;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
@@ -186,7 +186,7 @@ public class ProductModuleMapperTest {
         QueryCriteria<ProductStock> criteria = LambdaQueryCriteria.ofEmpty(ProductStock::new)
                 .eq(ProductStock::getProductId, productId)
                 .likeRight(ProductStock::getSpecNo, "00")
-                .orderBy(Order.desc(ProductStock::getSellPrice));
+                .orderBy(OrderBy.desc(ProductStock::getSellPrice));
         List<ProductStock> productStocks = productStockMapper.selectModelListByCriteria(criteria, new QueryColumns(ProductStock::getProductId, ProductStock::getSpecNo, ProductStock::getSellPrice, ProductStock::getStock));
         if(!CollectionUtils.isEmpty(productStocks)) {
             productStocks.forEach(item -> System.out.println(JsonUtils.object2Json(item)));
@@ -212,7 +212,7 @@ public class ProductModuleMapperTest {
         Long productId = 7L;
         QueryCriteria<ProductStock> criteria = LambdaQueryCriteria.ofEmpty(ProductStock::new)
                 .eq(ProductStock::getProductId, productId)
-                .orderBy(Order.desc(ProductStock::getSellPrice));
+                .orderBy(OrderBy.desc(ProductStock::getSellPrice));
         System.out.println("totalCount = " + productStockMapper.selectModelPageCountByCriteria(criteria));
         System.out.println("--------------------------第1页------------------------");
         List<ProductStock> productStocks1 = productStockMapper.selectModelPageListByCriteria(criteria, new RowBounds(0, 10));

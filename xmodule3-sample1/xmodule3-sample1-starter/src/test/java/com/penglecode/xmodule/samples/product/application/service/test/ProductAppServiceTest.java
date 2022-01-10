@@ -38,7 +38,7 @@ public class ProductAppServiceTest {
         List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
 
         ProductAggregate product = BeanMapper.map(productBase, ProductAggregate::new);
-        product.setProductExtraInfo(productExtra);
+        product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);
         productAppService.createProduct(product);
@@ -53,7 +53,7 @@ public class ProductAppServiceTest {
         List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
 
         ProductAggregate product = BeanMapper.map(productBase, ProductAggregate::new);
-        product.setProductExtraInfo(productExtra);
+        product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);
         productAppService.createProduct(product);
@@ -68,7 +68,7 @@ public class ProductAppServiceTest {
         List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
 
         ProductAggregate product = BeanMapper.map(productBase, ProductAggregate::new);
-        product.setProductExtraInfo(productExtra);
+        product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);
         productAppService.modifyProductById(product);
@@ -86,7 +86,7 @@ public class ProductAppServiceTest {
     @Test
     public void getProductListByIds() {
         List<Long> ids = Arrays.asList(100004325476L, 100009077475L, 100011647215L, 100011662793L, 100012720924L);
-        List<ProductAggregate> productList = productAppService.getProductListByIds(ids, true);
+        List<ProductAggregate> productList = productAppService.getProductsByIds(ids, true);
         if(!CollectionUtils.isEmpty(productList)) {
             for(ProductAggregate product : productList) {
                 System.out.println(JsonUtils.object2Json(product));
@@ -104,14 +104,14 @@ public class ProductAppServiceTest {
         int totalPageCount = totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize) + 1;
         for(int currentPage = 1; currentPage <= totalPageCount; currentPage++) {
             Page page = Page.of(currentPage, pageSize);
-            List<ProductAggregate> productList = productAppService.getProductListByPage(condition, page, false);
+            List<ProductAggregate> productList = productAppService.getProductsByPage(condition, page, false);
             System.out.println("==========> page = " + page);
             if(!CollectionUtils.isEmpty(productList)) {
                 for(ProductAggregate product : productList) {
                     System.out.println(JsonUtils.object2Json(product));
                 }
             }
-            if(Objects.equals(page.getCurrentPage(), page.getTotalPageCount())) {
+            if(Objects.equals(page.getPageIndex(), page.getTotalPageCount())) {
                 break;
             }
         }

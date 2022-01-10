@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.mybatis.dsl;
 
 import com.penglecode.xmodule.common.domain.DomainObject;
-import com.penglecode.xmodule.common.domain.Order;
+import com.penglecode.xmodule.common.domain.OrderBy;
 import com.penglecode.xmodule.common.support.*;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.util.Assert;
@@ -132,13 +132,13 @@ public abstract class NestedLambdaQueryCriteria<E extends DomainObject> extends 
     }
 
     @Override
-    protected NestedLambdaQueryCriteria<E> orderBy(Order... orders) {
-        return (NestedLambdaQueryCriteria<E>) super.orderBy(orders);
+    protected NestedLambdaQueryCriteria<E> orderBy(OrderBy... orderBys) {
+        return (NestedLambdaQueryCriteria<E>) super.orderBy(orderBys);
     }
 
     @Override
-    protected NestedLambdaQueryCriteria<E> orderBy(List<Order> orders) {
-        return (NestedLambdaQueryCriteria<E>) super.orderBy(orders);
+    protected NestedLambdaQueryCriteria<E> orderBy(List<OrderBy> orderBys) {
+        return (NestedLambdaQueryCriteria<E>) super.orderBy(orderBys);
     }
 
     @Override

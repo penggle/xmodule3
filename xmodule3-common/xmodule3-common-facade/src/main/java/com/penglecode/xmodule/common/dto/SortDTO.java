@@ -14,25 +14,25 @@ public class SortDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    private List<OrderDTO> orders = new ArrayList<>();
+    private List<OrderByDTO> orderBys = new ArrayList<>();
 
     public SortDTO() {
     }
 
-    public SortDTO(List<OrderDTO> orders) {
-        this.orders = orders;
+    public SortDTO(List<OrderByDTO> orderBys) {
+        this.orderBys = orderBys;
     }
 
-    public List<OrderDTO> getOrders() {
-        return orders;
+    public List<OrderByDTO> getOrderBys() {
+        return orderBys;
     }
 
-    public void setOrders(List<OrderDTO> orders) {
-        this.orders = orders;
+    public void setOrderBys(List<OrderByDTO> orderBys) {
+        this.orderBys = orderBys;
     }
 
     @Override
     public String toString() {
-        return "{orders=" + orders +"}";
+        return "{orderBys=" + orderBys +"}";
     }
 }

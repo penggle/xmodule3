@@ -100,7 +100,7 @@ public class ProductBaseInfoServiceImpl implements ProductBaseInfoService {
     @Transactional(transactionManager="productTransactionManager", propagation=REQUIRES_NEW, readOnly=true, isolation=REPEATABLE_READ)
     public List<ProductBaseInfo> getProductBasesByPage(ProductBaseInfo condition, Page page) {
         QueryCriteria<ProductBaseInfo> criteria = LambdaQueryCriteria.of(condition)
-                .like(ProductBaseInfo::getProductTags)
+                .like(ProductBaseInfo::getProductName)
                 .eq(ProductBaseInfo::getProductType)
                 .eq(ProductBaseInfo::getAuditStatus)
                 .eq(ProductBaseInfo::getOnlineStatus)
@@ -109,7 +109,7 @@ public class ProductBaseInfoServiceImpl implements ProductBaseInfoService {
                 .gte(ProductBaseInfo::getCreateTime, condition.getStartCreateTime())
                 .lte(ProductBaseInfo::getCreateTime, condition.getEndCreateTime())
                 .dynamic(true)
-                .orderBy(page.getOrders());
+                .orderBy(page.getOrderBys());
         return MybatisHelper.selectDomainObjectListByPage(productBaseInfoMapper, criteria, page);
     }
 

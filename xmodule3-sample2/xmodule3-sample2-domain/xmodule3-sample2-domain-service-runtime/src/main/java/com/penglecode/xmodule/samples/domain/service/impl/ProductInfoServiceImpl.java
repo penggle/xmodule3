@@ -119,7 +119,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
                 .gte(ProductInfo::getCreateTime, condition.getStartCreateTime())
                 .lte(ProductInfo::getCreateTime, condition.getEndCreateTime())
                 .dynamic(true)
-                .orderBy(page.getOrders());
+                .orderBy(page.getOrderBys());
         return MybatisHelper.selectDomainObjectListByPage(productInfoMapper, criteria, page);
     }
 

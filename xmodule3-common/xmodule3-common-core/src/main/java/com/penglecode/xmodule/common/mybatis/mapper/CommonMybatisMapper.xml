@@ -69,8 +69,8 @@
 
     <!-- 公共的SELECT查询排序条件子句 -->
     <sql id="CommonOrderByCriteriaClause">
-        <if test="criteria.orders.size() > 0">
-            ORDER BY <foreach collection="criteria.orders" item="order" separator=",">${order.property} ${order.direction}</foreach>
+        <if test="criteria.orderBys.size() > 0">
+            ORDER BY <foreach collection="criteria.orderBys" item="orderBy" separator=",">${orderBy.property} ${orderBy.direction}</foreach>
         </if>
     </sql>
 

@@ -97,7 +97,7 @@ public class ProductExtraInfoServiceImpl implements ProductExtraInfoService {
         QueryCriteria<ProductExtraInfo> criteria = LambdaQueryCriteria.of(condition)
                 .eq(ProductExtraInfo::getProductId)
                 .dynamic(true)
-                .orderBy(page.getOrders());
+                .orderBy(page.getOrderBys());
         return MybatisHelper.selectDomainObjectListByPage(productExtraInfoMapper, criteria, page);
     }
 

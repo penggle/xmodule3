@@ -38,6 +38,13 @@ public interface ProductAppService {
     void removeProductById(Long id);
 
     /**
+     * 根据多个ID删除商品
+     *
+     * @param ids    - ID主键列表
+     */
+    void removeProductByIds(List<Long> ids);
+
+    /**
      * 根据ID获取商品
      *
      * @param id            - ID主键
@@ -53,7 +60,7 @@ public interface ProductAppService {
      * @param cascade       - 是否级联加载关联领域对象
      * @return 返回完整的领域对象信息
      */
-    List<ProductAggregate> getProductListByIds(List<Long> ids, boolean cascade);
+    List<ProductAggregate> getProductsByIds(List<Long> ids, boolean cascade);
 
     /**
      * 根据条件查询商品列表(排序、分页)
@@ -63,7 +70,7 @@ public interface ProductAppService {
      * @param cascade       - 是否级联加载关联领域对象
      * @return 返回完整的领域对象列表
      */
-    List<ProductAggregate> getProductListByPage(ProductAggregate condition, Page page, boolean cascade);
+    List<ProductAggregate> getProductsByPage(ProductAggregate condition, Page page, boolean cascade);
 
     /**
      * 获取商品总记录数

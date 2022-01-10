@@ -9,13 +9,13 @@ import com.penglecode.xmodule.samples.product.api.dto.ProductSaleStockIDTO;
 import java.util.List;
 
 /**
- * 创建商品请求DTO
+ * 修改商品请求DTO
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021年10月21日 下午 23:18
  */
-public class CreateProductRequest extends ProductBaseInfoIDTO implements BaseDTO {
+public class ModifyProductRequest extends ProductBaseInfoIDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,5 +51,5 @@ public class CreateProductRequest extends ProductBaseInfoIDTO implements BaseDTO
     public void setProductSaleStocks(List<ProductSaleStockIDTO> productSaleStocks) {
         this.productSaleStocks = productSaleStocks;
     }
-
+    
 }

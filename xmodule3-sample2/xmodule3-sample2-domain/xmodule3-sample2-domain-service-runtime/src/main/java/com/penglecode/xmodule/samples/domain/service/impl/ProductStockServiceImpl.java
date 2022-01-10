@@ -148,7 +148,7 @@ public class ProductStockServiceImpl implements ProductStockService {
                 .gte(ProductStock::getStock, condition.getMinStock())
                 .lte(ProductStock::getStock, condition.getMaxStock())
                 .dynamic(true)
-                .orderBy(page.getOrders());
+                .orderBy(page.getOrderBys());
         return MybatisHelper.selectDomainObjectListByPage(productStockMapper, criteria, page);
     }
 

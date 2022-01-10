@@ -143,7 +143,7 @@ public class ProductSpecServiceImpl implements ProductSpecService {
                 .eq(ProductSpec::getSpecNo)
                 .eq(ProductSpec::getSpecIndex)
                 .dynamic(true)
-                .orderBy(page.getOrders());
+                .orderBy(page.getOrderBys());
         return MybatisHelper.selectDomainObjectListByPage(productSpecMapper, criteria, page);
     }
 

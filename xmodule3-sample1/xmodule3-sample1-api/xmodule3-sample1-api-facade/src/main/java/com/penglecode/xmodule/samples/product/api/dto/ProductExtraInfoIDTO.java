@@ -9,7 +9,7 @@ import com.penglecode.xmodule.common.dto.BaseDTO;
  * @version 1.0
  * @since 2021年10月21日 下午 23:18
  */
-public class ProductExtraIDTO implements BaseDTO {
+public class ProductExtraInfoIDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 

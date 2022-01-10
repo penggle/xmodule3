@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
  * @version 1.0
  * @since 2021/5/15 15:15
  */
-public class Order implements Serializable {
+public class OrderBy implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,11 +23,11 @@ public class Order implements Serializable {
 	/** 排序顺序：asc|desc */
 	private String direction;
 
-	Order() {
+	OrderBy() {
 		super();
 	}
 
-	Order(String property, String direction) {
+	OrderBy(String property, String direction) {
 		super();
 		if(direction != null) {
 			direction = Direction.DESC.toString().equalsIgnoreCase(direction) ? Direction.DESC.toString() : Direction.ASC.toString();
@@ -38,31 +38,31 @@ public class Order implements Serializable {
 		this.direction = direction;
 	}
 
-	public static Order by(String property, Direction direction) {
-		return new Order(property, direction.toString());
+	public static OrderBy by(String property, Direction direction) {
+		return new OrderBy(property, direction.toString());
 	}
 
-	public static Order asc(String property) {
-		return new Order(property, Direction.ASC.toString());
+	public static OrderBy asc(String property) {
+		return new OrderBy(property, Direction.ASC.toString());
 	}
 
-	public static Order desc(String property) {
-		return new Order(property, Direction.DESC.toString());
+	public static OrderBy desc(String property) {
+		return new OrderBy(property, Direction.DESC.toString());
 	}
 
-	public static <T,R> Order by(SerializableFunction<T,R> getterReference, String order) {
+	public static <T,R> OrderBy by(SerializableFunction<T,R> getterReference, String order) {
 		Field field = BeanIntrospector.introspectField(getterReference);
-		return new Order(field.getName(), order);
+		return new OrderBy(field.getName(), order);
 	}
 
-	public static <T,R> Order asc(SerializableFunction<T,R> getterReference) {
+	public static <T,R> OrderBy asc(SerializableFunction<T,R> getterReference) {
 		Field field = BeanIntrospector.introspectField(getterReference);
-		return new Order(field.getName(), Direction.ASC.toString());
+		return new OrderBy(field.getName(), Direction.ASC.toString());
 	}
 
-	public static <T,R> Order desc(SerializableFunction<T,R> getterReference) {
+	public static <T,R> OrderBy desc(SerializableFunction<T,R> getterReference) {
 		Field field = BeanIntrospector.introspectField(getterReference);
-		return new Order(field.getName(), Direction.DESC.toString());
+		return new OrderBy(field.getName(), Direction.DESC.toString());
 	}
 
 	public String getProperty() {
@@ -86,16 +86,16 @@ public class Order implements Serializable {
 	 * @param order
 	 * @return
 	 */
-	public static Order valueOf(String order) {
+	public static OrderBy valueOf(String order) {
 		if(order != null && !order.isEmpty()) {
-			String[] orders = order.trim().split(":");
-			String prop = orders[0] == null ? null : orders[0].trim();
+			String[] orderBys = order.trim().split(":");
+			String prop = orderBys[0] == null ? null : orderBys[0].trim();
 			String dir = null;
-			if(orders.length == 2) {
-				dir = orders[1] == null ? null : orders[1].trim();
+			if(orderBys.length == 2) {
+				dir = orderBys[1] == null ? null : orderBys[1].trim();
 			}
 			if(prop != null && prop.length() > 0) {
-				return new Order(prop, dir);
+				return new OrderBy(prop, dir);
 			}
 		}
 		return null;

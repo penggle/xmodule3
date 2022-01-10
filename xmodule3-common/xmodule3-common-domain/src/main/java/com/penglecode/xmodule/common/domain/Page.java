@@ -20,7 +20,7 @@ public class Page implements Serializable {
 	/**
 	 * 当前页码
 	 */
-	private Integer currentPage = 1;
+	private Integer pageIndex = 1;
 	
 	/**
 	 * 每页显示多少条
@@ -40,34 +40,38 @@ public class Page implements Serializable {
 	/**
 	 * 分页排序
 	 */
-	private List<Order> orders = new ArrayList<>();
+	private List<OrderBy> orderBys = new ArrayList<>();
 	
 	Page() {
 		super();
 	}
 
-	Page(Integer currentPage, Integer pageSize) {
+	Page(Integer pageIndex, Integer pageSize) {
 		super();
-		if(currentPage != null && currentPage > 0){
-			this.currentPage = currentPage;
+		if(pageIndex != null && pageIndex > 0){
+			this.pageIndex = pageIndex;
 		}
 		if(pageSize != null && pageSize > 0){
 			this.pageSize = pageSize;
 		}
 	}
 
-	Page(Integer currentPage, Integer pageSize, List<Order> orders) {
-		this(currentPage, pageSize);
-		if(orders != null){
-			this.orders = orders;
+	Page(Integer pageIndex, Integer pageSize, List<OrderBy> orderBys) {
+		this(pageIndex, pageSize);
+		if(orderBys != null){
+			this.orderBys = orderBys;
 		}
 	}
 
-	Page(Integer currentPage, Integer pageSize, Integer totalRowCount) {
-		this(currentPage, pageSize);
+	Page(Integer pageIndex, Integer pageSize, Integer totalRowCount) {
+		this(pageIndex, pageSize);
 		if(totalRowCount != null){
 			this.totalRowCount = totalRowCount;
 		}
+	}
+
+	public static Page ofDefault() {
+		return new Page();
 	}
 
 	public static Page of(Integer currentPage, Integer pageSize) {
@@ -78,16 +82,16 @@ public class Page implements Serializable {
 		return new Page(currentPage, pageSize, totalRowCount);
 	}
 
-	public static Page of(Integer currentPage, Integer pageSize, Order... orders) {
-		return new Page(currentPage, pageSize, Stream.of(orders).collect(Collectors.toList()));
+	public static Page of(Integer currentPage, Integer pageSize, OrderBy... orderBys) {
+		return new Page(currentPage, pageSize, Stream.of(orderBys).collect(Collectors.toList()));
 	}
 	
-	public Integer getCurrentPage() {
-		return currentPage;
+	public Integer getPageIndex() {
+		return pageIndex;
 	}
 
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
+	public void setPageIndex(Integer pageIndex) {
+		this.pageIndex = pageIndex;
 	}
 
 	public Integer getPageSize() {
@@ -107,16 +111,16 @@ public class Page implements Serializable {
 		getTotalPageCount(); //计算totalPageCount
 	}
 
-	public List<Order> getOrders() {
-		return orders;
+	public List<OrderBy> getOrderBys() {
+		return orderBys;
 	}
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public void setOrderBys(List<OrderBy> orderBys) {
+		this.orderBys = orderBys;
 	}
 
-	public void addOrder(Order order) {
-		this.orders.add(order);
+	public void addOrder(OrderBy orderBy) {
+		this.orderBys.add(orderBy);
 	}
 
 	public Integer getTotalPageCount() {
@@ -129,7 +133,7 @@ public class Page implements Serializable {
 	}
 
 	public Integer getOffset() {
-		return (currentPage - 1) * pageSize;
+		return (pageIndex - 1) * pageSize;
 	}
 	
 	public Integer getLimit() {
@@ -137,9 +141,9 @@ public class Page implements Serializable {
 	}
 
 	public String toString() {
-		return "Page [currentPage=" + currentPage + ", pageSize=" + pageSize
+		return "Page [pageIndex=" + pageIndex + ", pageSize=" + pageSize
 				+ ", totalRowCount=" + totalRowCount + ", totalPageCount="
-				+ totalPageCount + ", orders=" + orders + "]";
+				+ totalPageCount + ", orderBys=" + orderBys + "]";
 	}
 
 }

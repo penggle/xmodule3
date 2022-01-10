@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.mybatis.dsl;
 
 import com.penglecode.xmodule.common.domain.DomainObject;
-import com.penglecode.xmodule.common.domain.Order;
+import com.penglecode.xmodule.common.domain.OrderBy;
 import com.penglecode.xmodule.common.util.StringUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -37,7 +37,7 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
     /**
      * 排序对象
      */
-    private final List<Order> orders;
+    private final List<OrderBy> orderBys;
 
     /**
      * 查询限制返回行数
@@ -54,7 +54,7 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
         Assert.notNull(example, "Parameter 'example' can not be null!");
         this.example = example;
         this.criteria1 = new LinkedHashSet<>();
-        this.orders = new ArrayList<>();
+        this.orderBys = new ArrayList<>();
     }
 
     /**
@@ -74,23 +74,23 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
 
     /**
      * 应用指定的OrderBy
-     * @param orders
+     * @param orderBys
      * @return
      */
-    protected QueryCriteria<E> orderBy(Order... orders) {
-        Assert.notEmpty(orders, "Parameter 'orders' can not be null!");
-        this.orders.addAll(Stream.of(orders).collect(Collectors.toList()));
+    protected QueryCriteria<E> orderBy(OrderBy... orderBys) {
+        Assert.notEmpty(orderBys, "Parameter 'orderBys' can not be null!");
+        this.orderBys.addAll(Stream.of(orderBys).collect(Collectors.toList()));
         return this;
     }
 
     /**
      * 应用指定的OrderBy
-     * @param orders
+     * @param orderBys
      * @return
      */
-    protected QueryCriteria<E> orderBy(List<Order> orders) {
-        if(orders != null) {
-            this.orders.addAll(orders);
+    protected QueryCriteria<E> orderBy(List<OrderBy> orderBys) {
+        if(orderBys != null) {
+            this.orderBys.addAll(orderBys);
         }
         return this;
     }
@@ -149,8 +149,8 @@ public abstract class QueryCriteria<E extends DomainObject> implements DomainObj
         return criteria1;
     }
 
-    protected List<Order> getOrders() {
-        return orders;
+    protected List<OrderBy> getOrders() {
+        return orderBys;
     }
 
     public Integer getLimit() {
