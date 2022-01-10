@@ -67,13 +67,6 @@
                 <version>${xmodule3.version}</version>
             </dependency>
 
-            <!-- xmodule3-sample -->
-            <dependency>
-                <groupId>com.penglecode</groupId>
-                <artifactId>xmodule3-sample</artifactId>
-                <version>${xmodule3.version}</version>
-            </dependency>
-
             <!-- commons-lang3 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -172,8 +165,8 @@
 
     <modules>
         <module>xmodule3-common</module>
-		 <module>xmodule3-sample1</module>
-		 <module>xmodule3-sample2</module>
+		<module>xmodule3-sample1</module>
+        <module>xmodule3-sample2</module>
     </modules>
 
     <profiles>

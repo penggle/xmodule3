@@ -14,6 +14,4 @@ public class CreateProductRequest extends ProductBaseIDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
-    private
-
 }
