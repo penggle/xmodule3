@@ -76,4 +76,13 @@ public enum GlobalErrorCode implements ErrorCode {
         return getMessage();
     }
 
+    public static ErrorCode getErrorCode(String code, ErrorCode defaultErrorCode) {
+        for(ErrorCode errorCode : values()) {
+            if(errorCode.getCode().equals(code)) {
+                return errorCode;
+            }
+        }
+        return defaultErrorCode;
+    }
+
 }

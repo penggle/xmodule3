@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.support;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * 错误码接口
  *
@@ -36,8 +38,23 @@ public interface ErrorCode {
      * HTTP状态码
      * @return
      */
-    default int getStatus() {
-        return Integer.parseInt(getCode().substring(0, 3));
+    default HttpStatus getStatus() {
+        return defaultStatus(getCode());
+    }
+
+    /**
+     * 默认的解析HTTP状态码的实现
+     * @param code
+     * @return
+     */
+    static HttpStatus defaultStatus(String code) {
+        HttpStatus status = null;
+        try {
+            status = HttpStatus.resolve(Integer.parseInt(code.substring(0, 3)));
+        } catch (Exception e) {
+            //ignored
+        }
+        return status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status;
     }
 
 }

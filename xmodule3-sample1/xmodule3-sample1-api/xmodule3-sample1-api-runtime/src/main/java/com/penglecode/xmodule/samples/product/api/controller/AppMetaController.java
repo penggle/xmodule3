@@ -3,10 +3,9 @@ package com.penglecode.xmodule.samples.product.api.controller;
 import com.penglecode.xmodule.common.dto.Result;
 import com.penglecode.xmodule.common.enums.GarbageCollectorType;
 import com.penglecode.xmodule.common.util.NetUtils;
-import com.penglecode.xmodule.common.util.SpringUtils;
+import com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/appmeta")
-public class AppMetaController {
+public class AppMetaController extends ServletHttpApiSupport {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppMetaController.class);
 
@@ -38,9 +37,8 @@ public class AppMetaController {
      */
     @GetMapping(value="/info", produces=MediaType.APPLICATION_JSON_VALUE)
     public Result<Map<String,Object>> info() {
-        Environment environment = SpringUtils.getEnvironment();
         Map<String,Object> appMetaInfo = new LinkedHashMap<>();
-        appMetaInfo.put("appName", environment.getProperty("spring.application.name"));
+        appMetaInfo.put("appName", getEnvironment().getProperty("spring.application.name"));
         //获取JVM的启动时间，版本及名称，当前进程ID，环境变量等
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         //操作系统及硬件信息：系统名称、版本，CPU内核，机器总内存、可用内存、可用内存占比
@@ -68,18 +66,14 @@ public class AppMetaController {
         appMetaInfo.put("jvmNonHeapUsed", nonHeapMemoryUsage.getUsed()); //已使用非堆内存
         appMetaInfo.put("jvmNonHeapCommitted", nonHeapMemoryUsage.getCommitted()); //可使用非堆内存
         appMetaInfo.put("jvmNonHeapMax", nonHeapMemoryUsage.getMax()); //最大非堆内存
-        List<GarbageCollectorType> gcTypes = new ArrayList<>();
-        for (GarbageCollectorMXBean gcMxBean : gcMxBeans) {
-            GarbageCollectorType gcType = GarbageCollectorType.of(gcMxBean.getName());
-            if(gcType != null) {
-                gcTypes.add(gcType);
-            }
-        }
-        Set<String> gcJvmArguments = gcTypes.stream()
+        String jvmGcArguments = gcMxBeans.stream()
+                .map(gcMxBean -> GarbageCollectorType.of(gcMxBean.getName()))
+                .filter(Objects::nonNull)
                 .sorted(Comparator.comparing(GarbageCollectorType::getJvmGen).reversed())
                 .map(GarbageCollectorType::getJvmArgs)
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        appMetaInfo.put("gcJvmArguments", nonHeapMemoryUsage.getMax());
+                .distinct()
+                .collect(Collectors.joining(","));
+        appMetaInfo.put("jvmGcArguments", jvmGcArguments);
         return Result.success().data(appMetaInfo).build();
     }
 
@@ -115,6 +109,17 @@ public class AppMetaController {
             pong = false;
         }
         return Result.success().data(pong).build();
+    }
+
+    /**
+     * 尝试触发错误，检查全局异常处理机制是否生效
+     *
+     * @param magic
+     * @return
+     */
+    @GetMapping(value="/tryerror")
+    public Result<Object> tryError(Integer magic) {
+        return Result.success().data(System.currentTimeMillis() / magic).build();
     }
 
 }

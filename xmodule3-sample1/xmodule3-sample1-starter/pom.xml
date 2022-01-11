@@ -65,7 +65,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-sample1-starter</finalName>
-    </build>
 </project>

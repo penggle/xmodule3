@@ -33,7 +33,4 @@
 
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-sample1-api-runtime</finalName>
-    </build>
 </project>

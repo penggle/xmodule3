@@ -117,7 +117,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-common-core</finalName>
-    </build>
 </project>

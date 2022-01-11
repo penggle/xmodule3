@@ -8,13 +8,13 @@ import org.springframework.core.env.Environment;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Restful接口公共基类
+ * Servlet API接口公共基类
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/6/14 10:49
  */
-public abstract class RestfulApiResourceSupport implements EnvironmentAware, ApplicationContextAware {
+public abstract class ServletHttpApiSupport implements EnvironmentAware, ApplicationContextAware {
 
 	private Environment environment;
 	

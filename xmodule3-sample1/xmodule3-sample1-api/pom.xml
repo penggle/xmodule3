@@ -31,10 +31,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <finalName>xmodule3-sample1-api</finalName>
-    </build>
-
     <modules>
         <module>xmodule3-sample1-api-facade</module>
         <module>xmodule3-sample1-api-runtime</module>

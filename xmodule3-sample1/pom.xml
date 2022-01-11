@@ -73,10 +73,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <finalName>xmodule3-sample1</finalName>
-    </build>
-
     <modules>
         <module>xmodule3-sample1-domain</module>
         <module>xmodule3-sample1-dal</module>

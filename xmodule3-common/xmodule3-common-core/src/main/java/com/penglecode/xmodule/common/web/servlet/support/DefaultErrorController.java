@@ -1,5 +1,6 @@
 package com.penglecode.xmodule.common.web.servlet.support;
 
+import com.penglecode.xmodule.common.dto.ResultMap;
 import com.penglecode.xmodule.common.dto.Result;
 import com.penglecode.xmodule.common.support.DefaultErrorCode;
 import com.penglecode.xmodule.common.support.ErrorCode;
@@ -52,14 +53,14 @@ public class DefaultErrorController extends BasicErrorController {
 		
 		ErrorCode errorCode;
 		if(exception != null) {
-			errorCode = ErrorCodeResolver.resolveErrorCode(exception);
+			errorCode = ErrorCodeResolver.resolveErrorCode(exception, status);
 		} else {
 			errorCode = new DefaultErrorCode(String.valueOf(status.value()), StringUtils.defaultIfEmpty((String) defaultErrorAttributes.get("error"), status.getReasonPhrase()));
 		}
 		//重新设置status,保持其与errorCode中的一致
-		status = ObjectUtils.defaultIfNull(HttpStatus.resolve(errorCode.getStatus()), status);
+		status = ObjectUtils.defaultIfNull(errorCode.getStatus(), status);
 		Result<Object> result = Result.failure().code(errorCode.getCode()).message(errorCode.getMessage()).build();
-		return new ResponseEntity<>(result.asMap(), status);
+		return new ResponseEntity<>(new ResultMap(result.asMap()), status);
 	}
 
 	protected ErrorAttributes getErrorAttributes() {

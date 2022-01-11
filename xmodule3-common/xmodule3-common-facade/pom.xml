@@ -12,7 +12,11 @@
     <name>xmodule3-common-facade</name>
     <description>对外接口层公共部分(比如基础DTO、异常、常量、全局错误码等，这个模块是要随着接口绑在一起给他方调用的)</description>
 
-    <build>
-        <finalName>xmodule3-common-facade</finalName>
-    </build>
+    <dependencies>
+        <!-- spring-web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+    </dependencies>
 </project>

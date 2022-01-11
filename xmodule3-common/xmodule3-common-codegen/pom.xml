@@ -43,7 +43,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-common-codegen</finalName>
-    </build>
 </project>

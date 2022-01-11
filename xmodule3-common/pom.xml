@@ -45,10 +45,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <finalName>xmodule3-common</finalName>
-    </build>
-
     <modules>
 		<module>xmodule3-common-facade</module>
 		<module>xmodule3-common-domain</module>

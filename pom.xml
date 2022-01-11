@@ -113,7 +113,6 @@
     </dependencyManagement>
 
     <build>
-        <finalName>xmodule3</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

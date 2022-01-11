@@ -4,6 +4,7 @@ import com.penglecode.xmodule.common.consts.ApplicationConstants;
 import com.penglecode.xmodule.common.exception.ApplicationException;
 import com.penglecode.xmodule.common.util.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.http.HttpStatus;
 
 /**
  * ErrorCode解析器
@@ -19,23 +20,32 @@ public class ErrorCodeResolver {
     /**
      * 根据异常解析其错误码
      * @param ex            - 异常对象
+     * @param status        - HTTP状态码(可选)
      * @return
      */
-    public static ErrorCode resolveErrorCode(Throwable ex) {
-        return resolveErrorCode(ex, "message.request.failure");
+    public static ErrorCode resolveErrorCode(Throwable ex, HttpStatus status) {
+        return resolveErrorCode(ex, status, "message.request.failed");
     }
 
     /**
      * 根据异常解析其错误码
      * @param ex            - 异常对象
+     * @param status        - HTTP状态码(可选)
      * @param messageCode   - 统一错误提示消息的i18n代码
      * @return
      */
-    public static ErrorCode resolveErrorCode(Throwable ex, String messageCode) {
+    public static ErrorCode resolveErrorCode(Throwable ex, HttpStatus status, String messageCode) {
         boolean found = false;
         Throwable cause = ex;
         String code = GlobalErrorCode.ERR.getCode();
         String message = GlobalErrorCode.ERR.getMessage();
+        if(status != null) {
+            ErrorCode errorCode = GlobalErrorCode.getErrorCode(String.valueOf(status.value()), null);
+            if(errorCode != null) {
+                code = errorCode.getCode();
+                message = errorCode.getMessage();
+            }
+        }
         while(cause != null){
             if (cause instanceof ApplicationException) { // 已知的异常信息
                 code = ((ApplicationException) cause).getCode();
