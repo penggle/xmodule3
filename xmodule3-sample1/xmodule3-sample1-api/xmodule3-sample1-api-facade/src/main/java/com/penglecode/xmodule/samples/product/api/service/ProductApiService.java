@@ -65,7 +65,7 @@ public interface ProductApiService {
      * @return
      */
     @GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-    Result<QueryProductResponse> getProductById(@PathVariable("id") Long id, Boolean cascade);
+    Result<QueryProductResponse> getProductById(@PathVariable("id") Long id, @RequestParam(name="cascade", defaultValue="false") Boolean cascade);
 
     /**
      * 根据条件分页查询商品
@@ -75,6 +75,6 @@ public interface ProductApiService {
      * @return
      */
     @GetMapping(value="/list", produces=MediaType.APPLICATION_JSON_VALUE)
-    PageResult<QueryProductResponse> getProductsByPage(QueryProductRequest queryRequest, Boolean cascade);
+    PageResult<QueryProductResponse> getProductsByPage(QueryProductRequest queryRequest, @RequestParam(name="cascade", defaultValue="false") Boolean cascade);
 
 }

@@ -32,13 +32,13 @@ public class ProductBaseInfoODTO implements BaseDTO {
     private Integer auditStatus;
 
     /** 上下架状态：0-已下架,1-已上架 */
-    private Integer onlineStatus;
+    private int onlineStatus;
 
     /** 所属店铺ID */
     private Long shopId;
 
     /** 商品备注 */
-    private String remark;
+    private CharSequence remark;
 
     /** 创建时间 */
     private String createTime;
@@ -103,11 +103,11 @@ public class ProductBaseInfoODTO implements BaseDTO {
         this.auditStatus = auditStatus;
     }
 
-    public Integer getOnlineStatus() {
+    public int getOnlineStatus() {
         return onlineStatus;
     }
 
-    public void setOnlineStatus(Integer onlineStatus) {
+    public void setOnlineStatus(int onlineStatus) {
         this.onlineStatus = onlineStatus;
     }
 
@@ -119,11 +119,11 @@ public class ProductBaseInfoODTO implements BaseDTO {
         this.shopId = shopId;
     }
 
-    public String getRemark() {
+    public CharSequence getRemark() {
         return remark;
     }
 
-    public void setRemark(String remark) {
+    public void setRemark(CharSequence remark) {
         this.remark = remark;
     }
 

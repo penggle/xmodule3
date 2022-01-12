@@ -4,6 +4,7 @@ import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.common.dto.PageResult;
 import com.penglecode.xmodule.common.dto.Result;
 import com.penglecode.xmodule.common.support.BeanMapper;
+import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.product.api.request.CreateProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.ModifyProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductRequest;
@@ -57,6 +58,7 @@ public class ProductApiServiceImpl implements ProductApiService {
     @Override
     public Result<QueryProductResponse> getProductById(Long id, Boolean cascade) {
         ProductAggregate product = productAppService.getProductById(id, cascade);
+        System.out.println(JsonUtils.object2Json(product));
         QueryProductResponse queryResponse = BeanMapper.map(product, QueryProductResponse::new);
         return Result.success().data(queryResponse).build();
     }
