@@ -1,11 +1,17 @@
 package com.penglecode.xmodule.common.support;
 
-import org.springframework.cglib.beans.BeanCopier;
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.penglecode.xmodule.common.exception.ApplicationException;
 import org.springframework.util.Assert;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -21,20 +27,37 @@ import java.util.stream.Collectors;
  */
 public class BeanMapper {
 
-    private static final ConcurrentMap<String,BeanCopier> CACHE = new ConcurrentHashMap<>();
+    private static final ObjectMapper objectMapper;
+
+    static {
+        objectMapper = new ObjectMapper();
+        //去掉默认的时间戳格式
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        //单引号处理,允许单引号
+        objectMapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
+        objectMapper.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+        objectMapper.registerModule(new Jdk8Module());
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     private BeanMapper() {}
 
     /**
      * 将源对象转换成指定的目标对象
      * 默认严格按源对象与目标对象的字段一一对应
-     * @param source        - 源对象
-     * @param targetSupplier- 目标Supplier
+     * @param source            - 源对象
+     * @param targetSupplier    - 目标Supplier
+     * @param <T> 目标类型
+     * @param <S> 源类型
      * @return 如果source为null则返回null,否则执行bean映射转换
      */
     public static <T,S> T map(S source, Supplier<T> targetSupplier) {
         if(source != null) {
-            Assert.notNull(targetSupplier, "targetSupplier 'targetType' can not be null!");
+            Assert.notNull(targetSupplier, "Parameter 'targetSupplier' can not be null!");
             return map(source, targetSupplier.get());
         }
         return null;
@@ -44,19 +67,20 @@ public class BeanMapper {
      * 将源对象转换成指定的目标对象
      * 默认严格按源对象与目标对象的字段一一对应
      * @param source        - 源对象
-     * @param target        - 目标对象
+     * @param targetType    - 目标类型
+     * @param <T> 目标类型
+     * @param <S> 源类型
      * @return 如果source为null则返回null,否则执行bean映射转换
      */
-    @SuppressWarnings("unchecked")
-    public static <T,S> T map(S source, T target) {
+    public static <T,S> T map(S source, Class<T> targetType) {
         if(source != null) {
-            Assert.notNull(target, "Parameter 'target' can not be null!");
-            Class<S> sourceType = (Class<S>) source.getClass();
-            Class<T> targetType = (Class<T>) target.getClass();
-            String cacheKey = sourceType + "->" + targetType;
-            BeanCopier beanCopier = CACHE.computeIfAbsent(cacheKey, key -> BeanCopier.create(sourceType, targetType, false));
-            beanCopier.copy(source, target, null);
-            return target;
+            Assert.notNull(targetType, "Parameter 'targetType' can not be null!");
+            try {
+                String jsonSource = objectMapper.writeValueAsString(source);
+                return objectMapper.readValue(jsonSource, targetType);
+            } catch (Exception e) {
+                throw new BeanMappingException(String.format("对象转换出错: %s", e.getMessage()), e);
+            }
         }
         return null;
     }
@@ -64,10 +88,33 @@ public class BeanMapper {
     /**
      * 将源对象转换成指定的目标对象
      * 默认严格按源对象与目标对象的字段一一对应
-     * @param sources
-     * @param targetSupplier
-     * @param <T>
-     * @param <S>
+     * @param source        - 源对象
+     * @param target        - 目标对象
+     * @param <T> 目标类型
+     * @param <S> 源类型
+     * @return 如果source为null则返回null,否则执行bean映射转换
+     */
+    public static <T,S> T map(S source, T target) {
+        if(source != null) {
+            Assert.notNull(target, "Parameter 'target' can not be null!");
+            try {
+                String jsonSource = objectMapper.writeValueAsString(source);
+                ObjectReader objectReader = objectMapper.readerForUpdating(target);
+                return objectReader.readValue(jsonSource);
+            } catch (Exception e) {
+                throw new BeanMappingException(String.format("对象转换出错: %s", e.getMessage()), e);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 将源对象转换成指定的目标对象
+     * 默认严格按源对象与目标对象的字段一一对应
+     * @param sources           - 源对象
+     * @param targetSupplier    - 目标Supplier
+     * @param <T> 目标类型
+     * @param <S> 源类型
      * @return 如果sources为null则返回null,否则执行bean映射转换
      */
     public static <T,S> List<T> map(List<S> sources, Supplier<T> targetSupplier) {
@@ -76,6 +123,37 @@ public class BeanMapper {
             return sources.stream().map(source -> map(source, targetSupplier)).collect(Collectors.toList());
         }
         return null;
+    }
+
+    /**
+     * 将源对象转换成指定的目标对象
+     * 默认严格按源对象与目标对象的字段一一对应
+     * @param sources           - 源对象
+     * @param targetType        - 目标类型
+     * @param <T> 目标类型
+     * @param <S> 源类型
+     * @return 如果sources为null则返回null,否则执行bean映射转换
+     */
+    public static <T,S> List<T> map(List<S> sources, Class<T> targetType) {
+        if(sources != null) {
+            Assert.notNull(targetType, "Parameter 'targetType' can not be null!");
+            return sources.stream().map(source -> map(source, targetType)).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    public static class BeanMappingException extends ApplicationException {
+
+        private static final long serialVersionUID = 1L;
+
+        public BeanMappingException(Throwable cause) {
+            super(cause);
+        }
+
+        public BeanMappingException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
     }
 
 }

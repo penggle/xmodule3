@@ -9,6 +9,8 @@ import org.springframework.core.NestedRuntimeException;
  */
 public class NestedApplicationException extends NestedRuntimeException {
 
+    private static final long serialVersionUID = 1L;
+
     public NestedApplicationException(String msg) {
         super(msg);
     }

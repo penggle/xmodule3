@@ -20,7 +20,7 @@ public class QueryProductResponse extends ProductBaseInfoODTO implements BaseDTO
     private ProductExtraInfoODTO productExtra;
 
     /** 商品销售规格信息 */
-    private List<ProductBaseInfoODTO> productSaleSpecs;
+    private List<ProductSaleSpecODTO> productSaleSpecs;
 
     /** 商品销售库存信息 */
     private List<ProductSaleStockODTO> productSaleStocks;
@@ -33,11 +33,11 @@ public class QueryProductResponse extends ProductBaseInfoODTO implements BaseDTO
         this.productExtra = productExtra;
     }
 
-    public List<ProductBaseInfoODTO> getProductSaleSpecs() {
+    public List<ProductSaleSpecODTO> getProductSaleSpecs() {
         return productSaleSpecs;
     }
 
-    public void setProductSaleSpecs(List<ProductBaseInfoODTO> productSaleSpecs) {
+    public void setProductSaleSpecs(List<ProductSaleSpecODTO> productSaleSpecs) {
         this.productSaleSpecs = productSaleSpecs;
     }
 

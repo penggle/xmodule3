@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.penglecode.xmodule.common.exception.ApplicationException;
 import com.penglecode.xmodule.common.support.CustomObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.ConversionService;
@@ -60,7 +61,7 @@ public class JsonUtils {
 			}
 			return null;
 		} catch (JsonProcessingException e) {
-			throw new JacksonJsonException(e);
+			throw new JsonAccessException(String.format("对象转JSON出错: %s", e.getMessage()), e);
 		}
 	}
 	
@@ -90,7 +91,7 @@ public class JsonUtils {
 			}
 			return null;
 		} catch (Exception e) {
-			throw new JacksonJsonException(e);
+			throw new JsonAccessException(String.format("JSON转对象出错: %s", e.getMessage()), e);
 		}
 	}
 	
@@ -120,7 +121,7 @@ public class JsonUtils {
 				return converter.convert(DEFAULT_OBJECT_MAPPER, DEFAULT_OBJECT_MAPPER.readTree(json));
 			}
 		} catch (Exception e) {
-			throw new JacksonJsonException(e);
+			throw new JsonAccessException(String.format("JSON转对象出错: %s", e.getMessage()), e);
 		}
 		return null;
 	}
@@ -142,7 +143,7 @@ public class JsonUtils {
 			}
 			return null;
 		} catch (Exception e) {
-			throw new JacksonJsonException(e);
+			throw new JsonAccessException(String.format("JSON转对象出错: %s", e.getMessage()), e);
 		}
 	}
 	
@@ -165,7 +166,7 @@ public class JsonUtils {
 		try {
 			return objectMapper.readTree(json);
 		} catch (IOException e) {
-			throw new JacksonJsonException(e.getMessage(), e);
+			throw new JsonAccessException(e.getMessage(), e);
 		}
 	}
 	
@@ -355,19 +356,15 @@ public class JsonUtils {
 
 	}
 
-	public static class JacksonJsonException extends RuntimeException {
+	public static class JsonAccessException extends ApplicationException {
 
 		private static final long serialVersionUID = 1L;
 
-		public JacksonJsonException(String message, Throwable cause) {
+		public JsonAccessException(String message, Throwable cause) {
 			super(message, cause);
 		}
 
-		public JacksonJsonException(String message) {
-			super(message);
-		}
-
-		public JacksonJsonException(Throwable cause) {
+		public JsonAccessException(Throwable cause) {
 			super(cause);
 		}
 		

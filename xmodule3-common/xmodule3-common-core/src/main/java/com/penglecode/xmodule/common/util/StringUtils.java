@@ -132,6 +132,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return sb.toString();
     }
 
+    public static String lowerCaseFirstChar(String fieldName) {
+        return fieldName != null ? Character.toLowerCase(fieldName.charAt(0)) + fieldName.substring(1) : null;
+    }
+
+    public static String upperCaseFirstChar(String fieldName) {
+        return fieldName != null ? Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1) : null;
+    }
+
     /**
      * 检测指定字符串中是否包含中文字符
      * @param str
