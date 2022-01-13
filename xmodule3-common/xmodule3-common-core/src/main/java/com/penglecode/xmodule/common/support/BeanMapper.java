@@ -1,16 +1,11 @@
 package com.penglecode.xmodule.common.support;
 
-import com.fasterxml.jackson.core.JsonParser.Feature;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.penglecode.xmodule.common.exception.ApplicationException;
+import com.penglecode.xmodule.common.util.JsonUtils;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.util.Assert;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -27,22 +22,7 @@ import java.util.stream.Collectors;
  */
 public class BeanMapper {
 
-    private static final ObjectMapper objectMapper;
-
-    static {
-        objectMapper = new ObjectMapper();
-        //去掉默认的时间戳格式
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        //单引号处理,允许单引号
-        objectMapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
-        objectMapper.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-        objectMapper.registerModule(new Jdk8Module());
-        objectMapper.registerModule(new JavaTimeModule());
-    }
+    private static final ObjectMapper objectMapper = JsonUtils.createDefaultObjectMapper();
 
     private BeanMapper() {}
 
@@ -79,7 +59,7 @@ public class BeanMapper {
                 String jsonSource = objectMapper.writeValueAsString(source);
                 return objectMapper.readValue(jsonSource, targetType);
             } catch (Exception e) {
-                throw new BeanMappingException(String.format("对象转换出错: %s", e.getMessage()), e);
+                throw new BeanMappingException(e.getMessage(), e);
             }
         }
         return null;
@@ -102,7 +82,7 @@ public class BeanMapper {
                 ObjectReader objectReader = objectMapper.readerForUpdating(target);
                 return objectReader.readValue(jsonSource);
             } catch (Exception e) {
-                throw new BeanMappingException(String.format("对象转换出错: %s", e.getMessage()), e);
+                throw new BeanMappingException(e.getMessage(), e);
             }
         }
         return null;
@@ -142,13 +122,9 @@ public class BeanMapper {
         return null;
     }
 
-    public static class BeanMappingException extends ApplicationException {
+    public static class BeanMappingException extends NestedRuntimeException {
 
         private static final long serialVersionUID = 1L;
-
-        public BeanMappingException(Throwable cause) {
-            super(cause);
-        }
 
         public BeanMappingException(String message, Throwable cause) {
             super(message, cause);

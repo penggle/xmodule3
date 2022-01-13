@@ -9,9 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.penglecode.xmodule.common.exception.ApplicationException;
 import com.penglecode.xmodule.common.support.CustomObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
 
@@ -61,7 +61,7 @@ public class JsonUtils {
 			}
 			return null;
 		} catch (JsonProcessingException e) {
-			throw new JsonAccessException(String.format("对象转JSON出错: %s", e.getMessage()), e);
+			throw new JsonAccessException(e.getMessage(), e);
 		}
 	}
 	
@@ -91,7 +91,7 @@ public class JsonUtils {
 			}
 			return null;
 		} catch (Exception e) {
-			throw new JsonAccessException(String.format("JSON转对象出错: %s", e.getMessage()), e);
+			throw new JsonAccessException(e.getMessage(), e);
 		}
 	}
 	
@@ -121,7 +121,7 @@ public class JsonUtils {
 				return converter.convert(DEFAULT_OBJECT_MAPPER, DEFAULT_OBJECT_MAPPER.readTree(json));
 			}
 		} catch (Exception e) {
-			throw new JsonAccessException(String.format("JSON转对象出错: %s", e.getMessage()), e);
+			throw new JsonAccessException(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -143,7 +143,7 @@ public class JsonUtils {
 			}
 			return null;
 		} catch (Exception e) {
-			throw new JsonAccessException(String.format("JSON转对象出错: %s", e.getMessage()), e);
+			throw new JsonAccessException(e.getMessage(), e);
 		}
 	}
 	
@@ -318,28 +318,16 @@ public class JsonUtils {
 	 */
 	public static ObjectMapper createDefaultObjectMapper() {
 		ObjectMapper objectMapper = new CustomObjectMapper();
-		//通过以下三项配置来开启仅以属性字段来序列化和反序列化对象(忽略get方法)
-		//objectMapper.disable(MapperFeature.AUTO_DETECT_GETTERS);
-		//objectMapper.disable(MapperFeature.AUTO_DETECT_IS_GETTERS);
-		//objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-		//将被序列化对象的类名作为一个字段(字段名@class)输出到序列化后的JSON字符串中
-		//objectMapper.enableDefaultTyping(DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-		// 建只输出非Null且非Empty(如List.isEmpty)的属性到Json字符串的Mapper,建议在外部接口中使用
-		//defaultObjectMapper.setSerializationInclusion(Include.NON_DEFAULT);
 		//去掉默认的时间戳格式
 		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		//设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		//objectMapper.getDeserializationConfig().getDateFormat().setTimeZone(zone);
 		objectMapper.setDateFormat(new SimpleDateFormat(DEFAULT_DATE_FORMAT));
 		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 		//单引号处理,允许单引号
 		objectMapper.configure(Feature.ALLOW_SINGLE_QUOTES, true);
 		objectMapper.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-		//允许wrap/unwrap
-		objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-		objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-		
+
 		objectMapper.registerModule(new Jdk8Module());
 		objectMapper.registerModule(new JavaTimeModule());
 		return objectMapper;
@@ -356,7 +344,7 @@ public class JsonUtils {
 
 	}
 
-	public static class JsonAccessException extends ApplicationException {
+	public static class JsonAccessException extends NestedRuntimeException {
 
 		private static final long serialVersionUID = 1L;
 
@@ -364,10 +352,6 @@ public class JsonUtils {
 			super(message, cause);
 		}
 
-		public JsonAccessException(Throwable cause) {
-			super(cause);
-		}
-		
 	}
 	
 }
