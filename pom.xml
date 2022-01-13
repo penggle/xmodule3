@@ -25,7 +25,10 @@
         <guava.version>30.0-jre</guava.version>
         <jackson.version>2.12.3</jackson.version>
         <mysql.version>8.0.25</mysql.version>
-        <jmh.version>1.31</jmh.version>
+        <swagger3.version>2.1.12</swagger3.version>
+        <springfox.version>3.0.0</springfox.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <jmh.version>1.34</jmh.version>
     </properties>
 
     <dependencyManagement>
@@ -102,6 +105,23 @@
                 <version>${mybatis-spring-boot-starter.version}</version>
             </dependency>
 
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
             <!-- JMH -->
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
@@ -118,6 +138,14 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <!--使用默认的变量分割符即${}-->
+                        <useDefaultDelimiters>true</useDefaultDelimiters>
+                    </configuration>
                 </plugin>
                 <!--
                     设置新的版本号1.2.0-SNAPSHOT,则在根项目pom.xml文件夹下执行: mvn versions:set -DnewVersion=1.2.0-SNAPSHOT
@@ -182,9 +210,6 @@
         <!-- 集成测试环境 -->
         <profile>
             <id>uat</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <spring.profiles.active>uat</spring.profiles.active>
             </properties>
@@ -192,9 +217,6 @@
         <!-- 生产环境 -->
         <profile>
             <id>prd</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <spring.profiles.active>prd</spring.profiles.active>
             </properties>

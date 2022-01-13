@@ -29,9 +29,10 @@ spring:
     application:
         code: SAMPLE1
         name: xmodule3-sample1
+        version: ${xmodule3.version}
     #配置文件激活配置
     profiles:
-        active: dev
+        active: ${spring.profiles.active}
 
     #Spring AOP配置
     aop:
@@ -61,3 +62,8 @@ spring:
             connection-timeout: 30000
             #连接测试语句
             connection-test-query: SELECT 1
+
+#swagger配置
+knife4j:
+    enable: ${swagger.enabled}
+    cors: true
