@@ -64,6 +64,7 @@ spring:
             connection-test-query: SELECT 1
 
 #swagger配置
-knife4j:
-    enable: ${swagger.enabled}
-    cors: true
+springdoc:
+    api-docs:
+        groups:
+            enabled: true

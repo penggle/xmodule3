@@ -37,14 +37,15 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- swagger -->
+        <!-- springdoc -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
+        <!-- knife4j-springdoc-ui (仅仅使用knife4j提供的UI) -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <artifactId>knife4j-springdoc-ui</artifactId>
         </dependency>
 
         <!-- mysql driver -->

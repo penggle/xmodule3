@@ -72,10 +72,10 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- knife4j-spring-boot-starter -->
+        <!-- springdoc -->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
             <optional>true</optional>
         </dependency>
 

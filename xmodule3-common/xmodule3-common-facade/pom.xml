@@ -25,7 +25,6 @@
             </exclusions>
         </dependency>
 
-        <!-- swagger3 -->
         <!-- swagger-annotations -->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
