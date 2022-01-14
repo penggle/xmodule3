@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 商品API接口服务(实现)
+ * 商品API接口(实现)
  *
  * @author pengpeng
  * @version 1.0

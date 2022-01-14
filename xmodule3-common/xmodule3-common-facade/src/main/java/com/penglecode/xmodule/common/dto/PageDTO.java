@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,17 +12,21 @@ import java.util.List;
  * @version 1.0
  * @since 2021/6/15 23:08
  */
+@Schema
 public class PageDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
     /** 当前页码 */
+    @Schema(description="当前页码(默认1)", defaultValue="1")
     private Integer pageIndex = 1;
 
     /** 每页显示多少条 */
+    @Schema(description="每页显示多少条(默认10)", defaultValue="10")
     private Integer pageSize = 10;
 
     /** 排序列表 */
+    @Schema(description="排序列表(支持多个字段排序)")
     private List<OrderByDTO> orderBys = new ArrayList<>();
 
     public PageDTO() {

@@ -136,9 +136,11 @@ public class ProductAppServiceImpl implements ProductAppService {
             List<ProductAggregate> products = BeanMapper.map(productBases, ProductAggregate::new);
             if(cascade) {
                 List<Long> productIds = productBases.stream().map(ProductBaseInfo::getProductId).collect(Collectors.toList());
+                Map<Long,ProductExtraInfo> productExtras = productExtraInfoService.getProductExtrasByIds(productIds);
                 Map<Long,List<ProductSaleSpec>> productSaleSpecs = productSaleSpecService.getProductSaleSpecsByProductIds(productIds);
                 Map<Long,List<ProductSaleStock>> productSaleStocks = productSaleStockService.getProductSaleStocksByProductIds(productIds);
                 for(ProductAggregate product : products) {
+                    product.setProductExtra(productExtras.get(product.getProductId()));
                     product.setProductSaleSpecs(productSaleSpecs.get(product.getProductId()));
                     product.setProductSaleStocks(productSaleStocks.get(product.getProductId()));
                 }

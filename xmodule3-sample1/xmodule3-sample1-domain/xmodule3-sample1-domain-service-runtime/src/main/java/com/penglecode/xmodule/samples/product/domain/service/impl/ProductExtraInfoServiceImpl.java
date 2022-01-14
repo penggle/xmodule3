@@ -9,6 +9,7 @@ import com.penglecode.xmodule.common.support.MapLambdaBuilder;
 import com.penglecode.xmodule.common.support.MessageSupplier;
 import com.penglecode.xmodule.common.support.ValidationAssert;
 import com.penglecode.xmodule.common.util.DateTimeUtils;
+import com.penglecode.xmodule.common.util.StreamUtils;
 import com.penglecode.xmodule.samples.product.dal.mapper.ProductExtraInfoMapper;
 import com.penglecode.xmodule.samples.product.domain.model.ProductExtraInfo;
 import com.penglecode.xmodule.samples.product.domain.service.ProductExtraInfoService;
@@ -21,10 +22,13 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
+import java.util.stream.Collectors;
 
 import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
@@ -87,8 +91,9 @@ public class ProductExtraInfoServiceImpl implements ProductExtraInfoService {
     }
 
     @Override
-    public List<ProductExtraInfo> getProductExtrasByIds(List<Long> ids) {
-        return CollectionUtils.isEmpty(ids) ? Collections.emptyList() : productExtraInfoMapper.selectModelListByIds(ids);
+    public Map<Long,ProductExtraInfo> getProductExtrasByIds(List<Long> ids) {
+        List<ProductExtraInfo> productExtras = productExtraInfoMapper.selectModelListByIds(ids);
+        return productExtras.stream().collect(Collectors.toMap(ProductExtraInfo::getProductId, Function.identity(), StreamUtils.oldMergeFunction(), LinkedHashMap::new));
     }
 
     @Override

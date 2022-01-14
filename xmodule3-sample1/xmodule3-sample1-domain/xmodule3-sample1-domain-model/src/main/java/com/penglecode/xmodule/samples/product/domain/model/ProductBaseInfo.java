@@ -40,7 +40,7 @@ public class ProductBaseInfo implements EntityObject {
     @NotNull(message="商品类型不能为空!")
     private Integer productType;
 
-    /** 商品审核状态：0-待审核,1-审核通过,2-审核不通过 */
+    /** 审核状态：0-待审核,1-审核通过,2-审核不通过 */
     @NotNull(message="审核状态不能为空!")
     private Integer auditStatus;
 

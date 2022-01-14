@@ -62,9 +62,3 @@ spring:
             connection-timeout: 30000
             #连接测试语句
             connection-test-query: SELECT 1
-
-#swagger配置
-springdoc:
-    api-docs:
-        groups:
-            enabled: true

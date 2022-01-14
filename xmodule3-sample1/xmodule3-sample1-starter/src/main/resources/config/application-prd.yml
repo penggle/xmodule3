@@ -14,9 +14,10 @@ spring:
 
 #swagger配置
 springdoc:
+    #skip-unannotated-apis: false
     #是否启用API-DOCS(默认/v3/api-docs)
     api-docs:
-        enabled: true
+        enabled: false
     #是否启用Swagger-UI(默认/swagger-ui.html)
     swagger-ui:
-        enabled: true
+        enabled: false

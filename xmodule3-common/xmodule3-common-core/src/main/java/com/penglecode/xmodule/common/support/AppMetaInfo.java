@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @version 1.0
  * @since 2021/4/13 22:29
  */
-@Schema(name="应用元信息")
+@Schema
 public class AppMetaInfo {
 
     /** 应用代码 */

@@ -46,7 +46,7 @@ public class ProductAppServiceTest {
 
     @Test
     public void createProductFromJD() throws Exception {
-        TestProduct testProduct = ProductTestHelper.getTestProductFromJD(10026626397761L, 37900L);
+        TestProduct testProduct = ProductTestHelper.getTestProductFromJD(100020693616L, 179900L);
         ProductBaseInfo productBase = testProduct.getProductBase();
         ProductExtraInfo productExtra = testProduct.getProductExtra();
         List<ProductSaleSpec> productSaleSpecs = testProduct.getProductSaleSpecs();
@@ -56,7 +56,8 @@ public class ProductAppServiceTest {
         product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);
-        productAppService.createProduct(product);
+        System.out.println(JsonUtils.object2Json(product));
+        //productAppService.createProduct(product);
     }
 
     @Test

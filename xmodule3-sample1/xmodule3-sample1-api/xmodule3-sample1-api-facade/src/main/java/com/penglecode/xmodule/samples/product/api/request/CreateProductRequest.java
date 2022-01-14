@@ -5,6 +5,7 @@ import com.penglecode.xmodule.samples.product.api.dto.ProductBaseInfoIDTO;
 import com.penglecode.xmodule.samples.product.api.dto.ProductExtraInfoIDTO;
 import com.penglecode.xmodule.samples.product.api.dto.ProductSaleSpecIDTO;
 import com.penglecode.xmodule.samples.product.api.dto.ProductSaleStockIDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
@@ -15,17 +16,21 @@ import java.util.List;
  * @version 1.0
  * @since 2021年10月21日 下午 23:18
  */
+@Schema(description="创建商品请求DTO")
 public class CreateProductRequest extends ProductBaseInfoIDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
     /** 商品额外信息 */
+    @Schema(description="商品额外信息")
     private ProductExtraInfoIDTO productExtra;
 
-    /** 商品销售规格信息 */
+    /** 商品销售规格信息列表 */
+    @Schema(description="商品销售规格信息列表")
     private List<ProductSaleSpecIDTO> productSaleSpecs;
 
-    /** 商品销售库存信息 */
+    /** 商品销售库存信息列表 */
+    @Schema(description="商品销售库存信息列表")
     private List<ProductSaleStockIDTO> productSaleStocks;
 
     public ProductExtraInfoIDTO getProductExtra() {

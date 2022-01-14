@@ -4,6 +4,7 @@ import com.penglecode.xmodule.common.domain.Page;
 import com.penglecode.xmodule.samples.product.domain.model.ProductExtraInfo;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
@@ -58,7 +59,7 @@ public interface ProductExtraInfoService {
      * @param ids   - ID主键列表
      * @return 返回完整的领域对象信息
      */
-    List<ProductExtraInfo> getProductExtrasByIds(List<Long> ids);
+    Map<Long,ProductExtraInfo> getProductExtrasByIds(List<Long> ids);
 
     /**
      * 根据条件查询商品额外信息列表(排序、分页)
