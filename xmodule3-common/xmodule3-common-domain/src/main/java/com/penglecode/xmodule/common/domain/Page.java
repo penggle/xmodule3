@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.domain;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +22,15 @@ public class Page implements Serializable {
 	/**
 	 * 当前页码
 	 */
+	@NotNull(message="当前页码(pageIndex)不能为空!")
+	@Min(value=1, message="当前页码(pageIndex)不能小于1")
 	private Integer pageIndex = 1;
 	
 	/**
-	 * 每页显示多少条
+	 * 每页显示条数
 	 */
+	@NotNull(message="每页显示条数(pageSize)不能为空!")
+	@Min(value=1, message="每页显示条数(pageSize)不能小于1")
 	private Integer pageSize = 10;
 	
 	/**

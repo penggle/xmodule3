@@ -21,8 +21,8 @@ public class PageDTO implements BaseDTO {
     @Schema(description="当前页码(默认1)", defaultValue="1")
     private Integer pageIndex = 1;
 
-    /** 每页显示多少条 */
-    @Schema(description="每页显示多少条(默认10)", defaultValue="10")
+    /** 每页显示条数 */
+    @Schema(description="每页显示条数(默认10)", defaultValue="10")
     private Integer pageSize = 10;
 
     /** 排序列表 */

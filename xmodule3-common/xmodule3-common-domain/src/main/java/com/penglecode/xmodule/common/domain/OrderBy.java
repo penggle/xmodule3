@@ -2,7 +2,9 @@ package com.penglecode.xmodule.common.domain;
 
 import com.penglecode.xmodule.common.support.BeanIntrospector;
 import com.penglecode.xmodule.common.support.SerializableFunction;
+import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
@@ -18,9 +20,11 @@ public class OrderBy implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** 排序字段名 */
+	@NotBlank(message="排序字段名(orderBys[i].property)不能为空!")
 	private String property;
 
 	/** 排序顺序：asc|desc */
+	@NotBlank(message="排序字段名(orderBys[i].direction)不能为空!")
 	private String direction;
 
 	OrderBy() {
@@ -29,7 +33,7 @@ public class OrderBy implements Serializable {
 
 	OrderBy(String property, String direction) {
 		super();
-		if(direction != null) {
+		if(StringUtils.hasText(direction)) {
 			direction = Direction.DESC.toString().equalsIgnoreCase(direction) ? Direction.DESC.toString() : Direction.ASC.toString();
 		} else {
 			direction = Direction.ASC.toString();
