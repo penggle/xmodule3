@@ -116,7 +116,7 @@ public class Page implements Serializable {
 
 	public void setTotalRowCount(Integer totalRowCount) {
 		this.totalRowCount = totalRowCount;
-		getTotalPageCount(); //计算totalPageCount
+		calcTotalPageCount(); //计算totalPageCount
 	}
 
 	public List<OrderBy> getOrderBys() {
@@ -132,11 +132,6 @@ public class Page implements Serializable {
 	}
 
 	public Integer getTotalPageCount() {
-		if(totalRowCount <= 0){
-			totalPageCount = 0;
-		}else{
-			totalPageCount = totalRowCount % pageSize == 0 ? totalRowCount / pageSize : (totalRowCount / pageSize) + 1;
-		}
 		return totalPageCount;
 	}
 
@@ -146,6 +141,14 @@ public class Page implements Serializable {
 	
 	public Integer getLimit() {
 		return getPageSize();
+	}
+
+	protected void calcTotalPageCount() {
+		if(totalRowCount <= 0){
+			totalPageCount = 0;
+		}else{
+			totalPageCount = totalRowCount % pageSize == 0 ? totalRowCount / pageSize : (totalRowCount / pageSize) + 1;
+		}
 	}
 
 	public String toString() {

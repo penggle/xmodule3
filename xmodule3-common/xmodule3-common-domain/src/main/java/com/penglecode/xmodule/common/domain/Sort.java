@@ -16,22 +16,24 @@ public class Sort implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final List<OrderBy> orderBys;
+	private List<OrderBy> orderBys = new ArrayList<>();
 	
 	Sort() {
-		this(new ArrayList<>());
+		super();
 	}
 	
 	Sort(List<OrderBy> orderBys) {
 		super();
-		this.orderBys = orderBys;
+		if(orderBys != null) {
+			this.orderBys = orderBys;
+		}
 	}
 	
-	public static Sort by(OrderBy... orderBys) {
+	public static Sort orderBy(OrderBy... orderBys) {
 		return new Sort(Arrays.asList(orderBys));
 	}
 
-	public static Sort by(List<OrderBy> orderBys) {
+	public static Sort orderBy(List<OrderBy> orderBys) {
 		return new Sort(orderBys);
 	}
 
@@ -43,13 +45,10 @@ public class Sort implements Serializable {
 		return orderBys;
 	}
 
-	public OrderBy first() {
-		if(orderBys != null && !orderBys.isEmpty()) {
-			return orderBys.get(0);
-		}
-		return null;
+	public void setOrderBys(List<OrderBy> orderBys) {
+		this.orderBys = orderBys;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Sort " + orderBys + "";

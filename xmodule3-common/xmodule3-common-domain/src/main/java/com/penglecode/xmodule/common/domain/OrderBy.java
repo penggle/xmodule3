@@ -20,11 +20,11 @@ public class OrderBy implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** 排序字段名 */
-	@NotBlank(message="排序字段名(orderBys[i].property)不能为空!")
+	@NotBlank(message="排序字段名(property)不能为空!")
 	private String property;
 
 	/** 排序顺序：asc|desc */
-	@NotBlank(message="排序字段名(orderBys[i].direction)不能为空!")
+	@NotBlank(message="排序顺序(direction)不能为空!")
 	private String direction;
 
 	OrderBy() {
