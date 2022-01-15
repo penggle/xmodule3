@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.domain.service;
 
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.samples.domain.model.ProductInfo;
 
 import java.util.List;

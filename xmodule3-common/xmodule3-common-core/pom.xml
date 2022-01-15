@@ -13,10 +13,10 @@
     <description>共通核心部分，包括公共工具类、数据模型、辅助类、部分框架扩展等</description>
 
     <dependencies>
-        <!-- xmodule3-common-facade -->
+        <!-- xmodule3-common-base -->
         <dependency>
             <groupId>com.penglecode</groupId>
-            <artifactId>xmodule3-common-facade</artifactId>
+            <artifactId>xmodule3-common-base</artifactId>
         </dependency>
 
         <!-- xmodule3-common-domain -->

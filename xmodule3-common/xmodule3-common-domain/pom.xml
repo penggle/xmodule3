@@ -13,16 +13,10 @@
     <description>领域层公共部分(比如基础Domain-Object、Value-Object等)</description>
 
     <dependencies>
-        <!-- spring-core -->
+        <!-- xmodule3-common-base -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-        </dependency>
-
-        <!-- jakarta.validation-api -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-common-base</artifactId>
         </dependency>
     </dependencies>
 

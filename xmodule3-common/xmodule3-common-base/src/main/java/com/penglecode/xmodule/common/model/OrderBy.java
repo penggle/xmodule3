@@ -1,11 +1,11 @@
-package com.penglecode.xmodule.common.domain;
+package com.penglecode.xmodule.common.model;
 
 import com.penglecode.xmodule.common.support.BeanIntrospector;
 import com.penglecode.xmodule.common.support.SerializableFunction;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
@@ -15,23 +15,26 @@ import java.lang.reflect.Field;
  * @version 1.0
  * @since 2021/5/15 15:15
  */
-public class OrderBy implements Serializable {
+@Schema(description="通用排序对象")
+public class OrderBy implements BaseDTO {
 
 	private static final long serialVersionUID = 1L;
 
 	/** 排序字段名 */
+	@Schema(description="排序字段名", defaultValue="createTime")
 	@NotBlank(message="排序字段名(property)不能为空!")
 	private String property;
 
 	/** 排序顺序：asc|desc */
+	@Schema(description="排序顺序(asc|desc)", defaultValue="desc")
 	@NotBlank(message="排序顺序(direction)不能为空!")
 	private String direction;
 
-	OrderBy() {
+	protected OrderBy() {
 		super();
 	}
 
-	OrderBy(String property, String direction) {
+	protected OrderBy(String property, String direction) {
 		super();
 		if(StringUtils.hasText(direction)) {
 			direction = Direction.DESC.toString().equalsIgnoreCase(direction) ? Direction.DESC.toString() : Direction.ASC.toString();

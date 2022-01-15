@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.common.dto;
+package com.penglecode.xmodule.common.model;
 
 import java.io.Serializable;
 

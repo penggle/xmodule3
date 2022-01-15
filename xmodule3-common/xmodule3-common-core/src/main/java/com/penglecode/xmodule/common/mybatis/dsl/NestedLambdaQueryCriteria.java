@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.mybatis.dsl;
 
 import com.penglecode.xmodule.common.domain.DomainObject;
-import com.penglecode.xmodule.common.domain.OrderBy;
+import com.penglecode.xmodule.common.model.OrderBy;
 import com.penglecode.xmodule.common.support.*;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.util.Assert;

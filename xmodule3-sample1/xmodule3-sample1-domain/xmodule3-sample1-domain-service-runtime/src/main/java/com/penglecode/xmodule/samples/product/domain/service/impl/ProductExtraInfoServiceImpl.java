@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.domain.service.impl;
 
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.mybatis.MybatisHelper;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
@@ -17,11 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cursor.Cursor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.api.request;
 
-import com.penglecode.xmodule.common.dto.PageDTO;
+import com.penglecode.xmodule.common.model.Page;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @since 2021年10月21日 下午 23:18
  */
 @Schema(description="查询商品请求DTO")
-public class QueryProductRequest extends PageDTO {
+public class QueryProductRequest extends Page {
 
     private static final long serialVersionUID = 1L;
 

@@ -2,7 +2,7 @@ package com.penglecode.xmodule.samples.product.dal.mapper.test;
 
 import com.google.common.collect.Lists;
 import com.penglecode.xmodule.common.domain.ID;
-import com.penglecode.xmodule.common.domain.OrderBy;
+import com.penglecode.xmodule.common.model.OrderBy;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryColumns;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;

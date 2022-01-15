@@ -44,10 +44,10 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- xmodule3-common-facade -->
+            <!-- xmodule3-common-base -->
             <dependency>
                 <groupId>com.penglecode</groupId>
-                <artifactId>xmodule3-common-facade</artifactId>
+                <artifactId>xmodule3-common-base</artifactId>
                 <version>${xmodule3.version}</version>
             </dependency>
 

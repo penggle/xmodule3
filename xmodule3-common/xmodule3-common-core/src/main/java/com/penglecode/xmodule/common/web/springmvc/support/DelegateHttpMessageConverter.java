@@ -1,8 +1,8 @@
 package com.penglecode.xmodule.common.web.springmvc.support;
 
 import com.penglecode.xmodule.common.consts.GlobalConstants;
-import com.penglecode.xmodule.common.dto.ResultMap;
-import com.penglecode.xmodule.common.dto.Result;
+import com.penglecode.xmodule.common.model.ResultMap;
+import com.penglecode.xmodule.common.model.Result;
 import com.penglecode.xmodule.common.support.ErrorCode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpInputMessage;

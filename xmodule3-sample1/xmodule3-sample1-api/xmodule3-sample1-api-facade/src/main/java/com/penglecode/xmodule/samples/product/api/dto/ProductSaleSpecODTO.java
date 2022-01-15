@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.api.dto;
 
-import com.penglecode.xmodule.common.dto.BaseDTO;
+import com.penglecode.xmodule.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**

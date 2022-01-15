@@ -13,10 +13,10 @@
     <description>提供给他方微服务调用的接口声明(支持SpringCloud、Dubbo两种类型接口，该模块将会独立发布出去共他方调用)</description>
 
     <dependencies>
-        <!-- xmodule3-common-facade -->
+        <!-- xmodule3-common-base -->
         <dependency>
             <groupId>com.penglecode</groupId>
-            <artifactId>xmodule3-common-facade</artifactId>
+            <artifactId>xmodule3-common-base</artifactId>
         </dependency>
 
         <!-- spring-webmvc -->

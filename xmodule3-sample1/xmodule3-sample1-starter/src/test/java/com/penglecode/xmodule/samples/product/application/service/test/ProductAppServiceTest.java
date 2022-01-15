@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.application.service.test;
 
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.support.BeanMapper;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;

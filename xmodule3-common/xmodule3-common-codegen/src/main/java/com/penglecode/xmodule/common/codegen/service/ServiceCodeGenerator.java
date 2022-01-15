@@ -8,7 +8,7 @@ import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import com.penglecode.xmodule.common.codegen.support.TemplateParameter;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 import com.penglecode.xmodule.common.domain.ID;
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import com.penglecode.xmodule.common.support.*;

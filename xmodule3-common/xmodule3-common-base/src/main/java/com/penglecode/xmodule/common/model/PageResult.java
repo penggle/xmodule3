@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.common.dto;
+package com.penglecode.xmodule.common.model;
 
 import com.penglecode.xmodule.common.support.GlobalErrorCode;
 import com.penglecode.xmodule.common.support.ErrorCode;
@@ -20,9 +20,9 @@ public class PageResult<T> extends Result<T> {
 	/** 当存在分页查询时此值为总记录数 */
 	private int totalRowCount;
 
-	PageResult() {}
+	protected PageResult() {}
 
-	PageResult(Result<T> result, int totalRowCount) {
+	protected PageResult(Result<T> result, int totalRowCount) {
 		super(result);
 		this.totalRowCount = totalRowCount;
 	}

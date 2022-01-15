@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.common.dto;
+package com.penglecode.xmodule.common.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
  * @version 1.0
  * @since 2021/4/11 15:08
  */
-public final class ResultMap extends HashMap<String,Object> {
+public final class ResultMap extends HashMap<String,Object> implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 

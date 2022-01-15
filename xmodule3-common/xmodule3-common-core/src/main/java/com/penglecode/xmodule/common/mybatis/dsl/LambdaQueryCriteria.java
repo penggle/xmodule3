@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.mybatis.dsl;
 
 import com.penglecode.xmodule.common.domain.DomainObject;
-import com.penglecode.xmodule.common.domain.OrderBy;
+import com.penglecode.xmodule.common.model.OrderBy;
 import com.penglecode.xmodule.common.support.BeanIntrospector;
 import com.penglecode.xmodule.common.support.SerializableFunction;
 import org.springframework.util.Assert;

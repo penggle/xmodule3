@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.api.controller;
 
-import com.penglecode.xmodule.common.dto.Result;
+import com.penglecode.xmodule.common.model.Result;
 import com.penglecode.xmodule.common.support.AppMetaInfo;
 import com.penglecode.xmodule.common.support.AppMetaService;
 import com.penglecode.xmodule.common.util.NetUtils;

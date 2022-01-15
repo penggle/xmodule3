@@ -1,9 +1,10 @@
-package com.penglecode.xmodule.common.domain;
+package com.penglecode.xmodule.common.model;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,13 +17,15 @@ import java.util.stream.Stream;
  * @version 1.0
  * @since 2021/5/15 15:15
  */
-public class Page implements Serializable {
+@Schema(description="通用分页对象")
+public class Page implements BaseDTO {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 当前页码
 	 */
+	@Schema(description="当前页码(默认1)", defaultValue="1")
 	@NotNull(message="当前页码(pageIndex)不能为空!")
 	@Min(value=1, message="当前页码(pageIndex)不能小于1")
 	private Integer pageIndex = 1;
@@ -30,31 +33,35 @@ public class Page implements Serializable {
 	/**
 	 * 每页显示条数
 	 */
+	@Schema(description="每页显示条数(默认10)", defaultValue="10")
 	@NotNull(message="每页显示条数(pageSize)不能为空!")
 	@Min(value=1, message="每页显示条数(pageSize)不能小于1")
 	private Integer pageSize = 10;
 	
 	/**
-	 * 查询总记录数
+	 * 总记录数
 	 */
+	@Schema(description="总记录数(默认0)", hidden=true)
 	private Integer totalRowCount = 0;
 	
 	/**
-	 * 可分多少页
+	 * 总分页数
 	 */
+	@Schema(description="总分页数(默认0)", hidden=true)
 	private Integer totalPageCount = 0;
 
 	/**
-	 * 分页排序
+	 * 分页排序列表
 	 */
 	@Valid
+	@Schema(description="分页排序列表")
 	private List<OrderBy> orderBys = new ArrayList<>();
 	
-	Page() {
+	protected Page() {
 		super();
 	}
 
-	Page(Integer pageIndex, Integer pageSize) {
+	protected Page(Integer pageIndex, Integer pageSize) {
 		super();
 		if(pageIndex != null && pageIndex > 0){
 			this.pageIndex = pageIndex;
@@ -64,14 +71,14 @@ public class Page implements Serializable {
 		}
 	}
 
-	Page(Integer pageIndex, Integer pageSize, List<OrderBy> orderBys) {
+	protected Page(Integer pageIndex, Integer pageSize, List<OrderBy> orderBys) {
 		this(pageIndex, pageSize);
 		if(orderBys != null){
 			this.orderBys = orderBys;
 		}
 	}
 
-	Page(Integer pageIndex, Integer pageSize, Integer totalRowCount) {
+	protected Page(Integer pageIndex, Integer pageSize, Integer totalRowCount) {
 		this(pageIndex, pageSize);
 		if(totalRowCount != null){
 			this.totalRowCount = totalRowCount;
@@ -92,6 +99,19 @@ public class Page implements Serializable {
 
 	public static Page of(Integer currentPage, Integer pageSize, OrderBy... orderBys) {
 		return new Page(currentPage, pageSize, Stream.of(orderBys).collect(Collectors.toList()));
+	}
+
+	public static Page of(Integer currentPage, Integer pageSize, List<OrderBy> orderBys) {
+		return new Page(currentPage, pageSize, orderBys);
+	}
+
+	public static Page copyOf(Page page) {
+		Page newPage = new Page();
+		newPage.setPageIndex(page.getPageIndex());
+		newPage.setPageSize(page.getPageSize());
+		newPage.setTotalRowCount(page.getTotalRowCount());
+		newPage.setOrderBys(page.getOrderBys());
+		return newPage;
 	}
 	
 	public Integer getPageIndex() {
@@ -135,11 +155,11 @@ public class Page implements Serializable {
 		return totalPageCount;
 	}
 
-	public Integer getOffset() {
+	public Integer offset() {
 		return (pageIndex - 1) * pageSize;
 	}
 	
-	public Integer getLimit() {
+	public Integer limit() {
 		return getPageSize();
 	}
 

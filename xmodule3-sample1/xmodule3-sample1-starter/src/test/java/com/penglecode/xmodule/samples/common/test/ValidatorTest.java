@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.samples.common.test;
 
-import com.penglecode.xmodule.common.domain.OrderBy;
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.OrderBy;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.support.BeanValidator;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
@@ -24,9 +24,11 @@ public class ValidatorTest {
     @Test
     public void test1(){
         Page pager = Page.ofDefault();
-        pager.setOrderBys(Collections.singletonList(OrderBy.desc("")));
+        pager.setPageIndex(0);
+        pager.setPageSize(0);
+        pager.setOrderBys(Collections.singletonList(OrderBy.desc("abc")));
         System.out.println(JsonUtils.object2Json(pager));
-        BeanValidator.validateProperty(pager.getOrderBys(), Page::getOrderBys);
+        BeanValidator.validateBean(pager, Page::getPageIndex, Page::getPageSize, Page::getOrderBys);
     }
 
     @Test

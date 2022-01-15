@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.samples.product.domain.service.impl;
 
 import com.penglecode.xmodule.common.domain.ID;
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.mybatis.MybatisHelper;
 import com.penglecode.xmodule.common.mybatis.dsl.LambdaQueryCriteria;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;

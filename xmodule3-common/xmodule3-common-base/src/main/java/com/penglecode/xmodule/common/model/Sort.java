@@ -1,6 +1,8 @@
-package com.penglecode.xmodule.common.domain;
+package com.penglecode.xmodule.common.model;
 
-import java.io.Serializable;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,17 +14,20 @@ import java.util.List;
  * @version 1.0
  * @since 2021/5/15 15:15
  */
-public class Sort implements Serializable {
+@Schema(description="通用排序对象")
+public class Sort implements BaseDTO {
 
 	private static final long serialVersionUID = 1L;
 
+	@Valid
+	@Schema(description="分页排序列表")
 	private List<OrderBy> orderBys = new ArrayList<>();
-	
-	Sort() {
+
+	protected Sort() {
 		super();
 	}
-	
-	Sort(List<OrderBy> orderBys) {
+
+	protected Sort(List<OrderBy> orderBys) {
 		super();
 		if(orderBys != null) {
 			this.orderBys = orderBys;

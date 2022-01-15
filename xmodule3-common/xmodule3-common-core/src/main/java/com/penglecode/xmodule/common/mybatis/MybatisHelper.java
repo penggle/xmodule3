@@ -2,7 +2,7 @@ package com.penglecode.xmodule.common.mybatis;
 
 import com.penglecode.xmodule.common.consts.GlobalConstants;
 import com.penglecode.xmodule.common.domain.DomainObject;
-import com.penglecode.xmodule.common.domain.Page;
+import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import com.penglecode.xmodule.common.mybatis.executor.JdbcBatchOperation;
 import com.penglecode.xmodule.common.mybatis.mapper.BaseMybatisMapper;
@@ -44,7 +44,7 @@ public class MybatisHelper {
         List<T> pageList = null;
         int totalRowCount = domainMybatisMapper.selectModelPageCountByCriteria(criteria);
         if(totalRowCount > 0) {
-            pageList = domainMybatisMapper.selectModelPageListByCriteria(criteria, new RowBounds(page.getOffset(), page.getLimit()));
+            pageList = domainMybatisMapper.selectModelPageListByCriteria(criteria, new RowBounds(page.offset(), page.limit()));
         }
         page.setTotalRowCount(totalRowCount);
         return ObjectUtils.defaultIfNull(pageList, ArrayList::new);

@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.samples.product.api.service;
 
-import com.penglecode.xmodule.common.dto.PageResult;
-import com.penglecode.xmodule.common.dto.Result;
+import com.penglecode.xmodule.common.model.PageResult;
+import com.penglecode.xmodule.common.model.Result;
 import com.penglecode.xmodule.samples.product.api.request.CreateProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.ModifyProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductRequest;

@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.web.servlet.support;
 
-import com.penglecode.xmodule.common.dto.ResultMap;
-import com.penglecode.xmodule.common.dto.Result;
+import com.penglecode.xmodule.common.model.ResultMap;
+import com.penglecode.xmodule.common.model.Result;
 import com.penglecode.xmodule.common.support.DefaultErrorCode;
 import com.penglecode.xmodule.common.support.ErrorCode;
 import com.penglecode.xmodule.common.support.ErrorCodeResolver;

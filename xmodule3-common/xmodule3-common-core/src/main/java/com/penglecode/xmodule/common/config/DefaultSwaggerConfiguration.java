@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.providers.SpringWebProvider;
 import org.springdoc.webmvc.core.SpringWebMvcProvider;
@@ -16,10 +17,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,10 +41,11 @@ public class DefaultSwaggerConfiguration extends AbstractSpringConfiguration {
     public static final String CONFIGURATION_ENABLED = "springdoc.customized.enabled";
 
     @Bean
-    public OpenAPI defaultNonGroupOpenApi(Info apiInfo, ExternalDocumentation apiExternalDocs) {
+    public OpenAPI defaultNonGroupOpenApi(Info apiInfo, ExternalDocumentation apiExternalDocs, List<Server> apiServers) {
         return new OpenAPI()
                 .info(apiInfo)
-                .externalDocs(apiExternalDocs);
+                .externalDocs(apiExternalDocs)
+                .servers(apiServers);
     }
 
     /**
@@ -87,6 +92,17 @@ public class DefaultSwaggerConfiguration extends AbstractSpringConfiguration {
         return new ExternalDocumentation()
                 .description("OpenAPI规范参考文档")
                 .url("https://github.com/OAI/OpenAPI-Specification/blob/3.0.1/versions/3.0.1.md");
+    }
+
+    /**
+     * 各个应用可以予以覆盖
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public List<Server> apiServers() {
+        Environment environment = getEnvironment();
+        String serverUrl = String.format("http://127.0.0.1:%s%s", environment.getProperty("server.port", "8080"), environment.getProperty("server.servlet.context-path", ""));
+        return Collections.singletonList(new Server().description(String.format("Server[%s]", environment.getProperty("spring.application.name"))).url(serverUrl));
     }
 
     /**

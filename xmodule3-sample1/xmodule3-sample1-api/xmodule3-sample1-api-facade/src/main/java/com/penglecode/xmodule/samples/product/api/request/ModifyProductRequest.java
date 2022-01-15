@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.samples.product.api.request;
 
-import com.penglecode.xmodule.common.dto.BaseDTO;
+import com.penglecode.xmodule.common.model.BaseDTO;
 import com.penglecode.xmodule.samples.product.api.dto.ProductBaseInfoIDTO;
 import com.penglecode.xmodule.samples.product.api.dto.ProductExtraInfoIDTO;
 import com.penglecode.xmodule.samples.product.api.dto.ProductSaleSpecIDTO;

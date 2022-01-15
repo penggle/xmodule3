@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.common.dto;
+package com.penglecode.xmodule.common.model;
 
 import com.penglecode.xmodule.common.support.GlobalErrorCode;
 import com.penglecode.xmodule.common.support.ErrorCode;
@@ -32,19 +32,19 @@ public class Result<T> implements BaseDTO {
     
     /** 结果数据 */
     private T data;
-    
-	Result() {
+
+	protected Result() {
 	}
 
-	Result(boolean success, String app, String code, String message, T data) {
+	protected Result(boolean success, String app, String code, String message, T data) {
 		this.success = success;
 		this.app = app;
 		this.code = code;
 		this.message = message;
 		this.data = data;
 	}
-	
-	Result(Result<T> result) {
+
+	protected Result(Result<T> result) {
 		this.success = result.isSuccess();
 		this.app = result.getApp();
 		this.code = result.getCode();
