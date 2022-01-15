@@ -99,6 +99,7 @@ public class ProductBaseInfoServiceImpl implements ProductBaseInfoService {
     @Override
     @Transactional(transactionManager="productTransactionManager", propagation=REQUIRES_NEW, readOnly=true, isolation=REPEATABLE_READ)
     public List<ProductBaseInfo> getProductBasesByPage(ProductBaseInfo condition, Page page) {
+        BeanValidator.validateBean(page, Page::getPageIndex, Page::getPageSize, Page::getOrderBys);
         QueryCriteria<ProductBaseInfo> criteria = LambdaQueryCriteria.of(condition)
                 .like(ProductBaseInfo::getProductName)
                 .eq(ProductBaseInfo::getProductType)

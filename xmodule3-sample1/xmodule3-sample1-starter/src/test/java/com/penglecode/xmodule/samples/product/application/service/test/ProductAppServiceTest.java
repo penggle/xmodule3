@@ -22,7 +22,6 @@ import java.util.Objects;
  * @version 1.0
  * @since 2022/1/4 15:39
  */
-@SuppressWarnings("unchecked")
 @SpringBootTest(classes=Sample1Application.class)
 public class ProductAppServiceTest {
 

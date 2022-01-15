@@ -11,14 +11,16 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * 基于CGLIB-BeanCopier的JavaBean之间映射的转换工具类
- * 经JMH压测，性能接近get/set
+ * 为了支持深度拷贝，采用Jackson2来实现(骚操作)
+ * 执行一次大报文的复杂对象的深度拷贝大致需要几十微秒，性能上大概是CGLIB-BeanCopier的1/10
+ *
+ * PS: 基于CGLIB-BeanCopier的JavaBean之间映射的转换经JMH压测，性能接近get/set，但是很可惜不支持深度拷贝
  *
  * (注意，该实现要求目标bean与源bean的字段必须得完全匹配，本实现对于字段对不上的无能为力!!!)
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/14 10:49
+ * @since 2020/3/14 10:49
  */
 public class BeanMapper {
 

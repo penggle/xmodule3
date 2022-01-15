@@ -1,5 +1,6 @@
 package com.penglecode.xmodule.common.domain;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -46,6 +47,7 @@ public class Page implements Serializable {
 	/**
 	 * 分页排序
 	 */
+	@Valid
 	private List<OrderBy> orderBys = new ArrayList<>();
 	
 	Page() {
