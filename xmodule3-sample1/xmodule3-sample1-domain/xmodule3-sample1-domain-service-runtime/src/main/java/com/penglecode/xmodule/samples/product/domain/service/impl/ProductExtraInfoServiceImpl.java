@@ -91,7 +91,7 @@ public class ProductExtraInfoServiceImpl implements ProductExtraInfoService {
     @Override
     public Map<Long,ProductExtraInfo> getProductExtrasByIds(List<Long> ids) {
         List<ProductExtraInfo> productExtras = productExtraInfoMapper.selectModelListByIds(ids);
-        return productExtras.stream().collect(Collectors.toMap(ProductExtraInfo::getProductId, Function.identity(), StreamUtils.oldMergeFunction(), LinkedHashMap::new));
+        return productExtras.stream().collect(Collectors.toMap(ProductExtraInfo::getProductId, Function.identity(), StreamUtils.preferOld(), LinkedHashMap::new));
     }
 
     @Override

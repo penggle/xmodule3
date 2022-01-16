@@ -253,7 +253,7 @@ public abstract class ModuleCodegenConfigProperties {
 	protected void initDomainColumnConfigs(DomainObjectConfigProperties domainObjectConfig) {
 		IntrospectedTable introspectedTable = domainObjectConfig.getIntrospectedTable();
 		List<IntrospectedColumn> pkColumns = introspectedTable.getPkColumns();
-		Map<String,IntrospectedColumn> allColumns = introspectedTable.getAllColumns().stream().collect(Collectors.toMap(IntrospectedColumn::getColumnName, Function.identity(), StreamUtils.oldMergeFunction()));
+		Map<String,IntrospectedColumn> allColumns = introspectedTable.getAllColumns().stream().collect(Collectors.toMap(IntrospectedColumn::getColumnName, Function.identity(), StreamUtils.preferOld()));
 		Map<String,DomainObjectColumnConfigProperties> domainObjectColumns = domainObjectConfig.getDomainObjectColumns();
 		//1、domainObjectColumns中出现的列必须在表中真实存在,不存在的自动忽略
 		processDomainColumnsPresent(domainObjectColumns, allColumns, pkColumns, introspectedTable);

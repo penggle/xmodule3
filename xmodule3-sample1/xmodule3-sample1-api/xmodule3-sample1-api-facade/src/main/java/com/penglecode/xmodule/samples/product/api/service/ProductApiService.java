@@ -7,6 +7,7 @@ import com.penglecode.xmodule.samples.product.api.request.ModifyProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

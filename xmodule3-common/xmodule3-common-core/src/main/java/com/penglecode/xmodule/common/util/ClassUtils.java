@@ -5,10 +5,7 @@ import org.springframework.core.ResolvableType;
 import java.net.*;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Class工具类
@@ -25,6 +22,11 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
      */
     private static final Set<Class<?>> defaultAncestorsOfSimpleType = new HashSet<>();
 
+    /**
+     * 基本类型的默认值
+     */
+    private static final Map<Class<?>,Object> defaultValuesOfPrimitive = new HashMap<>();
+
     static {
         defaultAncestorsOfSimpleType.add(Number.class);
         defaultAncestorsOfSimpleType.add(CharSequence.class);
@@ -36,6 +38,15 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
         defaultAncestorsOfSimpleType.add(InetAddress.class);
         defaultAncestorsOfSimpleType.add(URL.class);
         defaultAncestorsOfSimpleType.add(URI.class);
+
+        defaultValuesOfPrimitive.put(boolean.class, false);
+        defaultValuesOfPrimitive.put(char.class, '\u0000');
+        defaultValuesOfPrimitive.put(byte.class, 0);
+        defaultValuesOfPrimitive.put(short.class, 0);
+        defaultValuesOfPrimitive.put(int.class, 0);
+        defaultValuesOfPrimitive.put(long.class, 0L);
+        defaultValuesOfPrimitive.put(float.class, 0.0f);
+        defaultValuesOfPrimitive.put(double.class, 0.0d);
     }
 
     private ClassUtils() {}
@@ -98,6 +109,17 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
             }
         }
         return false; //否则认为是复杂类型
+    }
+
+    /**
+     * 获取原始类型的默认值
+     *
+     * @param primitiveType
+     * @param <T>
+     * @return
+     */
+    public static <T> T getDefaultValueOfPrimitive(Class<T> primitiveType) {
+        return (T) defaultValuesOfPrimitive.get(primitiveType);
     }
 
 }
