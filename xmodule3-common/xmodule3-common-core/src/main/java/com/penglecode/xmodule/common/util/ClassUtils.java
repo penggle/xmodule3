@@ -2,6 +2,14 @@ package com.penglecode.xmodule.common.util;
 
 import org.springframework.core.ResolvableType;
 
+import java.net.*;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalAmount;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Class工具类
  *
@@ -11,6 +19,24 @@ import org.springframework.core.ResolvableType;
  */
 @SuppressWarnings({"unchecked"})
 public class ClassUtils extends org.springframework.util.ClassUtils {
+
+    /**
+     * 默认的简单类型的祖先集合(但不包括八大基本类型及其包装类)
+     */
+    private static final Set<Class<?>> defaultAncestorsOfSimpleType = new HashSet<>();
+
+    static {
+        defaultAncestorsOfSimpleType.add(Number.class);
+        defaultAncestorsOfSimpleType.add(CharSequence.class);
+        defaultAncestorsOfSimpleType.add(Date.class);
+        defaultAncestorsOfSimpleType.add(Calendar.class);
+        defaultAncestorsOfSimpleType.add(TemporalAccessor.class);
+        defaultAncestorsOfSimpleType.add(TemporalAmount.class);
+        defaultAncestorsOfSimpleType.add(SocketAddress.class);
+        defaultAncestorsOfSimpleType.add(InetAddress.class);
+        defaultAncestorsOfSimpleType.add(URL.class);
+        defaultAncestorsOfSimpleType.add(URI.class);
+    }
 
     private ClassUtils() {}
 
@@ -33,6 +59,45 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
             rt = rt.getSuperType();
         }
         return (Class<G>) rt.getGeneric(index).getType();
+    }
+
+    /**
+     * 判断指定目标类型targetType是否是简单类型
+     *
+     * @param targetType    - 目标类型
+     * @return
+     */
+    public static boolean isSimpleType(Class<?> targetType) {
+        return isSimpleType(targetType, null);
+    }
+
+    /**
+     * 判断指定目标类型targetType是否是简单类型
+     *
+     * @param targetType    - 目标类型
+     * @param additional    - 附加的认为是简单类型的类型集合
+     * @return
+     */
+    public static boolean isSimpleType(Class<?> targetType, Set<Class<?>> additional) {
+        //八大基本类型及其包装类
+        if(isPrimitiveOrWrapper(targetType)) {
+            return true;
+        }
+        //默认的被认为是简单类型的超类集合
+        for(Class<?> simpleType : defaultAncestorsOfSimpleType) {
+            if(isAssignable(simpleType, targetType)) {
+                return true;
+            }
+        }
+        //附加补充的认为是简单类型的集合
+        if(additional != null) {
+            for(Class<?> simpleType : additional) {
+                if(isAssignable(simpleType, targetType)) {
+                    return true;
+                }
+            }
+        }
+        return false; //否则认为是复杂类型
     }
 
 }

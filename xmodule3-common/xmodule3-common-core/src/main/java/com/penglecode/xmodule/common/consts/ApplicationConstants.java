@@ -11,8 +11,10 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.http.MediaType;
 
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
@@ -64,6 +66,17 @@ public abstract class ApplicationConstants {
 	 * SpringMVC的默认HttpMessageConverters
 	 */
 	public static final Supplier<HttpMessageConverters> DEFAULT_HTTP_MESSAGE_CONVERTERS = new SpringBeanConstant<HttpMessageConverters>() {};
+
+	/**
+	 * 默认的Java8日期时间格式化注册器
+	 */
+	public static final DateTimeFormatterRegistrar DEFAULT_DATETIME_FORMATTER_REGISTRAR = new DateTimeFormatterRegistrar();
+
+	static {
+		DEFAULT_DATETIME_FORMATTER_REGISTRAR.setDateFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		DEFAULT_DATETIME_FORMATTER_REGISTRAR.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm:ss"));
+		DEFAULT_DATETIME_FORMATTER_REGISTRAR.setDateTimeFormatter(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	}
 
 	private ApplicationConstants() {}
 

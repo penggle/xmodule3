@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.model;
 
-import java.io.Serializable;
+import com.penglecode.xmodule.common.support.ConvertibleObject;
 
 /**
  * 数据传输对象基类
@@ -9,6 +9,6 @@ import java.io.Serializable;
  * @version 1.0
  * @since 2021/5/15 15:15
  */
-public interface BaseDTO extends Serializable {
+public interface BaseDTO extends ConvertibleObject {
 
 }

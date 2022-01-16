@@ -73,7 +73,7 @@ public class ProductAppServiceImpl implements ProductAppService {
     public Product getProductById(Long id, boolean cascade) {
         ProductInfo productInfo = productInfoService.getProductById(id);
         if(productInfo != null) {
-            Product product = BeanMapper.map(productInfo, Product::new);
+            Product product = BeanCopier.copy(productInfo, Product::new);
             if(cascade) {
                 product.setProductSpecList(productSpecService.getProductSpecListByProductId(id));
                 product.setProductStockList(productStockService.getProductStockListByProductId(id));
@@ -97,7 +97,7 @@ public class ProductAppServiceImpl implements ProductAppService {
 
     protected List<Product> prepareProductList(List<ProductInfo> productInfoList, boolean cascade) {
         if(!CollectionUtils.isEmpty(productInfoList)) {
-            List<Product> productList = BeanMapper.map(productInfoList, Product::new);
+            List<Product> productList = BeanCopier.copy(productInfoList, Product::new);
             if(cascade) {
                 List<Long> productIds = productInfoList.stream().map(ProductInfo::getProductId).collect(Collectors.toList());
                 Map<Long,List<ProductSpec>> productSpecs = productSpecService.getProductSpecListByProductIds(productIds);
@@ -114,12 +114,12 @@ public class ProductAppServiceImpl implements ProductAppService {
 
     @Override
     public void forEachProduct(Consumer<Product> consumer) {
-        productInfoService.forEachProduct(productInfo -> consumer.accept(BeanMapper.map(productInfo, Product::new)));
+        productInfoService.forEachProduct(productInfo -> consumer.accept(BeanCopier.copy(productInfo, Product::new)));
     }
 
     @Override
     public void forEachProduct(ObjIntConsumer<Product> consumer) {
-        productInfoService.forEachProduct((productInfo, index) -> consumer.accept(BeanMapper.map(productInfo, Product::new), index));
+        productInfoService.forEachProduct((productInfo, index) -> consumer.accept(BeanCopier.copy(productInfo, Product::new), index));
     }
 
 }

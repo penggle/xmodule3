@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.samples.product.application.service.test;
 
 import com.penglecode.xmodule.common.model.Page;
-import com.penglecode.xmodule.common.support.BeanMapper;
+import com.penglecode.xmodule.common.support.BeanCopier;
 import com.penglecode.xmodule.common.util.JsonUtils;
 import com.penglecode.xmodule.samples.boot.Sample1Application;
 import com.penglecode.xmodule.samples.product.ProductTestHelper;
@@ -36,7 +36,7 @@ public class ProductAppServiceTest {
         List<ProductSaleSpec> productSaleSpecs = testProduct.getProductSaleSpecs();
         List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
 
-        ProductAggregate product = BeanMapper.map(productBase, ProductAggregate::new);
+        ProductAggregate product = BeanCopier.copy(productBase, ProductAggregate::new);
         product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);
@@ -51,7 +51,7 @@ public class ProductAppServiceTest {
         List<ProductSaleSpec> productSaleSpecs = testProduct.getProductSaleSpecs();
         List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
 
-        ProductAggregate product = BeanMapper.map(productBase, ProductAggregate::new);
+        ProductAggregate product = BeanCopier.copy(productBase, ProductAggregate::new);
         product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);
@@ -67,7 +67,7 @@ public class ProductAppServiceTest {
         List<ProductSaleSpec> productSaleSpecs = testProduct.getProductSaleSpecs();
         List<ProductSaleStock> productSaleStocks = testProduct.getProductSaleStocks();
 
-        ProductAggregate product = BeanMapper.map(productBase, ProductAggregate::new);
+        ProductAggregate product = BeanCopier.copy(productBase, ProductAggregate::new);
         product.setProductExtra(productExtra);
         product.setProductSaleSpecs(productSaleSpecs);
         product.setProductSaleStocks(productSaleStocks);

@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.samples.common.test;
+package com.penglecode.xmodule.samples.common.support.test;
 
 import com.penglecode.xmodule.common.model.OrderBy;
 import com.penglecode.xmodule.common.model.Page;

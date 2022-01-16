@@ -1,13 +1,14 @@
 package com.penglecode.xmodule.common.config;
 
 import com.penglecode.xmodule.BasePackage;
+import com.penglecode.xmodule.common.consts.ApplicationConstants;
 import com.penglecode.xmodule.common.consts.GlobalConstants;
-import com.penglecode.xmodule.common.support.DefaultConversionService;
 import com.penglecode.xmodule.common.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.convert.ApplicationConversionService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.format.FormatterRegistry;
 
 /**
  * 默认的SpringBoot应用配置
@@ -57,7 +59,8 @@ public class DefaultSpringAppConfiguration extends AbstractSpringConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(name="defaultConversionService")
 	public static ConversionService defaultConversionService() {
-		ConversionService conversionService = DefaultConversionService.getConversionService();
+		ConversionService conversionService = ApplicationConversionService.getSharedInstance();
+		ApplicationConstants.DEFAULT_DATETIME_FORMATTER_REGISTRAR.registerFormatters((FormatterRegistry) conversionService);
         LOGGER.info(">>> 初始化Spring应用的默认类型转换服务配置! conversionService = {}", conversionService.getClass());
         return conversionService;
 	}

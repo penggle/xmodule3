@@ -3,7 +3,7 @@ package com.penglecode.xmodule.samples.product.api.service;
 import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.model.PageResult;
 import com.penglecode.xmodule.common.model.Result;
-import com.penglecode.xmodule.common.support.BeanMapper;
+import com.penglecode.xmodule.common.support.BeanCopier;
 import com.penglecode.xmodule.samples.product.api.request.CreateProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.ModifyProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductRequest;
@@ -30,14 +30,14 @@ public class ProductApiServiceImpl implements ProductApiService {
 
     @Override
     public Result<Long> createProduct(CreateProductRequest createRequest) {
-        ProductAggregate product = BeanMapper.map(createRequest, ProductAggregate::new);
+        ProductAggregate product = BeanCopier.copy(createRequest, ProductAggregate::new);
         productAppService.createProduct(product);
         return Result.success().data(product.getProductId()).build();
     }
 
     @Override
     public Result<Void> modifyProduct(ModifyProductRequest modifyRequest) {
-        ProductAggregate product = BeanMapper.map(modifyRequest, ProductAggregate::new);
+        ProductAggregate product = BeanCopier.copy(modifyRequest, ProductAggregate::new);
         productAppService.modifyProductById(product);
         return Result.success().build();
     }
@@ -57,16 +57,16 @@ public class ProductApiServiceImpl implements ProductApiService {
     @Override
     public Result<QueryProductResponse> getProductById(Long id, Boolean cascade) {
         ProductAggregate product = productAppService.getProductById(id, cascade);
-        QueryProductResponse queryResponse = BeanMapper.map(product, QueryProductResponse::new);
+        QueryProductResponse queryResponse = BeanCopier.copy(product, QueryProductResponse::new);
         return Result.success().data(queryResponse).build();
     }
 
     @Override
     public PageResult<QueryProductResponse> getProductsByPage(QueryProductRequest queryRequest, Boolean cascade) {
-        ProductAggregate condition = BeanMapper.map(queryRequest, ProductAggregate::new);
+        ProductAggregate condition = BeanCopier.copy(queryRequest, ProductAggregate::new);
         Page page = Page.copyOf(queryRequest);
         List<ProductAggregate> productList = productAppService.getProductsByPage(condition, page, cascade);
-        List<QueryProductResponse> queryResponses = BeanMapper.map(productList, QueryProductResponse::new);
+        List<QueryProductResponse> queryResponses = BeanCopier.copy(productList, QueryProductResponse::new);
         return PageResult.success().data(queryResponses).totalRowCount(page.getTotalRowCount()).build();
     }
 

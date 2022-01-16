@@ -108,7 +108,7 @@ public class ProductAppServiceImpl implements ProductAppService {
     public ProductAggregate getProductById(Long id, boolean cascade) {
         ProductBaseInfo productInfo = productBaseInfoService.getProductBaseById(id);
         if(productInfo != null) {
-            ProductAggregate product = BeanMapper.map(productInfo, ProductAggregate::new);
+            ProductAggregate product = BeanCopier.copy(productInfo, ProductAggregate::new);
             if(cascade) {
                 product.setProductExtra(productExtraInfoService.getProductExtraById(id));
                 product.setProductSaleSpecs(productSaleSpecService.getProductSaleSpecsByProductId(id));
@@ -133,7 +133,7 @@ public class ProductAppServiceImpl implements ProductAppService {
 
     protected List<ProductAggregate> prepareProductList(List<ProductBaseInfo> productBases, boolean cascade) {
         if(!CollectionUtils.isEmpty(productBases)) {
-            List<ProductAggregate> products = BeanMapper.map(productBases, ProductAggregate::new);
+            List<ProductAggregate> products = BeanCopier.copy(productBases, ProductAggregate::new);
             if(cascade) {
                 List<Long> productIds = productBases.stream().map(ProductBaseInfo::getProductId).collect(Collectors.toList());
                 Map<Long,ProductExtraInfo> productExtras = productExtraInfoService.getProductExtrasByIds(productIds);
@@ -157,12 +157,12 @@ public class ProductAppServiceImpl implements ProductAppService {
 
     @Override
     public void forEachProduct(Consumer<ProductAggregate> consumer) {
-        productBaseInfoService.forEachProductBase(productInfo -> consumer.accept(BeanMapper.map(productInfo, ProductAggregate::new)));
+        productBaseInfoService.forEachProductBase(productInfo -> consumer.accept(BeanCopier.copy(productInfo, ProductAggregate::new)));
     }
 
     @Override
     public void forEachProduct(ObjIntConsumer<ProductAggregate> consumer) {
-        productBaseInfoService.forEachProductBase((productInfo, index) -> consumer.accept(BeanMapper.map(productInfo, ProductAggregate::new), index));
+        productBaseInfoService.forEachProductBase((productInfo, index) -> consumer.accept(BeanCopier.copy(productInfo, ProductAggregate::new), index));
     }
 
 }
