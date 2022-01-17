@@ -32,15 +32,15 @@ public class ProductBaseInfoIDTO implements BaseDTO {
     private String productTags;
 
     /** 商品类型：0-虚拟商品,1-实物商品 */
-    @Schema(description="商品类型(0-虚拟,1-实物)")
+    @Schema(description="商品类型(0-虚拟,1-实物)", defaultValue="1", example="1")
     private Integer productType;
 
     /** 审核状态：0-待审核,1-审核通过,2-审核不通过 */
-    @Schema(description="审核状态(0-待审核,1-审核通过,2-审核不通过)")
+    @Schema(description="审核状态(0-待审核,1-审核通过,2-审核不通过)", defaultValue="0", example="0")
     private Integer auditStatus;
 
     /** 上下架状态：0-已下架,1-已上架 */
-    @Schema(description="上下架状态(0-已下架,1-已上架)")
+    @Schema(description="上下架状态(0-已下架,1-已上架)", defaultValue="0", example="0")
     private Integer onlineStatus;
 
     /** 所属店铺ID */

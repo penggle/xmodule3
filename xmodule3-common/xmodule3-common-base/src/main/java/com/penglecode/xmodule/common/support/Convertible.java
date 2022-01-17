@@ -11,5 +11,5 @@ import java.io.Serializable;
  * @version 1.0
  * @since 2021/6/14 10:49
  */
-public interface ConvertibleObject extends Serializable {
+public interface Convertible extends Serializable {
 }

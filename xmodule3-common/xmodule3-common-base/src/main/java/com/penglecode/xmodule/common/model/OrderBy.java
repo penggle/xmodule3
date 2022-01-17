@@ -21,12 +21,12 @@ public class OrderBy implements BaseDTO {
 	private static final long serialVersionUID = 1L;
 
 	/** 排序字段名 */
-	@Schema(description="排序字段名", defaultValue="createTime")
+	@Schema(description="排序字段名", defaultValue="createTime", example="createTime")
 	@NotBlank(message="排序字段名(property)不能为空!")
 	private String property;
 
 	/** 排序顺序：asc|desc */
-	@Schema(description="排序顺序(asc|desc)", defaultValue="desc")
+	@Schema(description="排序顺序(asc|desc)", defaultValue="desc", example="desc")
 	@NotBlank(message="排序顺序(direction)不能为空!")
 	private String direction;
 

@@ -1,10 +1,10 @@
 package com.penglecode.xmodule.samples.common.support.test;
 
-import com.penglecode.xmodule.common.support.ConvertibleObject;
+import com.penglecode.xmodule.common.support.Convertible;
 
 import java.util.Set;
 
-public class CustomerDO implements ConvertibleObject {
+public class CustomerDO implements Convertible {
 
     private static final long serialVersionUID = 1L;
 

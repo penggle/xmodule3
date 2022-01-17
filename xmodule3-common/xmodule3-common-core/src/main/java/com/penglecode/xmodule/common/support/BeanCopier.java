@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  * 使用限制：
  *      1、该实现要求目标bean与源bean的字段名必须得完全匹配，本实现对于字段名对不上的无能为力!!!
- *      2、深度拷贝的字段(自定义bean)必须实现{@link ConvertibleObject}标记接口
+ *      2、深度拷贝的字段(自定义bean)必须实现{@link Convertible}标记接口
  *
  * @author pengpeng
  * @version 1.0
@@ -212,7 +212,7 @@ public class BeanCopier {
 
         @Override
         public Set<ConvertiblePair> getConvertibleTypes() {
-            return Collections.singleton(new ConvertiblePair(ConvertibleObject.class, ConvertibleObject.class));
+            return Collections.singleton(new ConvertiblePair(Convertible.class, Convertible.class));
         }
 
         @Override
@@ -230,7 +230,7 @@ public class BeanCopier {
 
         @Override
         public Set<ConvertiblePair> getConvertibleTypes() {
-            return Collections.singleton(new ConvertiblePair(ConvertibleObject.class, String.class));
+            return Collections.singleton(new ConvertiblePair(Convertible.class, String.class));
         }
 
         @Override
@@ -247,7 +247,7 @@ public class BeanCopier {
 
         @Override
         public Set<ConvertiblePair> getConvertibleTypes() {
-            return Collections.singleton(new ConvertiblePair(String.class, ConvertibleObject.class));
+            return Collections.singleton(new ConvertiblePair(String.class, Convertible.class));
         }
 
         @Override

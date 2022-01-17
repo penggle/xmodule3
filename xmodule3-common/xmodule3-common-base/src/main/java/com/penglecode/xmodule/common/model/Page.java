@@ -25,7 +25,7 @@ public class Page implements BaseDTO {
 	/**
 	 * 当前页码
 	 */
-	@Schema(description="当前页码(默认1)", defaultValue="1")
+	@Schema(description="当前页码(默认1)", defaultValue="1", example="1")
 	@NotNull(message="当前页码(pageIndex)不能为空!")
 	@Min(value=1, message="当前页码(pageIndex)不能小于1")
 	private Integer pageIndex = 1;
@@ -33,7 +33,7 @@ public class Page implements BaseDTO {
 	/**
 	 * 每页显示条数
 	 */
-	@Schema(description="每页显示条数(默认10)", defaultValue="10")
+	@Schema(description="每页显示条数(默认10)", defaultValue="10", example="10")
 	@NotNull(message="每页显示条数(pageSize)不能为空!")
 	@Min(value=1, message="每页显示条数(pageSize)不能小于1")
 	private Integer pageSize = 10;
