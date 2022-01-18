@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.codegen.config;
 
-import com.penglecode.xmodule.common.mybatis.DatabaseType;
+import com.penglecode.xmodule.common.mybatis.RdbmsVendor;
 
 /**
  * 领域对象数据库自省配置
@@ -15,12 +15,12 @@ public class DomainIntrospectConfigProperties {
     private String introspectDataSource;
 
     /** 自省方言数据库 */
-    private DatabaseType introspectDialect;
+    private RdbmsVendor introspectDialect;
 
     /** 强制将数据库中的日期时间字段映射为String类型? 默认为Java8日期/时间对象 */
     private boolean forceDateTimeAsString = true;
 
-    /** 强制将数据库中的INT(1)/TINYINT(1)等字段映射为Boolean类型? */
+    /** 强制将数据库中的INT(1)/TINYINT(1)/NUMBER(1)等字段映射为Boolean类型? */
     private boolean forceNumber1AsBoolean = true;
 
     /** 强制将数据库中的浮点型字段映射为Double类型? 默认为BigDecimal */
@@ -34,11 +34,11 @@ public class DomainIntrospectConfigProperties {
         this.introspectDataSource = introspectDataSource;
     }
 
-    public DatabaseType getIntrospectDialect() {
+    public RdbmsVendor getIntrospectDialect() {
         return introspectDialect;
     }
 
-    public void setIntrospectDialect(DatabaseType introspectDialect) {
+    public void setIntrospectDialect(RdbmsVendor introspectDialect) {
         this.introspectDialect = introspectDialect;
     }
 

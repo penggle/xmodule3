@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.codegen.mybatis;
 
-import com.penglecode.xmodule.common.mybatis.DatabaseType;
+import com.penglecode.xmodule.common.mybatis.RdbmsVendor;
 
 /**
  * 默认的Mybatis模块代码生成方言
@@ -12,7 +12,7 @@ import com.penglecode.xmodule.common.mybatis.DatabaseType;
 public class DefaultMybatisCodegenDialect implements MybatisCodegenDialect {
 
     @Override
-    public DatabaseType getDatabaseType() {
+    public RdbmsVendor getDatabaseType() {
         return null; //返回空代表未知的
     }
 

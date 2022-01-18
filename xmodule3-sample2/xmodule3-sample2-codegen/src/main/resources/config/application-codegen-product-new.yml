@@ -14,124 +14,94 @@ spring:
                         targetProject: src/main/java
                         #领域对象源码输出公共父包,其下约定有子包：model、enums
                         targetPackage: com.penglecode.xmodule.samples.domain.model
-                        #领域对象运行时数据源
+                        #领域对象运行时数据源名称
                         runtimeDataSource: product
-                        #自省数据源名称
+                        #领域对象内省数据源名称
                         introspectDataSource: product
-                        #领域对象数据库自省配置
+                        #领域对象数据库内省配置
                         introspectConfig:
-                            #强制将数据库中的日期时间字段映射为String类型?
+                            #强制将数据库中的日期时间字段映射为String类型? 默认为Java8日期/时间对象
                             forceDateTimeAsString: true
-                            #强制将数据库中的INT(1)/TINYINT(1)等字段映射为Boolean类型?
+                            #强制将数据库中的INT(1)/TINYINT(1)/NUMBER(1)等字段映射为Boolean类型?
                             forceNumber1AsBoolean: true
-                            #强制将数据库中的浮点型字段映射为Double类型?
+                            #强制将数据库中的浮点型字段映射为Double类型? 默认为BigDecimal
                             forceDecimalNumericAsDouble: true
-                        #领域下面的枚举定义(这个定义建议集中定义在primaryDomainObject=true的领域对象下面)
+                        #领域下面的枚举定义
                         domainEnums:
-                            - enumName: ProductTypeEnum
-                              enumTitle: 商品类型枚举
-                              #枚举字段定义,例如为'type:Integer',则按约定生成typeCode,typeName两个字段,且typeCode的类型为Integer
-                              enumFields: 'type:Integer'
-                              enumValues: {VIRTUAL_PRODUCT: [0, '虚拟商品'], PHYSICAL_PRODUCT: [1, '实物商品']}
-                            - enumName: ProductAuditStatusEnum
-                              enumTitle: 商品审核状态枚举
-                              enumFields: 'status:Integer'
-                              enumValues: {WAIT_AUDIT: [0, '待审核'], AUDIT_PASSED: [1, '审核通过'], AUDIT_UNPASSED: [2, '审核不通过']}
-                            - enumName: ProductOnlineStatusEnum
-                              enumTitle: 商品上下架状态枚举
-                              enumFields: 'status:Integer'
-                              enumValues: {OFFLINE: [0, '已下架'], ONLINE: [1, '已上架']}
-                    #聚合对象(如果定义了聚合对象，则后端会生成对应的{aggregateObjectName}AppService)
-                    domainAggregates:
-                          #聚合对象类名(为避免与实体对象命名冲突,聚合根对象统一以Aggregate结尾)
-                        - aggregateObjectName: ProductAggregate
-                          #聚合对象中文名称
-                          aggregateObjectTitle: 商品
-                          #聚合对象别名(在方法命名、参数/变量命名、URL命名时使用)
-                          aggregateObjectAlias: Product
-                          #聚合对象的主要领域对象名称(指向下面domainObjects列表中的某一个)
-                          aggregateMasterName: ProductInfo
-                          #聚合对象的从属领域对象列表
-                          aggregateObjectSlaves:
-                                #聚合对象的从属领域对象(指向下面domainObjects列表中的某一个)
-                              - aggregateSlaveName: ProductSpec
-                                #主要领域对象与从属领域对象的映射关系(仅支持1:1/1:N)
-                                masterSlaveMapping: 'product_id:product_id=1:N'
-                                #保存主要领域对象时是否也级联保存从属领域对象
-                                cascadingOnUpsert: true
-                                #新建主要领域对象时是否也级联新建从属领域对象
-                                #cascadingOnInsert: true
-                                #新建主要领域对象时是否校验从属领域对象不为空(仅在cascadingOnInsert=true时有效)
-                                #validateOnInsert: true
-                                #更新主要领域对象时是否也级联更新从属领域对象
-                                #cascadingOnUpdate: true
-                                #更新主要领域对象时是否校验从属领域对象不为空(仅在cascadingOnUpdate=true时有效)
-                                #validateOnUpdate: true
-                              - aggregateSlaveName: ProductStock
-                                #主要领域对象与从属领域对象的映射关系(仅支持1:1/1:N)
-                                masterSlaveMapping: 'product_id:product_id=1:N'
-                                #从属领域对象在保存主要领域对象时是否也级联保存
-                                cascadingOnUpsert: true
-                    #领域对象列表
-                    domainObjects:
-                          #领域对象类名
-                        - domainObjectName: ProductInfo
-                          #领域对象对应的数据库表名
-                          domainTableName: t_product_info
-                          #领域对象中文名称
-                          domainObjectTitle: 商品信息
-                          #领域对象别名(在方法命名、参数/变量命名、URL命名时使用)
-                          domainObjectAlias: Product
-                          #领域对象运行时数据源
-                          runtimeDataSource: product
-                          #领域对象数据库自省配置
-                          introspectConfig:
-                              #强制将数据库中的日期时间字段映射为String类型?
-                              forceDateTimeAsString: true
-                              #强制将数据库中的INT(1)/TINYINT(1)等字段映射为Boolean类型?
-                              forceNumber1AsBoolean: true
-                              #强制将数据库中的浮点型字段映射为Double类型?
-                              forceDecimalNumericAsDouble: true
-                          #领域对象的所有列,其中operatorOnQuery支持eq,like|likeLeft|likeRight,gt|lt|gte|lte,in等
-                          domainObjectColumns:
-                              - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true}
-                              - {columnName: 'product_name', columnTitle: '商品名称', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'likeRight'}
-                              - {columnName: 'product_url', columnTitle: '商品详情URL', columnOnUpsert: true, validateOnUpsert: true}
-                              - {columnName: 'product_tags', columnTitle: '商品标签', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'like'}
-                              - {columnName: 'product_type', columnTitle: '商品类型', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductTypeEnum'}
-                              - {columnName: 'audit_status', columnTitle: '审核状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'in', decodeEnumType: 'ProductAuditStatusEnum'}
-                              - {columnName: 'online_status', columnTitle: '上下架状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductOnlineStatusEnum'}
-                              - {columnName: 'shop_id', columnTitle: '所属店铺ID', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'eq'}
-                              - {columnName: 'remark', columnTitle: '商品备注', columnOnUpsert: true}
-                              - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'gte,lte'}
-                              - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                            #使用已存在的枚举
+                          - domainEnumName: ProductTypeEnum
+                            domainEnumClass: com.penglecode.xmodule.samples.product.domain.enums.ProductTypeEnum
+                            domainEnumFields: [{fieldType: java.lang.Integer, fieldName: typeCode}, {fieldType: java.lang.String, fieldName: typeName}]
+                            #定义新的枚举类型
+                          - domainEnumName: ProductAuditStatusEnum
+                            domainEnumTitle: 商品审核状态枚举
+                            domainEnumFields: [{fieldType: java.lang.Integer, fieldName: statusCode}, {fieldType: java.lang.String, fieldName: statusName}]
+                            domainEnumValues: {WAIT_AUDIT: [0, '待审核'], AUDIT_PASSED: [1, '审核通过'], AUDIT_UNPASSED: [2, '审核不通过']}
+                            #定义新的枚举类型
+                          - domainEnumName: ProductOnlineStatusEnum
+                            domainEnumTitle: 商品上下架状态枚举
+                            domainEnumFields: [{fieldType: java.lang.Integer, fieldName: statusCode}, {fieldType: java.lang.String, fieldName: statusName}]
+                            domainEnumValues: {OFFLINE: [0, '已下架'], ONLINE: [1, '已上架']}
+                    #领域实体对象列表
+                    domainEntities:
+                        #实体对象类名
+                      - domainEntityName: ProductInfo
+                        #实体对应的数据库表名
+                        domainEntityTable: t_product_info
+                        #实体对象中文名称
+                        domainEntityTitle: 商品信息
+                        #实体对象别名(在方法命名、参数/变量命名、URL命名时使用)
+                        domainEntityAlias: Product
+                        #实体对象运行时数据源
+                        runtimeDataSource: product
+                        #实体对象内省数据库配置
+                        introspectConfig:
+                            #强制将数据库中的日期时间字段映射为String类型? 默认为Java8日期/时间对象
+                            forceDateTimeAsString: true
+                            #强制将数据库中的INT(1)/TINYINT(1)/NUMBER(1)等字段映射为Boolean类型?
+                            forceNumber1AsBoolean: true
+                            #强制将数据库中的浮点型字段映射为Double类型? 默认为BigDecimal
+                            forceDecimalNumericAsDouble: true
+                        #领域对象的所有列,其中operatorOnQuery支持eq,like|likeLeft|likeRight,gt|lt|gte|lte,in等
+                        domainEntityColumns:
+                            - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true}
+                            - {columnName: 'product_name', columnTitle: '商品名称', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'likeRight'}
+                            - {columnName: 'product_url', columnTitle: '商品详情URL', columnOnUpsert: true, validateOnUpsert: true}
+                            - {columnName: 'product_tags', columnTitle: '商品标签', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'like'}
+                            - {columnName: 'product_type', columnTitle: '商品类型', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductTypeEnum'}
+                            - {columnName: 'audit_status', columnTitle: '审核状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'in', decodeEnumType: 'ProductAuditStatusEnum'}
+                            - {columnName: 'online_status', columnTitle: '上下架状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductOnlineStatusEnum'}
+                            - {columnName: 'shop_id', columnTitle: '所属店铺ID', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'eq'}
+                            - {columnName: 'remark', columnTitle: '商品备注', columnOnUpsert: true}
+                            - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'gte,lte'}
+                            - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
 
-                        - domainObjectName: ProductSpec
-                          domainTableName: t_product_spec
-                          domainObjectTitle: 商品销售规格信息
-                          domainObjectAlias: ProductSpec
-                          domainObjectColumns:
-                              - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
-                              - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
-                              - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
-                              - {columnName: 'spec_index', columnTitle: '规格顺序', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'eq'}
-                              - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
-                              - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
-                              - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                      - domainEntityName: ProductSpec
+                        domainEntityTable: t_product_spec
+                        domainEntityTitle: 商品销售规格信息
+                        domainEntityAlias: ProductSpec
+                        domainEntityColumns:
+                            - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
+                            - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
+                            - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
+                            - {columnName: 'spec_index', columnTitle: '规格顺序', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'eq'}
+                            - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
+                            - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
+                            - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
 
-                        - domainObjectName: ProductStock
-                          domainTableName: t_product_stock
-                          domainObjectTitle: 商品销售库存信息
-                          domainObjectAlias: ProductStock
-                          domainObjectColumns:
-                              - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
-                              - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
-                              - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
-                              - {columnName: 'sell_price', columnTitle: '售价', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
-                              - {columnName: 'stock', columnTitle: '库存', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
-                              - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
-                              - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
-                              - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                      - domainEntityName: ProductStock
+                        domainEntityTable: t_product_stock
+                        domainEntityTitle: 商品销售库存信息
+                        domainEntityAlias: ProductStock
+                        domainEntityColumns:
+                            - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
+                            - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
+                            - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
+                            - {columnName: 'sell_price', columnTitle: '售价', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
+                            - {columnName: 'stock', columnTitle: '库存', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
+                            - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
+                            - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
+                            - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
                 #Mybatis(DAL层)代码部分
                 mybatis:
                     xmlMapperConfig:

@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.codegen.mybatis;
 
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
-import com.penglecode.xmodule.common.mybatis.DatabaseType;
+import com.penglecode.xmodule.common.mybatis.RdbmsVendor;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 
 import java.sql.Types;
@@ -16,8 +16,8 @@ import java.sql.Types;
 public class MySQLMybatisCodegenDialect implements MybatisCodegenDialect {
 
     @Override
-    public DatabaseType getDatabaseType() {
-        return DatabaseType.MYSQL;
+    public RdbmsVendor getDatabaseType() {
+        return RdbmsVendor.MYSQL;
     }
 
     @Override
