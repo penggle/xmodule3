@@ -38,10 +38,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <finalName>xmodule3-sample2-domain</finalName>
-    </build>
-
     <modules>
         <module>xmodule3-sample2-domain-model</module>
         <module>xmodule3-sample2-domain-service-sdk</module>

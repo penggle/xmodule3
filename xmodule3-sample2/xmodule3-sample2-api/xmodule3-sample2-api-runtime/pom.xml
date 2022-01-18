@@ -24,9 +24,13 @@
             <groupId>com.penglecode</groupId>
             <artifactId>xmodule3-sample2-app</artifactId>
         </dependency>
+
+        <!-- xmodule3-sample2-api-facade -->
+        <dependency>
+            <groupId>com.penglecode</groupId>
+            <artifactId>xmodule3-sample2-api-facade</artifactId>
+        </dependency>
+
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-sample2-api-runtime</finalName>
-    </build>
 </project>

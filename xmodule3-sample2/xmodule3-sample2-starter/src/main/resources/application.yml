@@ -27,11 +27,12 @@ spring:
             - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
           
     application:
-        code: SAMPLES
-        name: xmodule3-samples
+        code: SAMPLE2
+        name: xmodule3-sample2
+        version: ${xmodule3.version}
     #配置文件激活配置
     profiles:
-        active: dev
+        active: ${spring.profiles.active}
 
     #Spring AOP配置
     aop:

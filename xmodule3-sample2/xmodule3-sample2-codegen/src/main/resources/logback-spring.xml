@@ -6,7 +6,7 @@
 -->
 <configuration scan="true" scanPeriod="120 seconds">
     <!--SpringBoot应用名称-->
-    <springProperty scope="context" name="SPRING_APPLICATION_NAME" source="spring.application.name" defaultValue="xmodule3-samples-codegen"/>
+    <springProperty scope="context" name="SPRING_APPLICATION_NAME" source="spring.application.name" defaultValue="xmodule3-sample2-codegen"/>
     <!-- SpringBoot日志模块的默认配置 -->
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <!-- 重新定义LOG_PATH默认值 -->

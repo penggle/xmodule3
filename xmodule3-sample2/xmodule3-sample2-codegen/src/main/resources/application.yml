@@ -22,10 +22,10 @@ spring:
             - org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
 
     application:
-        name: xmodule3-samples-codegen
+        name: xmodule3-sample2-codegen
     #配置文件激活配置
     profiles:
-        include: codegen-product
+        include: codegen-product-old
         active: dev
 
     #Hikari 连接池配置

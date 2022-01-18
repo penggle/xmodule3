@@ -20,7 +20,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-sample2-domain-service-sdk</finalName>
-    </build>
 </project>

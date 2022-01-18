@@ -18,9 +18,12 @@
             <groupId>com.penglecode</groupId>
             <artifactId>xmodule3-common-base</artifactId>
         </dependency>
+
+        <!-- spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
     </dependencies>
 
-    <build>
-        <finalName>xmodule3-sample2-api-facade</finalName>
-    </build>
 </project>
