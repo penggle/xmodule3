@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.samples.product.api.request;
+package com.penglecode.xmodule.samples.product.api.response;
 
 import com.penglecode.xmodule.common.model.BaseDTO;
 import com.penglecode.xmodule.samples.product.api.dto.*;

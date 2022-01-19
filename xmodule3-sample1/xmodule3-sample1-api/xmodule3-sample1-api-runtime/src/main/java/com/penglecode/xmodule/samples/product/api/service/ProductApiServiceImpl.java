@@ -7,7 +7,7 @@ import com.penglecode.xmodule.common.support.BeanCopier;
 import com.penglecode.xmodule.samples.product.api.request.CreateProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.ModifyProductRequest;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductRequest;
-import com.penglecode.xmodule.samples.product.api.request.QueryProductResponse;
+import com.penglecode.xmodule.samples.product.api.response.QueryProductResponse;
 import com.penglecode.xmodule.samples.product.application.service.ProductAppService;
 import com.penglecode.xmodule.samples.product.domain.model.ProductAggregate;
 import org.springframework.web.bind.annotation.RestController;

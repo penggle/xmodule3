@@ -13,7 +13,7 @@ spring:
                         #领域对象源码输出项目目录
                         targetProject: src/main/java
                         #领域对象源码输出公共父包,其下约定有子包：model、enums
-                        targetPackage: com.penglecode.xmodule.samples.domain.model
+                        targetPackage: com.penglecode.xmodule.samples.product.domain.model
                         #领域对象运行时数据源名称
                         runtimeDataSource: product
                         #领域对象内省数据源名称
@@ -45,13 +45,13 @@ spring:
                     #领域实体对象列表
                     domainEntities:
                         #实体对象类名
-                      - domainEntityName: ProductInfo
+                      - domainEntityName: ProductBaseInfo
                         #实体对应的数据库表名
-                        domainEntityTable: t_product_info
+                        domainEntityTable: t_product_base_info
                         #实体对象中文名称
-                        domainEntityTitle: 商品信息
+                        domainEntityTitle: 商品基本信息
                         #实体对象别名(在方法命名、参数/变量命名、URL命名时使用)
-                        domainEntityAlias: Product
+                        domainEntityAlias: ProductBase
                         #实体对象运行时数据源
                         runtimeDataSource: product
                         #实体对象内省数据库配置
@@ -64,56 +64,102 @@ spring:
                             forceDecimalNumericAsDouble: true
                         #领域对象的所有列,其中operatorOnQuery支持eq,like|likeLeft|likeRight,gt|lt|gte|lte,in等
                         domainEntityColumns:
-                            - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true}
-                            - {columnName: 'product_name', columnTitle: '商品名称', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'likeRight'}
-                            - {columnName: 'product_url', columnTitle: '商品详情URL', columnOnUpsert: true, validateOnUpsert: true}
-                            - {columnName: 'product_tags', columnTitle: '商品标签', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'like'}
-                            - {columnName: 'product_type', columnTitle: '商品类型', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductTypeEnum'}
-                            - {columnName: 'audit_status', columnTitle: '审核状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'in', decodeEnumType: 'ProductAuditStatusEnum'}
-                            - {columnName: 'online_status', columnTitle: '上下架状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductOnlineStatusEnum'}
-                            - {columnName: 'shop_id', columnTitle: '所属店铺ID', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'eq'}
-                            - {columnName: 'remark', columnTitle: '商品备注', columnOnUpsert: true}
-                            - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'gte,lte'}
-                            - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
-
-                      - domainEntityName: ProductSpec
-                        domainEntityTable: t_product_spec
+                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true}
+                          - {columnName: 'product_name', columnTitle: '商品名称', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'likeRight'}
+                          - {columnName: 'product_url', columnTitle: '商品详情URL', columnOnUpsert: true, validateOnUpsert: true}
+                          - {columnName: 'product_tags', columnTitle: '商品标签', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'like'}
+                          - {columnName: 'product_type', columnTitle: '商品类型', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductTypeEnum'}
+                          - {columnName: 'audit_status', columnTitle: '审核状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'in', decodeEnumType: 'ProductAuditStatusEnum'}
+                          - {columnName: 'online_status', columnTitle: '上下架状态', columnOnUpsert: true, validateOnUpsert: true, javaTypeOverride: 'java.lang.Integer', operatorOnQuery: 'eq', decodeEnumType: 'ProductOnlineStatusEnum'}
+                          - {columnName: 'shop_id', columnTitle: '所属店铺ID', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'remark', columnTitle: '商品备注', columnOnUpsert: true}
+                          - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true, operatorOnQuery: 'gte,lte'}
+                          - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                      - domainEntityName: ProductExtraInfo
+                        domainEntityTable: t_product_extra_info
+                        domainEntityTitle: 商品额外信息
+                        domainEntityAlias: ProductExtra
+                        domainEntityColumns:
+                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'product_details', columnTitle: '商品详情', columnOnUpsert: true, validateOnUpsert: true}
+                          - {columnName: 'product_specifications', columnTitle: '商品规则参数', columnOnUpsert: true}
+                          - {columnName: 'product_services', columnTitle: '商品服务', columnOnUpsert: true}
+                          - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
+                          - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                      - domainEntityName: ProductSaleSpec
+                        domainEntityTable: t_product_sale_spec
                         domainEntityTitle: 商品销售规格信息
-                        domainEntityAlias: ProductSpec
+                        domainEntityAlias: ProductSaleSpec
                         domainEntityColumns:
-                            - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
-                            - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
-                            - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
-                            - {columnName: 'spec_index', columnTitle: '规格顺序', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'eq'}
-                            - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
-                            - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
-                            - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
-
-                      - domainEntityName: ProductStock
-                        domainEntityTable: t_product_stock
+                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
+                          - {columnName: 'spec_index', columnTitle: '规格顺序', columnOnUpsert: true, validateOnUpsert: true}
+                          - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
+                          - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
+                          - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                      - domainEntityName: ProductSaleStock
+                        domainEntityTable: t_product_sale_stock
                         domainEntityTitle: 商品销售库存信息
-                        domainEntityAlias: ProductStock
+                        domainEntityAlias: ProductSaleStock
                         domainEntityColumns:
-                            - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
-                            - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
-                            - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
-                            - {columnName: 'sell_price', columnTitle: '售价', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
-                            - {columnName: 'stock', columnTitle: '库存', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
-                            - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
-                            - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
-                            - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
+                          - {columnName: 'sell_price', columnTitle: '售价', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
+                          - {columnName: 'stock', columnTitle: '库存', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
+                          - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
+                          - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
+
+                    #聚合对象(如果定义了聚合对象，则后端会生成对应的{aggregateObjectName}AppService)
+                    domainAggregates:
+                        #聚合对象类名(为避免与实体对象命名冲突,聚合根对象统一以Aggregate结尾)
+                      - domainAggregateName: ProductAggregate
+                        #聚合对象中文名称
+                        domainAggregateTitle: 商品
+                        #聚合对象别名(在方法命名、参数/变量命名、URL命名时使用)
+                        domainAggregateAlias: Product
+                        #聚合对象的主要实体对象名称(指向domainEntities列表中的某一个)
+                        aggregateMasterEntity: ProductBaseInfo
+                        #聚合对象的从属实体对象列表
+                        aggregateSlaveEntities:
+                            #聚合对象的从属实体对象(指向domainEntities列表中的某一个)
+                          - aggregateSlaveEntity: ProductExtraInfo
+                            #主要领域对象与从属领域对象的映射关系(支持1:1/1:N)
+                            masterSlaveMapping: 'product_id:product_id=1:1'
+                            #保存主要实体对象时是否也级联保存从属实体对象
+                            cascadingOnUpsert: true
+                            #新建主要实体对象时是否也级联新建从属实体对象
+                            #cascadingOnInsert: true
+                            #新建主要实体对象时是否校验从属实体对象不为空(仅在cascadingOnInsert=true时有效)
+                            #validateOnInsert: true
+                            #更新主要实体对象时是否也级联更新从属实体对象
+                            #cascadingOnUpdate: true
+                            #更新主要实体对象时是否校验从属实体对象不为空(仅在cascadingOnUpdate=true时有效)
+                            #validateOnUpdate: true
+                            #聚合对象的从属实体对象(指向domainEntities列表中的某一个)
+                          - aggregateSlaveEntity: ProductSaleSpec
+                            #主要领域对象与从属领域对象的映射关系(支持1:1/1:N)
+                            masterSlaveMapping: 'product_id:product_id=1:N'
+                            #保存主要实体对象时是否也级联保存从属实体对象
+                            cascadingOnUpsert: true
+                          - aggregateSlaveEntity: ProductSaleStock
+                            #主要领域对象与从属领域对象的映射关系(支持1:1/1:N)
+                            masterSlaveMapping: 'product_id:product_id=1:N'
+                            #保存主要实体对象时是否也级联保存从属实体对象
+                            cascadingOnUpsert: true
                 #Mybatis(DAL层)代码部分
                 mybatis:
                     xmlMapperConfig:
                         #XxxMapper.xml源码输出项目目录
                         targetProject: src/main/java
                         #XxxMapper.xml所在包名
-                        targetPackage: com.penglecode.xmodule.samples.dal.mapper
+                        targetPackage: com.penglecode.xmodule.samples.product.dal.mapper
                     javaMapperConfig:
                         #XxxMapper.java源码输出项目目录
                         targetProject: src/main/java
                         #XxxMapper.java所在包名
-                        targetPackage: com.penglecode.xmodule.samples.dal.mapper
+                        targetPackage: com.penglecode.xmodule.samples.product.dal.mapper
                         #当前领域对象的Mapper接口上的数据库名称,默认单库即:'@NamedDatabase("${runtimeDataSource}")'
                         mapperAnnotations: '@NamedDatabase("${runtimeDataSource}")'
                 #Service代码部分
@@ -124,36 +170,39 @@ spring:
                             #服务接口源码输出项目目录
                             targetProject: src/main/java
                             #服务接口所在包名
-                            targetPackage: com.penglecode.xmodule.samples.domain.service
+                            targetPackage: com.penglecode.xmodule.samples.product.domain.service
                         implementConfig:
                             #服务实现源码输出项目目录
                             targetProject: src/main/java
                             #服务实现所在包名
-                            targetPackage: com.penglecode.xmodule.samples.domain.service.impl
+                            targetPackage: com.penglecode.xmodule.samples.product.domain.service.impl
                     #应用服务代码生成配置
-                    app:
+                    application:
                         interfaceConfig:
                             #服务接口源码输出项目目录
                             targetProject: src/main/java
                             #服务接口所在包名
-                            targetPackage: com.penglecode.xmodule.samples.app.service
+                            targetPackage: com.penglecode.xmodule.samples.product.application.service
                         implementConfig:
                             #服务实现源码输出项目目录
                             targetProject: src/main/java
                             #服务实现所在包名
-                            targetPackage: com.penglecode.xmodule.samples.app.service.impl
+                            targetPackage: com.penglecode.xmodule.samples.product.application.service.impl
                 #API代码部分
                 api:
-                    #基于SpringMVC的Restful-API接口
-                    restConfig:
-                        #Controller源码输出项目目录
-                        targetProject: src/main/java
-                        #Controller所在包名
-                        targetPackage: com.penglecode.xmodule.examples.codegen.sample.web.controller
-                        #Controller继承父类(可以不配置)
-                        extendsClass: com.penglecode.xmodule.common.web.servlet.support.RestfulApiResourceSupport
-                    dtoConfig:
-                        #DTO源码输出项目目录
-                        targetProject: src/main/java
-                        #DTO所在包名
-                        targetPackage: com.penglecode.xmodule.examples.codegen.sample.dto.product
+                    #API接口源码输出项目目录
+                    targetProject: src/main/java
+                    #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
+                    targetPackage: com.penglecode.xmodule.samples.product.api
+                    #API接口客户端配置
+                    clientConfig:
+                        #API接口协议,feign是必须的,dubbo是可选的
+                        apiProtocols: feign,dubbo
+                        apiDomainObjects:
+                            ProductAggregate: create,modify,removeById,removeByIds,getById,getByIds,getByPage
+                        #API门面接口继承父类(可以不配置)
+                        #extendsClass: ''
+                    #API接口实现配置
+                    runtimeConfig:
+                        #API接口继承父类(可以不配置)
+                        extendsClass: com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport

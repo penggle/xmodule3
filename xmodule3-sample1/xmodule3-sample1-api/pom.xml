@@ -15,10 +15,10 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- xmodule3-sample1-api-facade -->
+            <!-- xmodule3-sample1-api-client -->
             <dependency>
                 <groupId>com.penglecode</groupId>
-                <artifactId>xmodule3-sample1-api-facade</artifactId>
+                <artifactId>xmodule3-sample1-api-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -32,7 +32,7 @@
     </dependencyManagement>
 
     <modules>
-        <module>xmodule3-sample1-api-facade</module>
+        <module>xmodule3-sample1-api-client</module>
         <module>xmodule3-sample1-api-runtime</module>
     </modules>
 </project>

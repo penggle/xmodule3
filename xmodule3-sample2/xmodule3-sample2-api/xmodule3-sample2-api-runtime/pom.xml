@@ -25,10 +25,10 @@
             <artifactId>xmodule3-sample2-app</artifactId>
         </dependency>
 
-        <!-- xmodule3-sample2-api-facade -->
+        <!-- xmodule3-sample2-api-client -->
         <dependency>
             <groupId>com.penglecode</groupId>
-            <artifactId>xmodule3-sample2-api-facade</artifactId>
+            <artifactId>xmodule3-sample2-api-client</artifactId>
         </dependency>
 
     </dependencies>
