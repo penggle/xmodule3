@@ -16,7 +16,7 @@
         <!-- xmodule3-common-codegen -->
         <dependency>
             <groupId>com.penglecode</groupId>
-            <artifactId>xmodule3-common-codegen</artifactId>
+            <artifactId>xmodule3-common-codegen2</artifactId>
         </dependency>
 
         <!-- spring-boot-starter-logging -->

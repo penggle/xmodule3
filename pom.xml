@@ -72,6 +72,13 @@
                 <version>${xmodule3.version}</version>
             </dependency>
 
+            <!-- xmodule3-common-codegen2 -->
+            <dependency>
+                <groupId>com.penglecode</groupId>
+                <artifactId>xmodule3-common-codegen2</artifactId>
+                <version>${xmodule3.version}</version>
+            </dependency>
+
             <!-- commons-lang3 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>

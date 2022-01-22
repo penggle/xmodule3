@@ -26,35 +26,40 @@ spring:
                             forceNumber1AsBoolean: true
                             #强制将数据库中的浮点型字段映射为Double类型? 默认为BigDecimal
                             forceDecimalNumericAsDouble: true
-                        #领域下面的枚举定义
+                        #领域枚举定义
                         domainEnums:
                             #使用已存在的枚举
                           - domainEnumName: ProductTypeEnum
+                            domainEnumTitle: 商品类型枚举
+                            #领域枚举Class(如果指定了domainEnumClass则表示当前领域枚举是已经存在的并不需要生成代码)
                             domainEnumClass: com.penglecode.xmodule.samples.product.domain.enums.ProductTypeEnum
-                            domainEnumFields: [{fieldType: java.lang.Integer, fieldName: typeCode}, {fieldType: java.lang.String, fieldName: typeName}]
+                            domainEnumCodeField: {fieldType: java.lang.Integer, fieldName: typeCode}
+                            domainEnumNameField: {fieldType: java.lang.String, fieldName: typeName}
                             #定义新的枚举类型
                           - domainEnumName: ProductAuditStatusEnum
                             domainEnumTitle: 商品审核状态枚举
-                            domainEnumFields: [{fieldType: java.lang.Integer, fieldName: statusCode}, {fieldType: java.lang.String, fieldName: statusName}]
+                            domainEnumCodeField: {fieldType: java.lang.Integer, fieldName: statusCode}
+                            domainEnumNameField: {fieldType: java.lang.String, fieldName: statusName}
                             domainEnumValues: {WAIT_AUDIT: [0, '待审核'], AUDIT_PASSED: [1, '审核通过'], AUDIT_UNPASSED: [2, '审核不通过']}
                             #定义新的枚举类型
                           - domainEnumName: ProductOnlineStatusEnum
                             domainEnumTitle: 商品上下架状态枚举
-                            domainEnumFields: [{fieldType: java.lang.Integer, fieldName: statusCode}, {fieldType: java.lang.String, fieldName: statusName}]
+                            domainEnumCodeField: { fieldType: java.lang.Integer, fieldName: statusCode }
+                            domainEnumNameField: { fieldType: java.lang.String, fieldName: statusName }
                             domainEnumValues: {OFFLINE: [0, '已下架'], ONLINE: [1, '已上架']}
                     #领域实体对象列表
                     domainEntities:
-                        #实体对象类名
+                        #领域实体对象类名
                       - domainEntityName: ProductBaseInfo
-                        #实体对应的数据库表名
+                        #领域实体对应的数据库表名
                         domainEntityTable: t_product_base_info
-                        #实体对象中文名称
+                        #领域实体对象中文名称
                         domainEntityTitle: 商品基本信息
-                        #实体对象别名(在方法命名、参数/变量命名、URL命名时使用)
+                        #领域实体对象别名(在方法命名、参数/变量命名、URL命名时使用)
                         domainEntityAlias: ProductBase
-                        #实体对象运行时数据源
+                        #领域实体对象运行时数据源
                         runtimeDataSource: product
-                        #实体对象内省数据库配置
+                        #领域实体对象内省数据库配置
                         introspectConfig:
                             #强制将数据库中的日期时间字段映射为String类型? 默认为Java8日期/时间对象
                             forceDateTimeAsString: true
@@ -111,19 +116,19 @@ spring:
                           - {columnName: 'create_time', columnTitle: '创建时间', columnOnInsert: true, validateOnInsert: true}
                           - {columnName: 'update_time', columnTitle: '最近更新时间', columnOnUpsert: true, validateOnUpsert: true}
 
-                    #聚合对象(如果定义了聚合对象，则后端会生成对应的{aggregateObjectName}AppService)
+                    #领域聚合对象(如果定义了聚合对象，则后端会生成对应的{domainAggregateName}AppService)
                     domainAggregates:
-                        #聚合对象类名(为避免与实体对象命名冲突,聚合根对象统一以Aggregate结尾)
+                        #领域聚合对象类名(为避免与实体对象命名冲突,聚合根对象统一以Aggregate结尾)
                       - domainAggregateName: ProductAggregate
-                        #聚合对象中文名称
+                        #领域聚合对象中文名称
                         domainAggregateTitle: 商品
-                        #聚合对象别名(在方法命名、参数/变量命名、URL命名时使用)
+                        #领域聚合对象别名(在方法命名、参数/变量命名、URL命名时使用)
                         domainAggregateAlias: Product
-                        #聚合对象的主要实体对象名称(指向domainEntities列表中的某一个)
+                        #领域聚合对象的主要实体对象名称(指向domainEntities列表中的某一个)
                         aggregateMasterEntity: ProductBaseInfo
-                        #聚合对象的从属实体对象列表
+                        #领域聚合对象的从属实体对象列表
                         aggregateSlaveEntities:
-                            #聚合对象的从属实体对象(指向domainEntities列表中的某一个)
+                            #领域聚合对象的从属实体对象(指向domainEntities列表中的某一个)
                           - aggregateSlaveEntity: ProductExtraInfo
                             #主要领域对象与从属领域对象的映射关系(支持1:1/1:N)
                             masterSlaveMapping: 'product_id:product_id=1:1'
@@ -190,19 +195,25 @@ spring:
                             targetPackage: com.penglecode.xmodule.samples.product.application.service.impl
                 #API代码部分
                 api:
-                    #API接口源码输出项目目录
-                    targetProject: src/main/java
-                    #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
-                    targetPackage: com.penglecode.xmodule.samples.product.api
                     #API接口客户端配置
                     clientConfig:
+                        #API接口源码输出项目目录
+                        targetProject: src/main/java
+                        #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
+                        targetPackage: com.penglecode.xmodule.samples.product.api
                         #API接口协议,feign是必须的,dubbo是可选的
                         apiProtocols: feign,dubbo
-                        apiDomainObjects:
-                            ProductAggregate: create,modify,removeById,removeByIds,getById,getByIds,getByPage
-                        #API门面接口继承父类(可以不配置)
-                        #extendsClass: ''
+                        #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
+                        apiDeclarations:
+                            ProductAggregate: CREATE,MODIFY_BY_ID,REMOVE_BY_ID,REMOVE_BY_IDS,GET_BY_ID,GET_BY_IDS,GET_BY_PAGE
                     #API接口实现配置
                     runtimeConfig:
+                        #API接口源码输出项目目录
+                        targetProject: src/main/java
+                        #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
+                        targetPackage: com.penglecode.xmodule.samples.product.api
+                        #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
+                        #apiDeclarations:
+                            #ProductAggregate: create,modify,removeById,removeByIds,getById,getByIds,getByPage
                         #API接口继承父类(可以不配置)
-                        extendsClass: com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport
+                        apiExtendsClass: com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport
