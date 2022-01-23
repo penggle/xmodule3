@@ -69,7 +69,7 @@ spring:
                             forceDecimalNumericAsDouble: true
                         #领域对象的所有列,其中operatorOnQuery支持eq,like|likeLeft|likeRight,gt|lt|gte|lte,in等
                         domainEntityColumns:
-                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true}
+                          - {columnName: 'product_id', columnTitle: '商品ID', idColumn: true}
                           - {columnName: 'product_name', columnTitle: '商品名称', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'likeRight'}
                           - {columnName: 'product_url', columnTitle: '商品详情URL', columnOnUpsert: true, validateOnUpsert: true}
                           - {columnName: 'product_tags', columnTitle: '商品标签', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'like'}
@@ -85,7 +85,7 @@ spring:
                         domainEntityTitle: 商品额外信息
                         domainEntityAlias: ProductExtra
                         domainEntityColumns:
-                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'product_id', columnTitle: '商品ID', idColumn: true, operatorOnQuery: 'eq'}
                           - {columnName: 'product_details', columnTitle: '商品详情', columnOnUpsert: true, validateOnUpsert: true}
                           - {columnName: 'product_specifications', columnTitle: '商品规则参数', columnOnUpsert: true}
                           - {columnName: 'product_services', columnTitle: '商品服务', columnOnUpsert: true}
@@ -96,8 +96,8 @@ spring:
                         domainEntityTitle: 商品销售规格信息
                         domainEntityAlias: ProductSaleSpec
                         domainEntityColumns:
-                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
-                          - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'product_id', columnTitle: '商品ID', idColumn: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'spec_no', columnTitle: '规格编号', idColumn: true, operatorOnQuery: 'eq'}
                           - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
                           - {columnName: 'spec_index', columnTitle: '规格顺序', columnOnUpsert: true, validateOnUpsert: true}
                           - {columnName: 'remark', columnTitle: '备注', columnOnUpsert: true}
@@ -108,8 +108,8 @@ spring:
                         domainEntityTitle: 商品销售库存信息
                         domainEntityAlias: ProductSaleStock
                         domainEntityColumns:
-                          - {columnName: 'product_id', columnTitle: '商品ID', primaryKey: true, operatorOnQuery: 'eq'}
-                          - {columnName: 'spec_no', columnTitle: '规格编号', primaryKey: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'product_id', columnTitle: '商品ID', idColumn: true, operatorOnQuery: 'eq'}
+                          - {columnName: 'spec_no', columnTitle: '规格编号', idColumn: true, operatorOnQuery: 'eq'}
                           - {columnName: 'spec_name', columnTitle: '规格名称', columnOnUpsert: true, validateOnUpsert: true}
                           - {columnName: 'sell_price', columnTitle: '售价', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}
                           - {columnName: 'stock', columnTitle: '库存', columnOnUpsert: true, validateOnUpsert: true, operatorOnQuery: 'lte,gte'}

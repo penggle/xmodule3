@@ -1,6 +1,5 @@
 package com.penglecode.xmodule.common.codegen.config;
 
-import com.penglecode.xmodule.common.codegen.consts.CodegenConstants;
 import org.springframework.boot.autoconfigure.dal.NamedDatabase;
 
 import java.util.HashMap;
@@ -25,7 +24,7 @@ public class DomainCommonsConfig {
     private String targetPackage;
 
     /** 注释作者 */
-    private String commentAuthor = CodegenConstants.DEFAULT_CODEGEN_COMMENT_AUTHOR;
+    private String commentAuthor;
 
     /** 运行时数据源名称 */
     private String runtimeDataSource;
@@ -122,7 +121,7 @@ public class DomainCommonsConfig {
     }
 
     public void setDefaultCreateTimeColumn(String defaultCreateTimeColumn) {
-        this.defaultCreateTimeColumn = defaultCreateTimeColumn;
+        this.defaultCreateTimeColumn = defaultCreateTimeColumn == null ? null : defaultCreateTimeColumn.toLowerCase();
     }
 
     public String getDefaultUpdateTimeColumn() {
@@ -130,7 +129,15 @@ public class DomainCommonsConfig {
     }
 
     public void setDefaultUpdateTimeColumn(String defaultUpdateTimeColumn) {
-        this.defaultUpdateTimeColumn = defaultUpdateTimeColumn;
+        this.defaultUpdateTimeColumn = defaultUpdateTimeColumn == null ? null : defaultUpdateTimeColumn.toLowerCase();
+    }
+
+    public String defaultEnumsPackage() {
+        return getTargetPackage() + ".enums";
+    }
+
+    public String defaultModelPackage() {
+        return getTargetPackage() + ".model";
     }
 
 }

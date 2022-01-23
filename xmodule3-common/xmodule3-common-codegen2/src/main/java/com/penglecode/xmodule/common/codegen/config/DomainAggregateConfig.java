@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.codegen.config;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 13:59
  */
-public class DomainAggregateConfig extends GenerableTarget {
+public class DomainAggregateConfig extends GeneratedTargetConfig {
 
     /** 领域聚合对象类名(为避免与实体对象命名冲突,聚合根对象统一以Aggregate结尾) */
     private String domainAggregateName;
@@ -27,6 +29,9 @@ public class DomainAggregateConfig extends GenerableTarget {
 
     /** 领域聚合对象的从属实体对象列表 */
     private Set<DomainAggregateSlaveConfig> aggregateSlaveEntities;
+
+    /** 领域聚合对象的字段列表 */
+    private final Map<String,DomainAggregateFieldConfig> domainAggregateFields = new LinkedHashMap<>();
 
     public String getDomainAggregateName() {
         return domainAggregateName;
@@ -66,6 +71,15 @@ public class DomainAggregateConfig extends GenerableTarget {
 
     public void setAggregateSlaveEntities(Set<DomainAggregateSlaveConfig> aggregateSlaveEntities) {
         this.aggregateSlaveEntities = aggregateSlaveEntities;
+    }
+
+    public Map<String, DomainAggregateFieldConfig> getDomainAggregateFields() {
+        return domainAggregateFields;
+    }
+
+    @Override
+    public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
+        return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + (includeSuffix ? ".java" : "");
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 15:02
  */
-public class ApiClientConfig extends GenerableTarget {
+public class ApiClientConfig extends GeneratedTargetConfig {
 
     /** API接口协议,feign是必须的,dubbo是可选的 */
     private Set<ApiProtocol> apiProtocols;
@@ -46,6 +46,11 @@ public class ApiClientConfig extends GenerableTarget {
 
     public void setApiExtendsInterfaces(Set<Class<?>> apiExtendsInterfaces) {
         this.apiExtendsInterfaces = apiExtendsInterfaces;
+    }
+
+    @Override
+    public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
+        return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + "ApiService" + (includeSuffix ? ".java" : "");
     }
 
 }

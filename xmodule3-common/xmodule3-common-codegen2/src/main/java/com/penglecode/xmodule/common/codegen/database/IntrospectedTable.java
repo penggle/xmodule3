@@ -1,7 +1,9 @@
 package com.penglecode.xmodule.common.codegen.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 自省数据库表元数据
@@ -21,8 +23,11 @@ public class IntrospectedTable extends TableIndentity {
     /** 表类型 */
     private String tableType;
 
-    /** ID列 */
-    private List<IntrospectedColumn> idColumns = new ArrayList<>();
+    /** Primary-Key列 */
+    private List<IntrospectedColumn> pkColumns = new ArrayList<>();
+
+    /** Unique-Key列 */
+    private Map<String,List<IntrospectedColumn>> ukColumns = new HashMap<>();
 
     /** 所有列 */
     private List<IntrospectedColumn> allColumns = new ArrayList<>();
@@ -55,12 +60,20 @@ public class IntrospectedTable extends TableIndentity {
         this.tableType = tableType;
     }
 
-    public List<IntrospectedColumn> getIdColumns() {
-        return idColumns;
+    public List<IntrospectedColumn> getPkColumns() {
+        return pkColumns;
     }
 
-    public void setIdColumns(List<IntrospectedColumn> idColumns) {
-        this.idColumns = idColumns;
+    public void setPkColumns(List<IntrospectedColumn> pkColumns) {
+        this.pkColumns = pkColumns;
+    }
+
+    public Map<String, List<IntrospectedColumn>> getUkColumns() {
+        return ukColumns;
+    }
+
+    public void setUkColumns(Map<String, List<IntrospectedColumn>> ukColumns) {
+        this.ukColumns = ukColumns;
     }
 
     public List<IntrospectedColumn> getAllColumns() {

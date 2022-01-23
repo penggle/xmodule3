@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.codegen.config;
 
+import com.penglecode.xmodule.common.codegen.support.ServiceType;
+
 /**
  * 应用服务代码生成配置
  *
@@ -21,6 +23,9 @@ public class ApplicationServiceConfig {
 
     public void setInterfaceConfig(ServiceInterfaceConfig interfaceConfig) {
         this.interfaceConfig = interfaceConfig;
+        if(this.interfaceConfig != null) {
+            this.interfaceConfig.setServiceType(ServiceType.APPLICATION_SERVICE);
+        }
     }
 
     public ServiceImplementConfig getImplementConfig() {
@@ -29,6 +34,9 @@ public class ApplicationServiceConfig {
 
     public void setImplementConfig(ServiceImplementConfig implementConfig) {
         this.implementConfig = implementConfig;
+        if(this.interfaceConfig != null) {
+            this.interfaceConfig.setServiceType(ServiceType.APPLICATION_SERVICE);
+        }
     }
 
 }

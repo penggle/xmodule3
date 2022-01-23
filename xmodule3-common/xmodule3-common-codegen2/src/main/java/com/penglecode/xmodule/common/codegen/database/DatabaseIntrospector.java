@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 数据库自省器
@@ -125,7 +126,7 @@ public class DatabaseIntrospector {
             List<IntrospectedColumn> allColumns = tableAndColumns.getRight();
             IntrospectedTable introspectedTable = createIntrospectedTable(domainEntityConfig, databaseMetaData, tableIndentity);
             introspectedTable.setAllColumns(allColumns);
-            introspectedTable.setIdColumns(extractIdColumns(domainEntityConfig, databaseMetaData, tableIndentity, allColumns));
+            introspectedTable.setPkColumns(extractPkColumns(domainEntityConfig, databaseMetaData, tableIndentity, allColumns));
             for(IntrospectedColumn introspectedColumn : allColumns) {
                 completeIntrospect(domainEntityConfig, introspectedColumn, introspectedTable);
             }
@@ -199,7 +200,7 @@ public class DatabaseIntrospector {
     }
 
     /**
-     * 提取当前领域对象对应的数据库表的所有ID
+     * 提取当前领域实体对应的数据库表的主键列
      * @param domainEntityConfig
      * @param databaseMetaData
      * @param tableIndentity
@@ -207,7 +208,7 @@ public class DatabaseIntrospector {
      * @return
      * @throws SQLException
      */
-    protected List<IntrospectedColumn> extractIdColumns(DomainEntityConfig domainEntityConfig, DatabaseMetaData databaseMetaData, TableIndentity tableIndentity, List<IntrospectedColumn> allColumns) throws SQLException {
+    protected List<IntrospectedColumn> extractPkColumns(DomainEntityConfig domainEntityConfig, DatabaseMetaData databaseMetaData, TableIndentity tableIndentity, List<IntrospectedColumn> allColumns) throws SQLException {
         try(ResultSet rs = databaseMetaData.getPrimaryKeys(tableIndentity.getCatalog(), tableIndentity.getSchema(), tableIndentity.getTableName())) {
             Map<Short,String> keyColumns = new TreeMap<>();
             while (rs.next()) {
@@ -225,6 +226,45 @@ public class DatabaseIntrospector {
             }
             Assert.notEmpty(pkColumns, String.format("表(%s)中没有发现主键!", tableIndentity.getTableName()));
             return pkColumns;
+        }
+    }
+
+    /**
+     * 提取当前领域实体对应的数据库表的所以唯一键列
+     * @param domainEntityConfig
+     * @param databaseMetaData
+     * @param tableIndentity
+     * @param allColumns
+     * @return
+     * @throws SQLException
+     */
+    protected Map<String,List<IntrospectedColumn>> extractUkColumns(DomainEntityConfig domainEntityConfig, DatabaseMetaData databaseMetaData, TableIndentity tableIndentity, List<IntrospectedColumn> allColumns) throws SQLException {
+        try(ResultSet rs = databaseMetaData.getIndexInfo(tableIndentity.getCatalog(), tableIndentity.getSchema(), tableIndentity.getTableName(), true, false)) {
+            Map<String,Map<Short,String>> ukMap = new HashMap<>();
+            while (rs.next()) {
+                String indexName = rs.getString("INDEX_NAME");
+                String indexColumnName = rs.getString("COLUMN_NAME");
+                Short indexColumnIndex = rs.getShort("ORDINAL_POSITION");
+                if(!ukMap.containsKey(indexName)) {
+                    ukMap.put(indexName, new TreeMap<>());
+                }
+                ukMap.get(indexName).put(indexColumnIndex, indexColumnName);
+            }
+            Map<String,List<IntrospectedColumn>> ukColumns = new HashMap<>();
+            for(Map.Entry<String,Map<Short,String>> entry : ukMap.entrySet()) {
+                List<IntrospectedColumn> keyColumns = new ArrayList<>();
+                for(String columnName : entry.getValue().values()) {
+                    for(IntrospectedColumn column : allColumns) {
+                        if(column.getColumnName().equalsIgnoreCase(columnName)) {
+                            keyColumns.add(column);
+                        }
+                    }
+                }
+                if(!keyColumns.isEmpty()) {
+                    ukColumns.put(entry.getKey(), keyColumns);
+                }
+            }
+            return ukColumns;
         }
     }
 

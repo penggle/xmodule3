@@ -29,7 +29,7 @@ import java.util.Map;
  * @version 1.0
  * @since 2021/1/22 11:36
  */
-public class DomainEnumConfig extends GenerableTarget {
+public class DomainEnumConfig extends GeneratedTargetConfig {
 
     /** 领域枚举类名称 */
     private String domainEnumName;
@@ -95,6 +95,11 @@ public class DomainEnumConfig extends GenerableTarget {
 
     public void setDomainEnumValues(Map<String, Object[]> domainEnumValues) {
         this.domainEnumValues = domainEnumValues;
+    }
+
+    @Override
+    public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
+        return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + "Enum" + (includeSuffix ? ".java" : "");
     }
 
     public static class DomainEnumField {

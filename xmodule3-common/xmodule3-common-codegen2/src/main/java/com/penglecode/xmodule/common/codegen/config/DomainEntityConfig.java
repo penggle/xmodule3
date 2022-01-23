@@ -3,10 +3,8 @@ package com.penglecode.xmodule.common.codegen.config;
 import com.penglecode.xmodule.common.codegen.database.IntrospectedTable;
 import org.springframework.util.CollectionUtils;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 领域实体配置，领域实体直接对应着数据库中的表
@@ -15,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 13:30
  */
-public class DomainEntityConfig {
+public class DomainEntityConfig extends GeneratedTargetConfig {
 
     /** 领域实体类名 */
     private String domainEntityName;
@@ -36,7 +34,10 @@ public class DomainEntityConfig {
     private DomainIntrospectConfig introspectConfig = new DomainIntrospectConfig();
 
     /** 领域实体对应的数据库表的所有列 */
-    private Map<String, DomainEntityColumnConfig> domainEntityColumns;
+    private Map<String,DomainEntityColumnConfig> domainEntityColumns;
+
+    /** 领域实体对应的所有字段 */
+    private Map<String,DomainEntityFieldConfig> domainEntityFields;
 
     /** 对应的自省表 */
     private IntrospectedTable introspectedTable;
@@ -102,12 +103,41 @@ public class DomainEntityConfig {
         }
     }
 
+    public Map<String, DomainEntityFieldConfig> getDomainEntityFields() {
+        return domainEntityFields;
+    }
+
+    public void setDomainEntityFields(Map<String, DomainEntityFieldConfig> domainEntityFields) {
+        this.domainEntityFields = domainEntityFields;
+    }
+
     public IntrospectedTable getIntrospectedTable() {
         return introspectedTable;
     }
 
     public void setIntrospectedTable(IntrospectedTable introspectedTable) {
         this.introspectedTable = introspectedTable;
+    }
+
+    /**
+     * 返回领域对象的ID列
+     * @return
+     */
+    public List<DomainEntityColumnConfig> getIdColumns() {
+        return domainEntityColumns.values().stream().filter(DomainEntityColumnConfig::isIdColumn).collect(Collectors.toList());
+    }
+
+    /**
+     * 返回领域对象的ID字段
+     * @return
+     */
+    public List<DomainEntityFieldConfig> getIdFields() {
+        return domainEntityFields.values().stream().filter(DomainEntityFieldConfig::isIdField).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
+        return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + (includeSuffix ? ".java" : "");
     }
 
     @Override

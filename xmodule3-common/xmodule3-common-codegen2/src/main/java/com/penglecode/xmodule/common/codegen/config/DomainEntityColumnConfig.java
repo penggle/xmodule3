@@ -1,9 +1,18 @@
 package com.penglecode.xmodule.common.codegen.config;
 
 import com.penglecode.xmodule.common.codegen.database.IntrospectedColumn;
+import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import com.penglecode.xmodule.common.codegen.support.IdGenerator;
+import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
+import com.penglecode.xmodule.common.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 领域实体对应的数据库表列配置
@@ -81,8 +90,8 @@ public class DomainEntityColumnConfig {
         return idGenerator;
     }
 
-    public void setIdGenerator(IdGenerator idGenerator) {
-        this.idGenerator = idGenerator;
+    public void setIdGenerator(String idGenerator) {
+        this.idGenerator = IdGenerator.parseGenerator(idGenerator);
     }
 
     public boolean isColumnOnInsert() {
@@ -115,6 +124,16 @@ public class DomainEntityColumnConfig {
 
     public void setValidateOnUpdate(boolean validateOnUpdate) {
         this.validateOnUpdate = validateOnUpdate;
+    }
+
+    public void setColumnOnUpsert(boolean columnOnUpsert) {
+        this.setColumnOnInsert(true);
+        this.setColumnOnUpdate(true);
+    }
+
+    public void setValidateOnUpsert(boolean validateOnUpsert) {
+        this.setValidateOnInsert(true);
+        this.setValidateOnUpdate(true);
     }
 
     public Set<String> getValidateExpressions() {
@@ -155,6 +174,22 @@ public class DomainEntityColumnConfig {
 
     public void setIntrospectedColumn(IntrospectedColumn introspectedColumn) {
         this.introspectedColumn = introspectedColumn;
+    }
+
+    public void initValidateExpressions(DomainConfig domainConfig) {
+        Set<String> finalValidateExpressions = Optional.ofNullable(validateExpressions).orElseGet(() -> {
+                    Set<String> expressions = new HashSet<>();
+                    if(validateOnInsert || validateOnUpdate) {
+                        Class<?> validatorType = FullyQualifiedJavaType.getStringInstance().equals(introspectedColumn.getJavaFieldType()) ? NotBlank.class : NotNull.class;
+                        expressions.add(String.format("@%s(message=\"%s\")", validatorType.getName(), getColumnTitle() + "不能为空!"));
+                    }
+                    return expressions;
+                })
+                .stream()
+                .filter(StringUtils::isNotBlank)
+                .map(expression -> CodegenUtils.parseAnnotationExpression(expression, domainConfig))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        this.setValidateExpressions(finalValidateExpressions);
     }
 
 }

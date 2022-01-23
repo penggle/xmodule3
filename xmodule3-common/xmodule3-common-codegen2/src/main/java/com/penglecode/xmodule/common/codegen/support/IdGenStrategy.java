@@ -8,7 +8,6 @@ package com.penglecode.xmodule.common.codegen.support;
  * @since 2021/1/22 14:15
  */
 public enum IdGenStrategy {
-
     //数据库自动生成(自增主键)
     IDENTITY() {
         @Override

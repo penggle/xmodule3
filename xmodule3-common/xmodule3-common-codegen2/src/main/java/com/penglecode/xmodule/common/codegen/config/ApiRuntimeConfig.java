@@ -1,6 +1,7 @@
 package com.penglecode.xmodule.common.codegen.config;
 
 import com.penglecode.xmodule.common.codegen.support.ApiMethod;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 15:15
  */
-public class ApiRuntimeConfig extends GenerableTarget {
+public class ApiRuntimeConfig extends GeneratedTargetConfig {
 
     /** API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举] */
     private Map<String,Set<ApiMethod>> apiDeclarations;
@@ -34,6 +35,12 @@ public class ApiRuntimeConfig extends GenerableTarget {
 
     public void setApiExtendsClass(Class<?> apiExtendsClass) {
         this.apiExtendsClass = apiExtendsClass;
+    }
+
+    @Override
+    public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
+        String endName = !CollectionUtils.isEmpty(apiDeclarations) && apiDeclarations.containsKey(domainObjectName) ? "Controller" : "ApiServiceImpl";
+        return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + endName + (includeSuffix ? ".java" : "");
     }
 
 }
