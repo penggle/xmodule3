@@ -29,7 +29,7 @@ import java.util.Map;
  * @version 1.0
  * @since 2021/1/22 11:36
  */
-public class DomainEnumConfig extends GeneratedTargetConfig {
+public class DomainEnumConfig extends GenerableTargetConfig {
 
     /** 领域枚举类名称 */
     private String domainEnumName;

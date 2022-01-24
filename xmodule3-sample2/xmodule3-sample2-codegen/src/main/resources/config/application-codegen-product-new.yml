@@ -195,12 +195,12 @@ spring:
                             targetPackage: com.penglecode.xmodule.samples.product.application.service.impl
                 #API代码部分
                 api:
+                    #API接口源码输出项目目录
+                    targetProject: src/main/java
+                    #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
+                    targetPackage: com.penglecode.xmodule.samples.product.api
                     #API接口客户端配置
                     clientConfig:
-                        #API接口源码输出项目目录
-                        targetProject: src/main/java
-                        #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
-                        targetPackage: com.penglecode.xmodule.samples.product.api
                         #API接口协议,feign是必须的,dubbo是可选的
                         apiProtocols: feign,dubbo
                         #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
@@ -208,10 +208,6 @@ spring:
                             ProductAggregate: CREATE,MODIFY_BY_ID,REMOVE_BY_ID,REMOVE_BY_IDS,GET_BY_ID,GET_BY_IDS,GET_BY_PAGE
                     #API接口实现配置
                     runtimeConfig:
-                        #API接口源码输出项目目录
-                        targetProject: src/main/java
-                        #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
-                        targetPackage: com.penglecode.xmodule.samples.product.api
                         #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
                         #apiDeclarations:
                             #ProductAggregate: create,modify,removeById,removeByIds,getById,getByIds,getByPage

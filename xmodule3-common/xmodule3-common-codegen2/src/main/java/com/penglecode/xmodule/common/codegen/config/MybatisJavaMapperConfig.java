@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2021/1/22 14:39
  */
-public class MybatisJavaMapperConfig extends GeneratedTargetConfig {
+public class MybatisJavaMapperConfig extends GenerableTargetConfig {
 
     /** 当前领域对象的Mapper接口上的数据库名称,默认单库即:'@NamedDatabase("${runtimeDataSource}")' */
     private Set<String> mapperAnnotations;
@@ -29,7 +29,7 @@ public class MybatisJavaMapperConfig extends GeneratedTargetConfig {
         this.mapperAnnotations = mapperAnnotations;
     }
 
-    public void prepareMapperAnnotations(DomainConfig domainConfig) {
+    protected void initMapperAnnotations(DomainConfig domainConfig) {
         Set<String> finalMapperAnnotations = Optional.ofNullable(mapperAnnotations).orElseGet(LinkedHashSet::new);
         finalMapperAnnotations.add("@" + NamedDatabase.class.getSimpleName() + "(\"${runtimeDataSource}\")"); //增加默认的
         finalMapperAnnotations = finalMapperAnnotations

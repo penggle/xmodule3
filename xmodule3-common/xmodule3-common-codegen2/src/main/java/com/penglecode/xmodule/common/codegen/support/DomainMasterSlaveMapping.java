@@ -19,20 +19,17 @@ public class DomainMasterSlaveMapping {
     /**
      * master领域对象的关联字段名
      */
-    private String relateFieldNameOfMaster;
+    private final String relateFieldNameOfMaster;
 
     /**
      * slave领域对象的关联字段名
      */
-    private String relateFieldNameOfSlave;
+    private final String relateFieldNameOfSlave;
 
     /**
      * master与slave的关联关系
      */
-    private DomainMasterSlaveRelation masterSlaveRelation;
-
-    protected DomainMasterSlaveMapping() {
-    }
+    private final DomainMasterSlaveRelation masterSlaveRelation;
 
     protected DomainMasterSlaveMapping(String relateFieldNameOfMaster, String relateFieldNameOfSlave, DomainMasterSlaveRelation masterSlaveRelation) {
         this.relateFieldNameOfMaster = StringUtils.snakeNamingToCamel(relateFieldNameOfMaster);
@@ -44,27 +41,15 @@ public class DomainMasterSlaveMapping {
         return relateFieldNameOfMaster;
     }
 
-    public void setRelateFieldNameOfMaster(String relateFieldNameOfMaster) {
-        this.relateFieldNameOfMaster = relateFieldNameOfMaster;
-    }
-
     public String getRelateFieldNameOfSlave() {
         return relateFieldNameOfSlave;
-    }
-
-    public void setRelateFieldNameOfSlave(String relateFieldNameOfSlave) {
-        this.relateFieldNameOfSlave = relateFieldNameOfSlave;
     }
 
     public DomainMasterSlaveRelation getMasterSlaveRelation() {
         return masterSlaveRelation;
     }
 
-    public void setMasterSlaveRelation(DomainMasterSlaveRelation masterSlaveRelation) {
-        this.masterSlaveRelation = masterSlaveRelation;
-    }
-
-    public static DomainMasterSlaveMapping of(String masterSlaveMapping) {
+    public static DomainMasterSlaveMapping parseMapping(String masterSlaveMapping) {
         masterSlaveMapping = masterSlaveMapping.replace(" ", "");
         Matcher matcher = MAPPING_PATTERN.matcher(masterSlaveMapping);
         if(matcher.matches()) {
@@ -75,7 +60,7 @@ public class DomainMasterSlaveMapping {
                 return new DomainMasterSlaveMapping(relateFieldNameOfMaster, relateFieldNameOfSlave, masterSlaveRelation);
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unresolved masterSlaveMapping: " + masterSlaveMapping);
     }
 
 }

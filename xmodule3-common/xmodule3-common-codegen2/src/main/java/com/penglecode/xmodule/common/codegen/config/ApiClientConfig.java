@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 15:02
  */
-public class ApiClientConfig extends GeneratedTargetConfig {
+public class ApiClientConfig extends GenerableTargetConfig {
 
     /** API接口协议,feign是必须的,dubbo是可选的 */
     private Set<ApiProtocol> apiProtocols;

@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 15:15
  */
-public class ApiRuntimeConfig extends GeneratedTargetConfig {
+public class ApiRuntimeConfig extends GenerableTargetConfig {
 
     /** API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举] */
     private Map<String,Set<ApiMethod>> apiDeclarations;

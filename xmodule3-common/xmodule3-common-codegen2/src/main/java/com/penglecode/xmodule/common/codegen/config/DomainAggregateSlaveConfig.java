@@ -52,7 +52,7 @@ public class DomainAggregateSlaveConfig {
     }
 
     public void setMasterSlaveMapping(String masterSlaveMapping) {
-        this.masterSlaveMapping = DomainMasterSlaveMapping.of(masterSlaveMapping);
+        this.masterSlaveMapping = DomainMasterSlaveMapping.parseMapping(masterSlaveMapping);
     }
 
     public boolean isCascadingOnInsert() {

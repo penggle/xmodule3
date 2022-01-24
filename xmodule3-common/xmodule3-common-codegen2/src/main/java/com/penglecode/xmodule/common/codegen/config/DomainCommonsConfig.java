@@ -13,15 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 11:12
  */
-public class DomainCommonsConfig {
-
-    /** 代码输出的项目位置 */
-    //TODO
-    private String targetProject;
-
-    /** 代码输出的包路径 */
-    //TODO
-    private String targetPackage;
+public class DomainCommonsConfig extends GenerableTargetLocation {
 
     /** 注释作者 */
     private String commentAuthor;
@@ -50,22 +42,6 @@ public class DomainCommonsConfig {
     public DomainCommonsConfig() {
         this.globalTypes = new HashMap<>();
         this.globalTypes.put(NamedDatabase.class.getSimpleName(), NamedDatabase.class.getName());
-    }
-
-    public String getTargetProject() {
-        return targetProject;
-    }
-
-    public void setTargetProject(String targetProject) {
-        this.targetProject = targetProject;
-    }
-
-    public String getTargetPackage() {
-        return targetPackage;
-    }
-
-    public void setTargetPackage(String targetPackage) {
-        this.targetPackage = targetPackage;
     }
 
     public String getCommentAuthor() {

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 2021/1/22 13:30
  */
-public class DomainEntityConfig extends GeneratedTargetConfig {
+public class DomainEntityConfig extends GenerableTargetConfig {
 
     /** 领域实体类名 */
     private String domainEntityName;

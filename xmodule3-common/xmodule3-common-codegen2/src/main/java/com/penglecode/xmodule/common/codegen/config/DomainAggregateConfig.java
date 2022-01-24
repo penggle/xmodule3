@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2021/1/22 13:59
  */
-public class DomainAggregateConfig extends GeneratedTargetConfig {
+public class DomainAggregateConfig extends GenerableTargetConfig {
 
     /** 领域聚合对象类名(为避免与实体对象命名冲突,聚合根对象统一以Aggregate结尾) */
     private String domainAggregateName;

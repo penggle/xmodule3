@@ -7,7 +7,7 @@ package com.penglecode.xmodule.common.codegen.config;
  * @version 1.0
  * @since 2021/1/22 15:21
  */
-public class ApiConfig {
+public class ApiConfig extends GenerableTargetLocation {
 
     /** API接口客户端配置 */
     private ApiClientConfig clientConfig;

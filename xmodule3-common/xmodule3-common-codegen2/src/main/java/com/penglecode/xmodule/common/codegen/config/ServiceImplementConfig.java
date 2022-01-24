@@ -9,7 +9,7 @@ import com.penglecode.xmodule.common.codegen.support.ServiceType;
  * @version 1.0
  * @since 2021/1/22 14:51
  */
-public class ServiceImplementConfig extends GeneratedTargetConfig {
+public class ServiceImplementConfig extends GenerableTargetConfig {
 
     private ServiceType serviceType;
 

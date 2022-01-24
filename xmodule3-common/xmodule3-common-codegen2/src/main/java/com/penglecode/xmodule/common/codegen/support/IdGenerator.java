@@ -31,9 +31,9 @@ public class IdGenerator {
         return parameter;
     }
 
-    public static IdGenerator parseGenerator(String expression) {
+    public static IdGenerator parseGenerator(String idGenerator) {
         Pattern pattern = Pattern.compile("([0-9A-Z_]+)\\((\\w*)\\)");
-        Matcher matcher = pattern.matcher(expression);
+        Matcher matcher = pattern.matcher(idGenerator);
         if(matcher.matches()) {
             String strategy = matcher.group(1);
             String parameter = StringUtils.defaultIfBlank(matcher.group(2), "").trim();
@@ -43,7 +43,7 @@ public class IdGenerator {
                 return new IdGenerator(IdGenStrategy.SEQUENCE, parameter);
             }
         }
-        throw new UnsupportedOperationException("Unsupported IdGenerator: " + expression);
+        throw new IllegalArgumentException("Unresolved idGenerator: " + idGenerator);
     }
 
 }

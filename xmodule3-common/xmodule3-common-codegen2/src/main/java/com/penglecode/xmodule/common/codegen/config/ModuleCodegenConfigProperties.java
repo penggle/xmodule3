@@ -55,7 +55,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
         this.domain = domain;
     }
 
-    public static String getModuleCodegenConfigPrefix(String module) {
+    public String getCodegenConfigPrefix(String module) {
         return CodegenConstants.MODULE_CODEGEN_CONFIGURATION_PREFIX + module;
     }
 
@@ -93,7 +93,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
      * 校验Domain代码生成配置
      */
     protected void validateDomainCodegenConfig() throws Exception {
-        String codegenConfigPrefix = getModuleCodegenConfigPrefix(module);
+        String codegenConfigPrefix = getCodegenConfigPrefix(module);
         //1、校验领域公共配置
         Assert.hasText(domain.getDomainCommons().getRuntimeDataSource(), String.format("Domain代码生成配置(%s.domain.domainCommons.runtimeDataSource')必须指定!", codegenConfigPrefix));
         Assert.hasText(domain.getDomainCommons().getIntrospectDataSource(), String.format("Domain代码生成配置(%s.domain.domainCommons.introspectDataSource')必须指定!", codegenConfigPrefix));
