@@ -2,7 +2,7 @@ spring:
     #代码生成配置
     codegen:
         config:
-            #模块名称
+            #业务/功能模块名称
             product:
                 #领域对象配置
                 domain:
@@ -201,8 +201,8 @@ spring:
                     targetPackage: com.penglecode.xmodule.samples.product.api
                     #API接口客户端配置
                     clientConfig:
-                        #API接口协议,feign是必须的,dubbo是可选的
-                        apiProtocols: feign,dubbo
+                        #API接口协议,FEIGN是必须的,DUBBO是可选的
+                        apiProtocols: FEIGN,DUBBO
                         #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
                         apiDeclarations:
                             ProductAggregate: CREATE,MODIFY_BY_ID,REMOVE_BY_ID,REMOVE_BY_IDS,GET_BY_ID,GET_BY_IDS,GET_BY_PAGE
