@@ -1,6 +1,5 @@
 package com.penglecode.xmodule.common.codegen;
 
-import com.penglecode.xmodule.BasePackage;
 import com.penglecode.xmodule.common.codegen.config.DomainObjectConfig;
 import com.penglecode.xmodule.common.codegen.config.GenerableTargetConfig;
 import com.penglecode.xmodule.common.codegen.config.ModuleCodegenConfigProperties;
@@ -9,7 +8,7 @@ import com.penglecode.xmodule.common.codegen.exception.CodegenRuntimeException;
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.codegen.support.CodegenFilter;
 import com.penglecode.xmodule.common.codegen.support.CodegenModule;
-import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
+import com.penglecode.xmodule.common.codegen.support.CodegenParameter;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 import com.penglecode.xmodule.common.util.*;
 import freemarker.template.Configuration;
@@ -17,13 +16,11 @@ import freemarker.template.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.core.NamedThreadLocal;
 import org.springframework.util.Assert;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -127,15 +124,20 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 
 	/**
 	 * 生成目标代码
+	 *
+	 * @param codegenContext		- 代码生成上下文
+	 * @param codegenParameter		- 代码生成参数
+	 * @param <T> 当前生成目标配置
+	 * @param <D> 当前生成目标绑定的领域对象
+	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> void generateTarget(CodegenContext<C,T,D> codegenContext) throws Exception {
+	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> void generateTarget(CodegenContext<C,T,D> codegenContext, CodegenParameter codegenParameter) throws Exception {
 		if(codegenFilter == null || codegenFilter.filter(codegenContext)) { //如果未设代码生成过滤条件
 			try {
-				String generatedCodeFilePath = executeGenerateTarget(codegenContext);
-				LOGGER.info("【{}】>>> 生成代码[{}]成功! (输出文件: {})", module, templateParameter.getTargetFileName(), generatedCodeFilePath);
+				String targetFilePath = executeGenerateTarget(codegenContext, codegenParameter);
+				LOGGER.info("【{}】>>> 生成代码[{}]成功! (输出文件: {})", module, codegenParameter.getTargetFileName(), targetFilePath);
 			} catch (Exception e) {
-				LOGGER.error("【{}】>>> 生成代码[{}]失败! (异常信息: {})", module, templateParameter.getTargetFileName(), e.getMessage());
+				LOGGER.error("【{}】>>> 生成代码[{}]失败! (异常信息: {})", module, codegenParameter.getTargetFileName(), e.getMessage());
 				throw e;
 			}
 		}
@@ -143,90 +145,64 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 
 	/**
 	 * 执行目标代码生成
-	 * @param codegenConfig
-	 * @param targetConfig
-	 * @param templateParameter
-	 * @return
+	 *
+	 * @param codegenContext		- 代码生成上下文
+	 * @param codegenParameter		- 代码生成参数
+	 * @param <T> 当前生成目标配置
+	 * @param <D> 当前生成目标绑定的领域对象
+	 * @return 返回生成的目标代码文件路径
 	 * @throws Exception
 	 */
-	protected <T extends GenerableTargetConfig> String executeGenerateTarget(C codegenConfig, DomainBoundedTargetConfigProperties<T> targetConfig, TemplateParameter templateParameter) throws Exception {
-		String targetProject = StringUtils.defaultIfBlank(targetConfig.getGeneratedTargetConfig().getTargetProject(), codegenConfig.getDomain().getDomainCommons().getTargetProject());
-		String targetPackage = StringUtils.defaultIfBlank(targetConfig.getGeneratedTargetConfig().getTargetPackage(), codegenConfig.getDomain().getDomainCommons().getTargetPackage());
-		String targetCodeFilePath = getTargetPackageDir(targetProject, targetPackage);
-		String targetCodeFileName = CodegenUtils.calculateGeneratedCodeFileName(templateParameter.getTargetFileName(), new File(targetCodeFilePath));
-		targetCodeFilePath = FileUtils.normalizePath(targetCodeFilePath + FileUtils.STANDARD_PATH_DELIMITER + targetCodeFileName);
+	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> String executeGenerateTarget(CodegenContext<C,T,D> codegenContext, CodegenParameter codegenParameter) throws Exception {
+		String targetProject = StringUtils.defaultIfBlank(codegenContext.getTargetConfig().getTargetProject(), codegenConfig.getDomain().getDomainCommons().getTargetProject());
+		String targetPackage = StringUtils.defaultIfBlank(codegenContext.getTargetConfig().getTargetPackage(), codegenConfig.getDomain().getDomainCommons().getTargetPackage());
+		String targetFilePath = getTargetPackageDir(targetProject, targetPackage);
+		String targetCodeFileName = CodegenUtils.calculateGeneratedCodeFileName(codegenParameter.getTargetFileName(), new File(targetFilePath));
+		targetFilePath = FileUtils.normalizePath(targetFilePath + FileUtils.STANDARD_PATH_DELIMITER + targetCodeFileName);
 		Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 		Class<?> resourceLoadClass = getClass();
 		configuration.setClassForTemplateLoading(resourceLoadClass, "/" + resourceLoadClass.getPackage().getName().replace(".", "/"));
-		Template codeTemplate = configuration.getTemplate(templateParameter.getTemplateFileName());
-		FileUtils.mkDirIfNecessary(targetCodeFilePath);
-		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(targetCodeFilePath))))) {
-			codeTemplate.process(templateParameter, out);
+		Template codeTemplate = configuration.getTemplate(codegenParameter.getTemplateFileName());
+		FileUtils.mkDirIfNecessary(targetFilePath);
+		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFilePath)))) {
+			codeTemplate.process(codegenParameter, out);
 		}
-		return targetCodeFilePath;
+		return targetFilePath;
 	}
 
 	/**
-	 * 添加模板公共参数
-	 * @param templateParameter
-	 * @param codegenConfig
-	 * @param targetConfig
-	 * @param templateFileName
-	 * @param <T>
+	 * 创建代码生成参数
+	 *
+	 * @param codegenContext		- 代码生成上下文
+	 * @param templateFileName		- 模板文件名
+	 * @param <T> 当前生成目标配置
+	 * @param <D> 当前生成目标绑定的领域对象
+	 * @return 返回代码生成参数
 	 */
-	protected <T extends GenerableTargetConfig> void addCommonTemplateParameter(TemplateParameter templateParameter, ModuleCodegenConfigProperties codegenConfig, DomainBoundedTargetConfigProperties<T> targetConfig, String templateFileName) {
-		templateParameter.setTemplateFileName(templateFileName);
-		templateParameter.setTargetFileName(targetConfig.getGeneratedTargetConfig().getGeneratedTargetName(targetConfig, false, true));
-		templateParameter.setTargetObjectName(targetConfig.getGeneratedTargetConfig().getGeneratedTargetName(targetConfig, false, false));
-		templateParameter.setTargetPackage(targetConfig.getGeneratedTargetConfig().getTargetPackage());
-		templateParameter.setCommentAuthor(codegenConfig.getDomain().getDomainCommons().getCommentAuthor());
-		templateParameter.setGenerateTime(DateTimeUtils.formatNow("yyyy'年'MM'月'dd'日' a HH:mm"));
-		if(targetConfig.getDomainObjectConfig() != null) {
-			templateParameter.setDomainObjectTitle(targetConfig.getDomainObjectConfig().getDomainObjectTitle());
-			templateParameter.setDomainObjectName(targetConfig.getDomainObjectConfig().getDomainObjectName());
-			templateParameter.setDomainObjectAlias(targetConfig.getDomainObjectConfig().getDomainObjectAlias());
-		}
+	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> CodegenParameter createCodegenParameter(CodegenContext<C,T,D> codegenContext, String templateFileName) {
+		String domainObjectName = codegenContext.getDomainObjectConfig().getDomainObjectName();
+		CodegenParameter codegenParameter = new CodegenParameter();
+		codegenParameter.setTemplateFileName(templateFileName);
+		codegenParameter.setTargetFileName(codegenContext.getTargetConfig().getGeneratedTargetName(domainObjectName, false, true));
+		codegenParameter.setTargetPackage(codegenContext.getTargetConfig().getTargetPackage());
+		codegenParameter.setTargetClass(codegenContext.getTargetConfig().getGeneratedTargetName(domainObjectName, false, false));
+		codegenParameter.setTargetAuthor(codegenConfig.getDomain().getDomainCommons().getCommentAuthor());
+		codegenParameter.setTargetVersion("1.0.0");
+		codegenParameter.setTargetCreated(DateTimeUtils.formatNow("yyyy'年'MM'月'dd'日' a HH:mm"));
+		return codegenParameter;
 	}
 
 	/**
 	 * 根据给定的targetProject和targetPackage计算目标Package的具体目录
-	 * @param targetProject
-	 * @param targetPackage
-	 * @return
+	 * @param targetProject		- 目标工程
+	 * @param targetPackage		- 目标包名
+	 * @return 源码包的具体目录路径
 	 */
 	protected String getTargetPackageDir(String targetProject, String targetPackage) {
 		String codegenRuntimeProjectDir = getClass().getResource("/").getPath();
 		codegenRuntimeProjectDir = codegenRuntimeProjectDir.substring(1, codegenRuntimeProjectDir.indexOf("/target/"));
 		targetProject = Paths.get(codegenRuntimeProjectDir, targetProject).toAbsolutePath().toString();
 		return FileUtils.normalizePath(targetProject + "/" + targetPackage.replace(".", "/"));
-	}
-
-	/**
-	 * 计算所生成的类需要导入的import类列
-	 * @param allImportedTypes
-	 * @param templateParameter
-	 */
-	protected void calculateImportedTypes(Set<FullyQualifiedJavaType> allImportedTypes, Map<String, Object> templateParameter) {
-		List<String> jdkImports = new ArrayList<>(); //JDK包中的import类
-		List<String> thirdImports = new ArrayList<>(); //第三方jar包中的import类
-		List<String> projectImports = new ArrayList<>(); //具有共同BasePackage的import类
-		if(!CollectionUtils.isEmpty(allImportedTypes)) {
-			allImportedTypes.stream().flatMap(importedType -> importedType.getImportList().stream()).forEach(importedType -> {
-				if(importedType.startsWith("java.")) {
-					jdkImports.add(importedType);
-				} else if(importedType.startsWith(BasePackage.class.getPackage().getName())) {
-					projectImports.add(importedType);
-				} else {
-					thirdImports.add(importedType);
-				}
-			});
-		}
-		Collections.sort(jdkImports);
-		Collections.sort(thirdImports);
-		Collections.sort(projectImports);
-		templateParameter.put("jdkImports", jdkImports);
-		templateParameter.put("thirdImports", thirdImports);
-		templateParameter.put("projectImports", projectImports);
 	}
 
 }

@@ -78,6 +78,11 @@ public class DomainAggregateConfig extends DomainObjectConfig {
     }
 
     @Override
+    public String getDomainObjectName() {
+        return getDomainAggregateName();
+    }
+
+    @Override
     public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
         return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + (includeSuffix ? ".java" : "");
     }

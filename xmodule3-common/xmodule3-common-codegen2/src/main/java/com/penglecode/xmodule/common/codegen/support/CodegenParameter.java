@@ -1,27 +1,29 @@
 package com.penglecode.xmodule.common.codegen.support;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.penglecode.xmodule.BasePackage;
+import com.penglecode.xmodule.common.util.CollectionUtils;
+
+import java.util.*;
 
 /**
- * Freemarker模板参数
+ * 代码生成Freemarker模板参数
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/1/24 15:50
  */
 @SuppressWarnings("unchecked")
-public class TemplateParameter extends HashMap<String,Object> {
+public class CodegenParameter extends HashMap<String,Object> {
 
     private static final long serialVersionUID = 1L;
 
-    public TemplateParameter() {
-        super();
+    public CodegenParameter() {
+        this(new HashMap<>());
     }
 
-    public TemplateParameter(Map<? extends String, ?> m) {
+    public CodegenParameter(Map<? extends String, ?> m) {
         super(m);
+        put("targetAllImportTypes", new HashSet<>());
     }
 
     public void setTemplateFileName(String templateFileName) {
@@ -42,31 +44,23 @@ public class TemplateParameter extends HashMap<String,Object> {
         return (String) get("targetFileName");
     }
 
-    public void setTargetProjectImports(List<String> targetProjectImports) {
+    /** 待生成目标对象的项目内imports */
+    protected void setTargetProjectImports(List<String> targetProjectImports) {
         put("targetProjectImports", targetProjectImports);
     }
 
-    /** 待生成目标对象的项目内imports */
-    public List<String> getTargetProjectImports() {
-        return (List<String>) get("targetProjectImports");
-    }
-
-    public void setTargetThirdImports(List<String> targetThirdImports) {
+    /** 待生成目标对象的第三方imports */
+    protected void setTargetThirdImports(List<String> targetThirdImports) {
         put("targetThirdImports", targetThirdImports);
     }
 
-    /** 待生成目标对象的第三方imports */
-    public List<String> getTargetThirdImports() {
-        return (List<String>) get("targetThirdImports");
-    }
-
-    public void setTargetJdkImports(List<String> targetJdkImports) {
+    /** 待生成目标对象的JDK imports */
+    protected void setTargetJdkImports(List<String> targetJdkImports) {
         put("targetJdkImports", targetJdkImports);
     }
 
-    /** 待生成目标对象的JDK imports */
-    public List<String> getTargetJdkImports() {
-        return (List<String>) get("targetJdkImports");
+    public Set<FullyQualifiedJavaType> getTargetAllImportTypes() {
+        return (Set<FullyQualifiedJavaType>) get("targetAllImportTypes");
     }
 
     public void setTargetClass(String targetClass) {
@@ -174,44 +168,39 @@ public class TemplateParameter extends HashMap<String,Object> {
         return (String) get("domainObjectAlias");
     }
 
-    public void setDomainObjectVarName(String domainObjectVarName) {
-        put("domainObjectVarName", domainObjectVarName);
+    public void setDomainObjectVariableName(String domainObjectVariableName) {
+        put("domainObjectVariableName", domainObjectVariableName);
     }
 
-    public String getDomainObjectVarName() {
-        return (String) get("domainObjectVarName");
+    public String getDomainObjectVariableName() {
+        return (String) get("domainObjectVariableName");
     }
 
-    public void setAggregateObjectTitle(String aggregateObjectTitle) {
-        put("aggregateObjectTitle", aggregateObjectTitle);
-    }
-
-    public String getAggregateObjectTitle() {
-        return (String) get("aggregateObjectTitle");
-    }
-
-    public void setAggregateObjectName(String aggregateObjectName) {
-        put("aggregateObjectName", aggregateObjectName);
-    }
-
-    public String getAggregateObjectName() {
-        return (String) get("aggregateObjectName");
-    }
-
-    public void setAggregateObjectAlias(String aggregateObjectAlias) {
-        put("aggregateObjectAlias", aggregateObjectAlias);
-    }
-
-    public String getAggregateObjectAlias() {
-        return (String) get("aggregateObjectAlias");
-    }
-
-    public void setAggregateObjectVarName(String aggregateObjectVarName) {
-        put("aggregateObjectVarName", aggregateObjectVarName);
-    }
-
-    public String getAggregateObjectVarName() {
-        return (String) get("aggregateObjectVarName");
+    /**
+     * 计算所生成的类需要导入的import类
+     */
+    public void calculateTargetImports() {
+        Set<FullyQualifiedJavaType> targetAllImportTypes = getTargetAllImportTypes();
+        final List<String> jdkImports = new ArrayList<>(); //JDK包中的import类
+        final List<String> thirdImports = new ArrayList<>(); //第三方jar包中的import类
+        final List<String> projectImports = new ArrayList<>(); //具有共同BasePackage的import类
+        if(!CollectionUtils.isEmpty(targetAllImportTypes)) {
+            targetAllImportTypes.stream().flatMap(importedType -> importedType.getImportList().stream()).forEach(importedType -> {
+                if(importedType.startsWith("java.")) {
+                    jdkImports.add(importedType);
+                } else if(importedType.startsWith(BasePackage.class.getPackage().getName())) {
+                    projectImports.add(importedType);
+                } else {
+                    thirdImports.add(importedType);
+                }
+            });
+        }
+        Collections.sort(jdkImports);
+        Collections.sort(thirdImports);
+        Collections.sort(projectImports);
+        setTargetJdkImports(jdkImports);
+        setTargetThirdImports(thirdImports);
+        setTargetProjectImports(projectImports);
     }
 
 }

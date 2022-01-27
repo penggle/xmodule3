@@ -13,10 +13,13 @@ public class CodegenContext<C extends ModuleCodegenConfigProperties, T extends G
 
     private final CodegenModule codegenModule;
 
+    /** 代码生成配置 */
     private final C codegenConfig;
 
+    /** 当前生成目标配置 */
     private final T targetConfig;
 
+    /** 当前生成目标绑定的领域对象 */
     private final D domainObjectConfig;
 
     public CodegenContext(CodegenModule codegenModule, C codegenConfig, T targetConfig, D domainObjectConfig) {

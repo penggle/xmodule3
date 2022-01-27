@@ -136,6 +136,11 @@ public class DomainEntityConfig extends DomainObjectConfig {
     }
 
     @Override
+    public String getDomainObjectName() {
+        return getDomainEntityName();
+    }
+
+    @Override
     public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
         return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + (includeSuffix ? ".java" : "");
     }
