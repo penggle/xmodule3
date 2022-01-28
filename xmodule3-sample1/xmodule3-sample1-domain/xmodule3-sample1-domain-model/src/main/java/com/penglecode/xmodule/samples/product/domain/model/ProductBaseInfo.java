@@ -225,7 +225,7 @@ public class ProductBaseInfo implements EntityObject {
     }
 
     @Override
-    public ProductBaseInfo processOutbound() {
+    public ProductBaseInfo beforeOutbound() {
         Optional.ofNullable(ProductTypeEnum.of(productType)).ifPresent(em -> setProductTypeName(em.getTypeName()));
         Optional.ofNullable(ProductAuditStatusEnum.of(auditStatus)).ifPresent(em -> setAuditStatusName(em.getStatusName()));
         Optional.ofNullable(ProductOnlineStatusEnum.of(onlineStatus)).ifPresent(em -> setOnlineStatusName(em.getStatusName()));

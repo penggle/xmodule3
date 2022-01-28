@@ -25,11 +25,11 @@ public class DomainObjectQueryInterceptor implements Interceptor {
             List<Object> resultSets = (List<Object>) resultObject;
             resultSets.forEach(element -> {
                 if(element instanceof DomainObject) {
-                    ((DomainObject) element).processOutbound();
+                    ((DomainObject) element).beforeOutbound();
                 }
             });
         } else if(resultObject instanceof DomainObject) {
-            ((DomainObject) resultObject).processOutbound();
+            ((DomainObject) resultObject).beforeOutbound();
         }
         return resultObject;
     }

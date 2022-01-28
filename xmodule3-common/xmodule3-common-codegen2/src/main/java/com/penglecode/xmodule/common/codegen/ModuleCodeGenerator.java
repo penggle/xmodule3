@@ -7,7 +7,6 @@ import com.penglecode.xmodule.common.codegen.consts.CodegenConstants;
 import com.penglecode.xmodule.common.codegen.exception.CodegenRuntimeException;
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.codegen.support.CodegenFilter;
-import com.penglecode.xmodule.common.codegen.support.CodegenModule;
 import com.penglecode.xmodule.common.codegen.support.CodegenParameter;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 import com.penglecode.xmodule.common.util.*;
@@ -99,15 +98,20 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 	 * 执行代码生成
 	 */
 	public final void generate() {
-		CodegenModule codeModule = getCodeModule();
-		LOGGER.info("【{}】>>> 生成{}开始...", module, codeModule.getDesc());
+		LOGGER.info("【{}】>>> 生成{}开始...", module, getCodeName());
 		try {
 			executeGenerate();
 		} catch (Exception e) {
-			LOGGER.error(String.format("【%s】>>> 生成%s代码出错：%s", module, codeModule.getDesc(), e.getMessage()), e);
+			LOGGER.error(String.format("【%s】>>> 生成%s代码出错：%s", module, getCodeName(), e.getMessage()), e);
 		}
-		LOGGER.info("【{}】<<< 生成{}结束...", module, codeModule.getDesc());
+		LOGGER.info("【{}】<<< 生成{}结束...", module, getCodeName());
 	}
+
+	/**
+	 * 返回生成的代码模块名
+	 * @return
+	 */
+	protected abstract String getCodeName();
 
 	/**
 	 * 执行代码生成的模板方法，留给子类去实现，
@@ -115,12 +119,6 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 	 * @throws Exception
 	 */
 	protected abstract void executeGenerate() throws Exception;
-
-	/**
-	 * 返回代码层次模块
-	 * @return
-	 */
-	protected abstract CodegenModule getCodeModule();
 
 	/**
 	 * 生成目标代码
@@ -154,8 +152,8 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 	 * @throws Exception
 	 */
 	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> String executeGenerateTarget(CodegenContext<C,T,D> codegenContext, CodegenParameter codegenParameter) throws Exception {
-		String targetProject = StringUtils.defaultIfBlank(codegenContext.getTargetConfig().getTargetProject(), codegenConfig.getDomain().getDomainCommons().getTargetProject());
-		String targetPackage = StringUtils.defaultIfBlank(codegenContext.getTargetConfig().getTargetPackage(), codegenConfig.getDomain().getDomainCommons().getTargetPackage());
+		String targetProject = codegenContext.getTargetConfig().getTargetProject();
+		String targetPackage = codegenContext.getTargetConfig().getTargetPackage();
 		String targetFilePath = getTargetPackageDir(targetProject, targetPackage);
 		String targetCodeFileName = CodegenUtils.calculateGeneratedCodeFileName(codegenParameter.getTargetFileName(), new File(targetFilePath));
 		targetFilePath = FileUtils.normalizePath(targetFilePath + FileUtils.STANDARD_PATH_DELIMITER + targetCodeFileName);
@@ -165,6 +163,7 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		Template codeTemplate = configuration.getTemplate(codegenParameter.getTemplateFileName());
 		FileUtils.mkDirIfNecessary(targetFilePath);
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFilePath)))) {
+			codegenParameter.calculateTargetImports();
 			codeTemplate.process(codegenParameter, out);
 		}
 		return targetFilePath;
@@ -203,6 +202,10 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		codegenRuntimeProjectDir = codegenRuntimeProjectDir.substring(1, codegenRuntimeProjectDir.indexOf("/target/"));
 		targetProject = Paths.get(codegenRuntimeProjectDir, targetProject).toAbsolutePath().toString();
 		return FileUtils.normalizePath(targetProject + "/" + targetPackage.replace(".", "/"));
+	}
+
+	protected C getCodegenConfig() {
+		return codegenConfig;
 	}
 
 }

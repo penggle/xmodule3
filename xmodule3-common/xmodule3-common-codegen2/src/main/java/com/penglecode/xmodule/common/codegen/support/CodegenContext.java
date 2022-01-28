@@ -11,8 +11,6 @@ import com.penglecode.xmodule.common.codegen.config.*;
  */
 public class CodegenContext<C extends ModuleCodegenConfigProperties, T extends GenerableTargetConfig, D extends DomainObjectConfig> {
 
-    private final CodegenModule codegenModule;
-
     /** 代码生成配置 */
     private final C codegenConfig;
 
@@ -22,15 +20,10 @@ public class CodegenContext<C extends ModuleCodegenConfigProperties, T extends G
     /** 当前生成目标绑定的领域对象 */
     private final D domainObjectConfig;
 
-    public CodegenContext(CodegenModule codegenModule, C codegenConfig, T targetConfig, D domainObjectConfig) {
-        this.codegenModule = codegenModule;
+    public CodegenContext(C codegenConfig, T targetConfig, D domainObjectConfig) {
         this.codegenConfig = codegenConfig;
         this.targetConfig = targetConfig;
         this.domainObjectConfig = domainObjectConfig;
-    }
-
-    public CodegenModule getCodegenModule() {
-        return codegenModule;
     }
 
     public C getCodegenConfig() {

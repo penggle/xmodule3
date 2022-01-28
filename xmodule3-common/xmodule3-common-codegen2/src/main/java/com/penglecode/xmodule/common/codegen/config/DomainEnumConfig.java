@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.codegen.config;
 
+import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
+
 import java.util.Map;
 
 /**
@@ -29,7 +31,7 @@ import java.util.Map;
  * @version 1.0
  * @since 2021/1/22 11:36
  */
-public class DomainEnumConfig extends GenerableTargetConfig {
+public class DomainEnumConfig extends DomainObjectConfig {
 
     /** 领域枚举类名称 */
     private String domainEnumName;
@@ -98,22 +100,27 @@ public class DomainEnumConfig extends GenerableTargetConfig {
     }
 
     @Override
+    public String getDomainObjectName() {
+        return getDomainEnumName();
+    }
+
+    @Override
     public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
         return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + "Enum" + (includeSuffix ? ".java" : "");
     }
 
     public static class DomainEnumField {
 
-        private Class<?> fieldType;
+        private FullyQualifiedJavaType fieldType;
 
         private String fieldName;
 
-        public Class<?> getFieldType() {
+        public FullyQualifiedJavaType getFieldType() {
             return fieldType;
         }
 
-        public void setFieldType(Class<?> fieldType) {
-            this.fieldType = fieldType;
+        public void setFieldType(String fieldType) {
+            this.fieldType = new FullyQualifiedJavaType(fieldType);
         }
 
         public String getFieldName() {
