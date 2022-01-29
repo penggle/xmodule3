@@ -1,5 +1,8 @@
 package com.penglecode.xmodule.common.codegen.config;
 
+import com.penglecode.xmodule.common.codegen.mybatis.MySQLMybatisCodegenDialect;
+import com.penglecode.xmodule.common.codegen.mybatis.MybatisCodegenDialect;
+import com.penglecode.xmodule.common.codegen.mybatis.OracleMybatisCodegenDialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,10 +11,19 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/24 0:34
+ * @since 2021/1/24 14:34
  */
 @Configuration
 public class ModuleCodegenConfiguration {
 
+    @Bean
+    public MybatisCodegenDialect mysqlMybatisCodegenDialect() {
+        return new MySQLMybatisCodegenDialect();
+    }
+
+    @Bean
+    public MybatisCodegenDialect oracleMybatisCodegenDialect() {
+        return new OracleMybatisCodegenDialect();
+    }
 
 }

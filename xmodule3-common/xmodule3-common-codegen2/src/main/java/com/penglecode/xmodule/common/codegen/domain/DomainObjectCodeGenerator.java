@@ -28,6 +28,11 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
     }
 
     @Override
+    protected String getCodeName() {
+        return "Domain领域对象代码";
+    }
+
+    @Override
     protected void executeGenerate() throws Exception {
         DomainObjectCodegenConfigProperties codegenConfig = getCodegenConfig();
         Set<DomainEnumConfig> domainEnumConfigs = codegenConfig.getDomain().getDomainCommons().getDomainEnums();
@@ -245,11 +250,6 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
                 .stream()
                 .filter(config -> config.getDomainEnumName().equals(domainEnumName))
                 .findFirst().orElse(null);
-    }
-
-    @Override
-    protected String getCodeName() {
-        return "Domain领域对象代码";
     }
 
 }
