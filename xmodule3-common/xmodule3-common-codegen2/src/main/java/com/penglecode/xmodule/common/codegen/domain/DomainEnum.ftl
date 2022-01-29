@@ -1,17 +1,17 @@
 package ${targetPackage};
 
 <#if (targetProjectImports?size > 0 || targetThirdImports?size > 0)>
-<#list targetProjectImports as ipm>
-import ${ipm};
+<#list targetProjectImports as targetImport>
+import ${targetImport};
 </#list>
-<#list targetThirdImports as ipm>
-import ${ipm};
+<#list targetThirdImports as targetImport>
+import ${targetImport};
 </#list>
 
 </#if>
 <#if (targetJdkImports?size > 0)>
-<#list targetJdkImports as ipm>
-import ${ipm};
+<#list targetJdkImports as targetImport>
+import ${targetImport};
 </#list>
 
 </#if>
@@ -25,30 +25,30 @@ import ${ipm};
 public enum ${targetClass} {
 
 <#list enumValues as item>
-    ${item["enumValue"]}(${item["enumCode"]}, ${item["enumName"]})<#if (item_has_next)>,<#else>;</#if>
+    ${item["enumValue"]}(${item["codeValue"]}, ${item["nameValue"]})<#if (item_has_next)>,<#else>;</#if>
 </#list>
 
-    private final ${enumCodeFieldType} ${enumCodeFieldName};
+    private final ${codeFieldType} ${codeFieldName};
 
-    private final ${enumNameFieldType} ${enumNameFieldName};
+    private final ${nameFieldType} ${nameFieldName};
 
-    ${enumName}(${enumCodeFieldType} ${enumCodeFieldName}, ${enumNameFieldType} ${enumNameFieldName}) {
-        this.${enumCodeFieldName} = ${enumCodeFieldName};
-        this.${enumNameFieldName} = ${enumNameFieldName};
+    ${targetClass}(${codeFieldType} ${codeFieldName}, ${nameFieldType} ${nameFieldName}) {
+        this.${codeFieldName} = ${codeFieldName};
+        this.${nameFieldName} = ${nameFieldName};
     }
 
-    public ${enumCodeFieldType} ${enumCodeGetterName}() {
-        return ${enumCodeFieldName};
+    public ${codeFieldType} ${codeGetterName}() {
+        return ${codeFieldName};
     }
 
-    public ${enumNameFieldType} ${enumNameGetterName}() {
-        return ${enumNameFieldName};
+    public ${nameFieldType} ${nameGetterName}() {
+        return ${nameFieldName};
     }
 
-    public static ${targetClass} of(${enumCodeFieldType} ${enumCodeFieldName}) {
-        if(${enumCodeFieldName} != null) {
+    public static ${targetClass} of(${codeFieldType} ${codeFieldName}) {
+        if(${codeFieldName} != null) {
             for(${targetClass} em : values()) {
-                if(em.${enumCodeGetterName}().equals(${enumCodeFieldName})) {
+                if(em.${codeGetterName}().equals(${codeFieldName})) {
                     return em;
                 }
             }

@@ -115,7 +115,7 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 
 	/**
 	 * 执行代码生成的模板方法，留给子类去实现，
-	 * 在其实现逻辑一般会调用方法
+	 * 在其实现逻辑一般会调用方法generateTarget()
 	 * @throws Exception
 	 */
 	protected abstract void executeGenerate() throws Exception;
@@ -130,7 +130,7 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 	 * @throws Exception
 	 */
 	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> void generateTarget(CodegenContext<C,T,D> codegenContext, CodegenParameter codegenParameter) throws Exception {
-		if(codegenFilter == null || codegenFilter.filter(codegenContext)) { //如果未设代码生成过滤条件
+		if(codegenFilter == null || codegenFilter.filter(codegenContext)) { //如果未设代码生成过滤条件 || 通过过滤条件测试
 			try {
 				String targetFilePath = executeGenerateTarget(codegenContext, codegenParameter);
 				LOGGER.info("【{}】>>> 生成代码[{}]成功! (输出文件: {})", module, codegenParameter.getTargetFileName(), targetFilePath);
@@ -163,8 +163,8 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		Template codeTemplate = configuration.getTemplate(codegenParameter.getTemplateFileName());
 		FileUtils.mkDirIfNecessary(targetFilePath);
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFilePath)))) {
-			codegenParameter.calculateTargetImports();
-			codeTemplate.process(codegenParameter, out);
+			codegenParameter.calculateTargetImports(); //计算import列表
+			codeTemplate.process(codegenParameter, out); //最后一步：生成代码
 		}
 		return targetFilePath;
 	}
@@ -185,7 +185,7 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		codegenParameter.setTargetFileName(codegenContext.getTargetConfig().getGeneratedTargetName(domainObjectName, false, true));
 		codegenParameter.setTargetPackage(codegenContext.getTargetConfig().getTargetPackage());
 		codegenParameter.setTargetClass(codegenContext.getTargetConfig().getGeneratedTargetName(domainObjectName, false, false));
-		codegenParameter.setTargetAuthor(codegenConfig.getDomain().getDomainCommons().getCommentAuthor());
+		codegenParameter.setTargetAuthor(codegenContext.getCodegenConfig().getDomain().getDomainCommons().getCommentAuthor());
 		codegenParameter.setTargetVersion("1.0.0");
 		codegenParameter.setTargetCreated(DateTimeUtils.formatNow("yyyy'年'MM'月'dd'日' a HH:mm"));
 		return codegenParameter;

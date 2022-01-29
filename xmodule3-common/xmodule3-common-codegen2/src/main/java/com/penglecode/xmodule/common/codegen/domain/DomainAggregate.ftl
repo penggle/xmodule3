@@ -22,7 +22,7 @@ import ${targetImport};
  * @version ${targetVersion}
  * @since ${targetCreated}
  */
-public class ${targetClass} implements EntityObject {
+public class ${targetClass} extends ${targetExtends} {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,15 +31,6 @@ public class ${targetClass} implements EntityObject {
     <#list field["fieldAnnotations"] as fieldAnnotation>
     ${fieldAnnotation}
     </#list>
-    private ${field["fieldType"]} ${field["fieldName"]};
-
-</#list>
-<#if (supportFields?size > 0)>
-    //以下属于辅助字段
-
-</#if>
-<#list supportFields as field>
-    /** ${field["fieldComment"]} */
     private ${field["fieldType"]} ${field["fieldName"]};
 
 </#list>
@@ -53,18 +44,4 @@ public class ${targetClass} implements EntityObject {
     }
 
 </#list>
-    @Override
-    public ${idFieldType} identity() {
-        return ${idFieldName};
-    }
-
-<#if (decodeEnumFields?size > 0)>
-    @Override
-    public ${targetClass} beforeOutbound() {
-    <#list decodeEnumFields as field>
-        Optional.ofNullable(${field["refEnumTypeName"]}.of(${field["entityFieldName"]})).ifPresent(em -> ${field["entityFieldSetterName"]}(em.${field["refEnumNameFieldGetterName"]}()));
-    </#list>
-        return this;
-    }
-</#if>
 }
