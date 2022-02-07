@@ -38,7 +38,7 @@ public interface ProductAppService {
     void removeProductById(Long id);
 
     /**
-     * 根据多个ID删除商品
+     * 根据多个ID删除商品(默认会级联删除关联的领域对象)
      *
      * @param ids    - ID主键列表
      */

@@ -105,6 +105,16 @@ public class DomainEnumConfig extends DomainObjectConfig {
     }
 
     @Override
+    public String getDomainObjectTitle() {
+        return getDomainEnumTitle();
+    }
+
+    @Override
+    public String getDomainObjectAlias() {
+        return getDomainEnumName();
+    }
+
+    @Override
     public String getGeneratedTargetName(String domainObjectName, boolean includePackage, boolean includeSuffix) {
         return (includePackage ? getTargetPackage() + "." : "") + domainObjectName + "Enum" + (includeSuffix ? ".java" : "");
     }

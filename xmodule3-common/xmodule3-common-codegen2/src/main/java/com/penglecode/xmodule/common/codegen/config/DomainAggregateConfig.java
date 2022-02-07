@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.codegen.config;
 
+import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -77,9 +79,40 @@ public class DomainAggregateConfig extends DomainObjectConfig {
         return domainAggregateFields;
     }
 
+    /**
+     * 获取领域对象的Bean-Validation校验字段
+     * 其返回值诸如：, Product::getProductName, Product::getUnitPrice, Product::getProductType
+     * @param operationType     - 操作类型：create|modify
+     * @return
+     */
+    public String getValidateFields(String operationType) {
+        StringBuilder validateFields = new StringBuilder();
+        Map<String,DomainAggregateFieldConfig> domainAggregateFields = getDomainAggregateFields();
+        for(Map.Entry<String,DomainAggregateFieldConfig> entry : domainAggregateFields.entrySet()) {
+            DomainAggregateFieldConfig domainAggregateFieldConfig = entry.getValue();
+            if(("create".equals(operationType) && domainAggregateFieldConfig.getDomainAggregateSlaveConfig().isCascadingOnInsert() && domainAggregateFieldConfig.getDomainAggregateSlaveConfig().isValidateOnInsert())
+            || ("modify".equals(operationType) && domainAggregateFieldConfig.getDomainAggregateSlaveConfig().isCascadingOnUpdate() && domainAggregateFieldConfig.getDomainAggregateSlaveConfig().isValidateOnUpdate())) {
+                String fieldName = domainAggregateFieldConfig.getFieldName();
+                String fieldType = domainAggregateFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters();
+                validateFields.append(", ").append(getGeneratedTargetName(domainAggregateName, false, false)).append("::").append(CodegenUtils.getGetterMethodName(fieldName, fieldType));
+            }
+        }
+        return validateFields.toString();
+    }
+
     @Override
     public String getDomainObjectName() {
         return getDomainAggregateName();
+    }
+
+    @Override
+    public String getDomainObjectTitle() {
+        return getDomainAggregateTitle();
+    }
+
+    @Override
+    public String getDomainObjectAlias() {
+        return getDomainAggregateAlias();
     }
 
     @Override

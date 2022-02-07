@@ -159,14 +159,14 @@ public class DomainEntityConfig extends DomainObjectConfig {
      */
     public String getValidateFields(String operationType) {
         StringBuilder validateFields = new StringBuilder();
-        Map<String,DomainEntityColumnConfig> domainEntityColumns = getDomainEntityColumns();
-        for(Map.Entry<String,DomainEntityColumnConfig> entry : domainEntityColumns.entrySet()) {
-            DomainEntityColumnConfig domainEntityColumn = entry.getValue();
-            if(("create".equals(operationType) && domainEntityColumn.isValidateOnInsert())
-                    || ("modify".equals(operationType) && domainEntityColumn.isValidateOnUpdate())
-                    || ("byId".equals(operationType) && domainEntityColumn.isIdColumn())) {
-                String fieldName = domainEntityColumn.getIntrospectedColumn().getJavaFieldName();
-                String fieldType = domainEntityColumn.getIntrospectedColumn().getJavaFieldType().getFullyQualifiedNameWithoutTypeParameters();
+        Map<String,DomainEntityFieldConfig> domainEntityFieldConfigs = getDomainEntityFields();
+        for(Map.Entry<String,DomainEntityFieldConfig> entry : domainEntityFieldConfigs.entrySet()) {
+            DomainEntityFieldConfig domainEntityFieldConfig = entry.getValue();
+            if(("create".equals(operationType) && domainEntityFieldConfig.getDomainEntityColumnConfig().isValidateOnInsert())
+                    || ("modify".equals(operationType) && domainEntityFieldConfig.getDomainEntityColumnConfig().isValidateOnUpdate())
+                    || ("byId".equals(operationType) && domainEntityFieldConfig.getDomainEntityColumnConfig().isIdColumn())) {
+                String fieldName = domainEntityFieldConfig.getFieldName();
+                String fieldType = domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters();
                 validateFields.append(", ").append(getGeneratedTargetName(domainEntityName, false, false)).append("::").append(CodegenUtils.getGetterMethodName(fieldName, fieldType));
             }
         }
@@ -176,6 +176,16 @@ public class DomainEntityConfig extends DomainObjectConfig {
     @Override
     public String getDomainObjectName() {
         return getDomainEntityName();
+    }
+
+    @Override
+    public String getDomainObjectTitle() {
+        return getDomainEntityTitle();
+    }
+
+    @Override
+    public String getDomainObjectAlias() {
+        return getDomainEntityAlias();
     }
 
     @Override

@@ -262,7 +262,7 @@ public class DomainServiceCodegenMethodParameters {
      * 根据多个master领域对象ID获取当前领域对象(slave)
      * @return
      */
-    public CodegenMethodParameter getDomainObjectsByMasterIds(boolean implementation) {
+    public CodegenMethodParameter getDomainObjectsByXxxMasterIds(boolean implementation) {
         DomainEntityConfig slaveDomainEntityConfig = codegenContext.getDomainObjectConfig();
         CodegenMethodParameter methodParameters = new CodegenMethodParameter();
         List<CodegenMethodParameter> getByMasterIdsMethods = new ArrayList<>();
@@ -400,11 +400,11 @@ public class DomainServiceCodegenMethodParameters {
     protected CodegenMethodParameter createCodegenMethodParameter() {
         DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
         CodegenMethodParameter methodParameter = new CodegenMethodParameter();
-        methodParameter.setDomainObjectName(domainEntityConfig.getDomainEntityName());
-        methodParameter.setDomainObjectTitle(domainEntityConfig.getDomainEntityTitle());
-        methodParameter.setDomainObjectAlias(domainEntityConfig.getDomainEntityAlias());
+        methodParameter.setDomainObjectName(domainEntityConfig.getDomainObjectName());
+        methodParameter.setDomainObjectTitle(domainEntityConfig.getDomainObjectTitle());
+        methodParameter.setDomainObjectAlias(domainEntityConfig.getDomainObjectAlias());
         methodParameter.setDomainObjectAliases(CodegenUtils.getPluralNameOfDomainObject(methodParameter.getDomainObjectAlias()));
-        methodParameter.setDomainObjectVariable(StringUtils.lowerCaseFirstChar(domainEntityConfig.getDomainEntityAlias()));
+        methodParameter.setDomainObjectVariable(StringUtils.lowerCaseFirstChar(domainEntityConfig.getDomainObjectAlias()));
         methodParameter.setDomainObjectVariables(CodegenUtils.getPluralNameOfDomainObject(methodParameter.getDomainObjectVariable()));
         methodParameter.setDomainObjectIdType(domainEntityConfig.getIdType().getShortName());
         //考虑到联合主键，所以统一取做id/ids

@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.common.util;
+package com.penglecode.xmodule.common.support;
 
 import com.penglecode.xmodule.common.domain.EntityObject;
 import org.springframework.util.CollectionUtils;
@@ -11,15 +11,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * 应用服务辅助类
+ * 领域服务辅助类
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/7/23 19:18
  */
-public class AppServiceUtils {
+public class DomainServiceHelper {
 
-    private AppServiceUtils() {}
+    private DomainServiceHelper() {}
 
     /**
      * 批量Merge客户端传来的实体对象进入数据库

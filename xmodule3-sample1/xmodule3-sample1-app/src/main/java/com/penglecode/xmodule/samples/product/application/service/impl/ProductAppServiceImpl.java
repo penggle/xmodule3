@@ -2,7 +2,7 @@ package com.penglecode.xmodule.samples.product.application.service.impl;
 
 import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.support.*;
-import com.penglecode.xmodule.common.util.AppServiceUtils;
+import com.penglecode.xmodule.common.support.DomainServiceHelper;
 import com.penglecode.xmodule.samples.product.domain.model.*;
 import com.penglecode.xmodule.samples.product.domain.service.ProductBaseInfoService;
 import com.penglecode.xmodule.samples.product.domain.service.ProductExtraInfoService;
@@ -78,12 +78,12 @@ public class ProductAppServiceImpl implements ProductAppService {
         List<ProductSaleSpec> transientProductSaleSpecs = product.getProductSaleSpecs();
         if(!CollectionUtils.isEmpty(transientProductSaleSpecs)) {
             List<ProductSaleSpec> persistedProductSaleSpecs = productSaleSpecService.getProductSaleSpecsByProductId(product.getProductId());
-            AppServiceUtils.batchMergeEntityObjects(transientProductSaleSpecs, persistedProductSaleSpecs, ProductSaleSpec::identity, productSaleSpecService::batchCreateProductSaleSpec, productSaleSpecService::batchModifyProductSaleSpecById, productSaleSpecService::removeProductSaleSpecByIds);
+            DomainServiceHelper.batchMergeEntityObjects(transientProductSaleSpecs, persistedProductSaleSpecs, ProductSaleSpec::identity, productSaleSpecService::batchCreateProductSaleSpec, productSaleSpecService::batchModifyProductSaleSpecById, productSaleSpecService::removeProductSaleSpecByIds);
         }
         List<ProductSaleStock> transientProductSaleStocks = product.getProductSaleStocks();
         if(!CollectionUtils.isEmpty(transientProductSaleStocks)) {
             List<ProductSaleStock> persistedProductSaleStocks = productSaleStockService.getProductSaleStocksByProductId(product.getProductId());
-            AppServiceUtils.batchMergeEntityObjects(transientProductSaleStocks, persistedProductSaleStocks, ProductSaleStock::identity, productSaleStockService::batchCreateProductSaleStock, productSaleStockService::batchModifyProductSaleStockById, productSaleStockService::removeProductSaleStockByIds);
+            DomainServiceHelper.batchMergeEntityObjects(transientProductSaleStocks, persistedProductSaleStocks, ProductSaleStock::identity, productSaleStockService::batchCreateProductSaleStock, productSaleStockService::batchModifyProductSaleStockById, productSaleStockService::removeProductSaleStockByIds);
         }
     }
 

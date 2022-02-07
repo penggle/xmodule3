@@ -107,7 +107,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
             if(domainEntityFieldConfig.getFieldClass().isSupportField()) { //领域实体辅助字段
                 supportFields.add(buildEntitySupportField(domainEntityFieldConfig, codegenParameter));
                 //处理领域对象数据出站DomainObject#beforeOutbound()实现
-                if(DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD.equals(domainEntityFieldConfig.getFieldType())) {
+                if(DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD.equals(domainEntityFieldConfig.getFieldClass())) {
                     DomainEntityColumnConfig domainEntityColumnConfig = domainEntityFieldConfig.getDomainEntityColumnConfig(); //当前辅助字段是辅助谁的?
                     String shortDomainEnumType = getShortDomainEnumType(domainEntityColumnConfig.getDecodeEnumType());
                     DomainEnumConfig refDomainEnumConfig = resolveDecodeEnumConfig(domainEntityColumnConfig.getDecodeEnumType());
