@@ -9,7 +9,10 @@ import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.codegen.support.CodegenFilter;
 import com.penglecode.xmodule.common.codegen.support.CodegenParameter;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
-import com.penglecode.xmodule.common.util.*;
+import com.penglecode.xmodule.common.util.ClassUtils;
+import com.penglecode.xmodule.common.util.DateTimeUtils;
+import com.penglecode.xmodule.common.util.FileUtils;
+import com.penglecode.xmodule.common.util.SpringUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.slf4j.Logger;
@@ -163,7 +166,7 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		Template codeTemplate = configuration.getTemplate(codegenParameter.getTemplateFileName());
 		FileUtils.mkDirIfNecessary(targetFilePath);
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFilePath)))) {
-			codegenParameter.calculateTargetImports(); //计算import列表
+			codegenParameter.calculateTargetImports(codegenContext.getTargetConfig().getTargetPackage()); //计算import列表
 			codeTemplate.process(codegenParameter, out); //最后一步：生成代码
 		}
 		return targetFilePath;

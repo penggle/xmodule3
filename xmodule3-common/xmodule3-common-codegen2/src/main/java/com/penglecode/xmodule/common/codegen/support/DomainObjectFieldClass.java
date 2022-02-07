@@ -1,13 +1,13 @@
 package com.penglecode.xmodule.common.codegen.support;
 
 /**
- * 领域对象字段类型
+ * 领域对象字段分类
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/1/23 15:11
  */
-public enum DomainObjectFieldType {
+public enum DomainObjectFieldClass {
 
     /**
      * 领域实体对象字段

@@ -25,6 +25,6 @@ import ${targetImport};
 <#list targetAnnotations as targetAnnotation>
 ${targetAnnotation}
 </#list>
-public interface ${targetClass} extends BaseMybatisMapper<${domainObjectName}> {
+public interface ${targetClass} extends ${targetExtends} {
 
 }

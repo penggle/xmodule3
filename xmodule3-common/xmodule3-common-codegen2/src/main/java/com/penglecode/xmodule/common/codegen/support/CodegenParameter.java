@@ -144,48 +144,19 @@ public class CodegenParameter extends HashMap<String,Object> {
         return (List<String>) get("targetAnnotations");
     }
 
-    public void setDomainObjectTitle(String domainObjectTitle) {
-        put("domainObjectTitle", domainObjectTitle);
-    }
-
-    public String getDomainObjectTitle() {
-        return (String) get("domainObjectTitle");
-    }
-
-    public void setDomainObjectName(String domainObjectName) {
-        put("domainObjectName", domainObjectName);
-    }
-
-    public String getDomainObjectName() {
-        return (String) get("domainObjectName");
-    }
-
-    public void setDomainObjectAlias(String domainObjectAlias) {
-        put("domainObjectAlias", domainObjectAlias);
-    }
-
-    public String getDomainObjectAlias() {
-        return (String) get("domainObjectAlias");
-    }
-
-    public void setDomainObjectVariableName(String domainObjectVariableName) {
-        put("domainObjectVariableName", domainObjectVariableName);
-    }
-
-    public String getDomainObjectVariableName() {
-        return (String) get("domainObjectVariableName");
-    }
-
     /**
      * 计算所生成的类需要导入的import类
+     * @param targetPackage - 当前需要import的类的包名
      */
-    public void calculateTargetImports() {
+    public void calculateTargetImports(String targetPackage) {
         Set<FullyQualifiedJavaType> targetAllImportTypes = getTargetAllImportTypes();
         final List<String> jdkImports = new ArrayList<>(); //JDK包中的import类
         final List<String> thirdImports = new ArrayList<>(); //第三方jar包中的import类
         final List<String> projectImports = new ArrayList<>(); //具有共同BasePackage的import类
         if(!CollectionUtils.isEmpty(targetAllImportTypes)) {
-            targetAllImportTypes.stream().flatMap(importedType -> importedType.getImportList().stream()).forEach(importedType -> {
+            targetAllImportTypes.stream().filter(importType -> !importType.getPackageName().equals(targetPackage)) //过滤同一个包下的导入
+                                .flatMap(importedType -> importedType.getImportList().stream())
+                                .forEach(importedType -> {
                 if(importedType.startsWith("java.")) {
                     jdkImports.add(importedType);
                 } else if(importedType.startsWith(BasePackage.class.getPackage().getName())) {

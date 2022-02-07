@@ -67,6 +67,8 @@ public class MybatisCodeGenerator extends ModuleCodeGenerator<MybatisCodegenConf
      */
     protected CodegenParameter createJavaMapperCodegenParameter(CodegenContext<MybatisCodegenConfigProperties, MybatisJavaMapperConfig, DomainEntityConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "MybatisJavaMapper.ftl");
+        codegenParameter.setTargetComment(codegenContext.getDomainObjectConfig().getDomainEntityTitle() + "Mybatis-Mapper接口");
+        codegenParameter.setTargetExtends(String.format("BaseMybatisMapper<%s>", codegenContext.getDomainObjectConfig().getDomainEntityName()));
         codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(codegenContext.getDomainObjectConfig().getGeneratedTargetName(codegenContext.getDomainObjectConfig().getDomainEntityName(), true, false)));
         codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(BaseMybatisMapper.class.getName()));
 
@@ -79,7 +81,7 @@ public class MybatisCodeGenerator extends ModuleCodeGenerator<MybatisCodegenConf
                 codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(mapperAnnotationArray[0]));
             }
         }
-        codegenParameter.put("mapperAnnotations", mapperAnnotations);
+        codegenParameter.setTargetAnnotations(mapperAnnotations);
         return codegenParameter;
     }
 

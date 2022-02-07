@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.codegen.config;
 
-import com.penglecode.xmodule.common.codegen.support.DomainObjectFieldType;
+import com.penglecode.xmodule.common.codegen.support.DomainObjectFieldClass;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 
 /**
@@ -16,7 +16,7 @@ public abstract class DomainObjectFieldConfig {
     private final String fieldName;
 
     /** 字段类型 */
-    private final FullyQualifiedJavaType fieldClass;
+    private final FullyQualifiedJavaType fieldType;
 
     /** 字段标题 */
     private final String fieldTitle;
@@ -25,22 +25,22 @@ public abstract class DomainObjectFieldConfig {
     private final String fieldComment;
 
     /** 领域对象字段分类 */
-    private final DomainObjectFieldType fieldType;
+    private final DomainObjectFieldClass fieldClass;
 
-    protected DomainObjectFieldConfig(String fieldName, FullyQualifiedJavaType fieldClass, String fieldTitle, String fieldComment, DomainObjectFieldType fieldType) {
+    protected DomainObjectFieldConfig(String fieldName, FullyQualifiedJavaType fieldType, String fieldTitle, String fieldComment, DomainObjectFieldClass fieldClass) {
         this.fieldName = fieldName;
-        this.fieldClass = fieldClass;
+        this.fieldType = fieldType;
         this.fieldTitle = fieldTitle;
         this.fieldComment = fieldComment;
-        this.fieldType = fieldType;
+        this.fieldClass = fieldClass;
     }
 
     public String getFieldName() {
         return fieldName;
     }
 
-    public FullyQualifiedJavaType getFieldClass() {
-        return fieldClass;
+    public FullyQualifiedJavaType getFieldType() {
+        return fieldType;
     }
 
     public String getFieldTitle() {
@@ -51,8 +51,8 @@ public abstract class DomainObjectFieldConfig {
         return fieldComment;
     }
 
-    public DomainObjectFieldType getFieldType() {
-        return fieldType;
+    public DomainObjectFieldClass getFieldClass() {
+        return fieldClass;
     }
 
 }

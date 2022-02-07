@@ -151,7 +151,9 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                 Assert.hasText(domainAggregateConfig.getDomainAggregateAlias(), String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].domainAggregateAlias)必须指定!", codegenConfigPrefix, index1));
                 Assert.isTrue(CodegenUtils.isValidJavaTypeNaming(domainAggregateConfig.getDomainAggregateAlias()), String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].domainAggregateAlias)命名不合法!", codegenConfigPrefix, index1));
                 Assert.hasText(domainAggregateConfig.getAggregateMasterEntity(), String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].aggregateMasterEntity)必须指定!", codegenConfigPrefix, index1));
-                Assert.isTrue(domainEntities.containsKey(domainAggregateConfig.getAggregateMasterEntity()), String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].aggregateMasterEntity)不存在!", codegenConfigPrefix, index1));
+                DomainEntityConfig masterDomainEntity = domainEntities.get(domainAggregateConfig.getAggregateMasterEntity());
+                Assert.notNull(masterDomainEntity, String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].aggregateMasterEntity)不存在!", codegenConfigPrefix, index1));
+                Assert.isTrue(masterDomainEntity.getIdColumns().size() == 1, String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].aggregateMasterEntity)作为Master实体必须是单一主键!", codegenConfigPrefix, index1));
                 Set<DomainAggregateSlaveConfig> domainAggregateSlaveConfigs = domainAggregateConfig.getAggregateSlaveEntities();
                 Assert.notEmpty(domainAggregateSlaveConfigs, String.format("Domain代码生成配置(%s.domain.domainAggregates[%s].aggregateSlaveEntities)必须指定!", codegenConfigPrefix, index1));
                 int index2 = 0;
@@ -354,13 +356,13 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                 String fieldName = StringUtils.lowerCaseFirstChar(slaveDomainEntityConfig.getDomainEntityAlias());
                 FullyQualifiedJavaType fieldType = new FullyQualifiedJavaType(slaveDomainEntityConfig.getGeneratedTargetName(slaveDomainEntityConfig.getDomainEntityName(), true, false));
                 String fieldTitle = slaveDomainEntityConfig.getDomainEntityTitle();
-                DomainAggregateFieldConfig domainAggregateFieldConfig = new DomainAggregateFieldConfig(fieldName, fieldType, fieldTitle, fieldTitle, DomainObjectFieldType.DOMAIN_AGGREGATE_FIELD, domainAggregateConfig, domainAggregateSlaveConfig);
+                DomainAggregateFieldConfig domainAggregateFieldConfig = new DomainAggregateFieldConfig(fieldName, fieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_AGGREGATE_FIELD, domainAggregateConfig, domainAggregateSlaveConfig);
                 domainAggregateConfig.getDomainAggregateFields().put(slaveDomainEntityConfig.getDomainEntityName(), domainAggregateFieldConfig);
             } else if(DomainMasterSlaveRelation.RELATION_1N.equals(domainAggregateSlaveConfig.getMasterSlaveMapping().getMasterSlaveRelation())) { //添加1:N聚合关系下的字段
                 String fieldName = CodegenUtils.getPluralNameOfDomainObject(StringUtils.lowerCaseFirstChar(slaveDomainEntityConfig.getDomainEntityAlias()));
                 FullyQualifiedJavaType fieldType = new FullyQualifiedJavaType(List.class.getName() + "<" + slaveDomainEntityConfig.getGeneratedTargetName(slaveDomainEntityConfig.getDomainEntityName(), true, false) + ">");
                 String fieldTitle = slaveDomainEntityConfig.getDomainEntityTitle();
-                DomainAggregateFieldConfig domainAggregateFieldConfig = new DomainAggregateFieldConfig(fieldName, fieldType, fieldTitle, fieldTitle, DomainObjectFieldType.DOMAIN_AGGREGATE_FIELD, domainAggregateConfig, domainAggregateSlaveConfig);
+                DomainAggregateFieldConfig domainAggregateFieldConfig = new DomainAggregateFieldConfig(fieldName, fieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_AGGREGATE_FIELD, domainAggregateConfig, domainAggregateSlaveConfig);
                 domainAggregateConfig.getDomainAggregateFields().put(slaveDomainEntityConfig.getDomainEntityName(), domainAggregateFieldConfig);
             }
             /*//初始化当前DomainAggregateSlaveConfig对应的DomainEntityConfig配置
@@ -385,7 +387,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
         for(Map.Entry<String, DomainEntityColumnConfig> entry : domainEntityColumns.entrySet()) {
             DomainEntityColumnConfig domainEntityColumnConfig = entry.getValue();
             QueryConditionOperator queryConditionOperator = QueryConditionOperator.of(domainEntityColumnConfig.getOperatorOnQuery()); //此处仅为初步设置，在2部分的辅助字段生成逻辑中会对此进行修正
-            DomainEntityFieldConfig objectFieldConfig = new DomainEntityFieldConfig(domainEntityColumnConfig.getIntrospectedColumn().getJavaFieldName(), domainEntityColumnConfig.getIntrospectedColumn().getJavaFieldType(), domainEntityColumnConfig.getColumnTitle(), domainEntityColumnConfig.getIntrospectedColumn().getColumnComment(), DomainObjectFieldType.DOMAIN_ENTITY_FIELD, domainEntityColumnConfig, queryConditionOperator);
+            DomainEntityFieldConfig objectFieldConfig = new DomainEntityFieldConfig(domainEntityColumnConfig.getIntrospectedColumn().getJavaFieldName(), domainEntityColumnConfig.getIntrospectedColumn().getJavaFieldType(), domainEntityColumnConfig.getColumnTitle(), domainEntityColumnConfig.getIntrospectedColumn().getColumnComment(), DomainObjectFieldClass.DOMAIN_ENTITY_FIELD, domainEntityColumnConfig, queryConditionOperator);
             domainEntityFields.put(objectFieldConfig.getFieldName(), objectFieldConfig);
         }
         //2、初始化领域实体对象的辅助字段
@@ -400,10 +402,10 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                     if(isRangeQuerySupportFieldRequired(columnQueryOperators)) { //需要辅助的范围查询条件?
                         String rangeMinSupportPropertyName = getRangeQuerySupportFieldName1(refJavaFieldName);
                         String fieldTitle = refJavaFieldName + "的范围查询条件辅助字段";
-                        DomainEntityFieldConfig rangeMinFieldConfig = new DomainEntityFieldConfig(rangeMinSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldType.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, getGTQueryConditionOperator(columnQueryOperators));
+                        DomainEntityFieldConfig rangeMinFieldConfig = new DomainEntityFieldConfig(rangeMinSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, getGTQueryConditionOperator(columnQueryOperators));
                         domainEntityFields.put(rangeMinFieldConfig.getFieldName(), rangeMinFieldConfig);
                         String rangeMaxSupportPropertyName = getRangeQuerySupportFieldName2(refJavaFieldName);
-                        DomainEntityFieldConfig rangeMaxFieldConfig = new DomainEntityFieldConfig(rangeMaxSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldType.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, getLTQueryConditionOperator(columnQueryOperators));
+                        DomainEntityFieldConfig rangeMaxFieldConfig = new DomainEntityFieldConfig(rangeMaxSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, getLTQueryConditionOperator(columnQueryOperators));
                         domainEntityFields.put(rangeMaxFieldConfig.getFieldName(), rangeMaxFieldConfig);
                         //辅助字段关联的持久化字段在此情况下可以存在EQ操作符的,此处修正1处的queryConditionOperator设置
                         domainEntityFields.get(refJavaFieldName).setQueryConditionOperator(QueryConditionOperator.EQ);
@@ -411,7 +413,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                         String inSupportPropertyName = getInQuerySupportFieldName(refJavaFieldName);
                         String fieldTitle = refJavaFieldName + "的IN查询条件辅助字段";
                         FullyQualifiedJavaType inSupportPropertyType = new FullyQualifiedJavaType(String.format("%s[]", refJavaFieldType)); //数组
-                        DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(inSupportPropertyName, inSupportPropertyType, fieldTitle, fieldTitle, DomainObjectFieldType.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, QueryConditionOperator.IN);
+                        DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(inSupportPropertyName, inSupportPropertyType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, QueryConditionOperator.IN);
                         domainEntityFields.put(supportFieldConfig.getFieldName(), supportFieldConfig);
                         //辅助字段关联的持久化字段在此情况下可以存在EQ操作符的,此处修正1处的queryConditionOperator设置
                         domainEntityFields.get(refJavaFieldName).setQueryConditionOperator(QueryConditionOperator.EQ);
@@ -421,7 +423,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                     String codedSupportPropertyName = getCodedSupportFieldName(refJavaFieldName);
                     String fieldTitle = refJavaFieldName + "的查询结果辅助字段";
                     //为可枚举的字段值生成字段值的对应名称字段，例如为productType字段生成productTypeName字段
-                    DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(codedSupportPropertyName,new FullyQualifiedJavaType("java.lang.String"), fieldTitle, fieldTitle, DomainObjectFieldType.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD, domainEntityColumnConfig, null);
+                    DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(codedSupportPropertyName,new FullyQualifiedJavaType("java.lang.String"), fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD, domainEntityColumnConfig, null);
                     domainEntityFields.put(supportFieldConfig.getFieldName(), supportFieldConfig);
                 }
             }
@@ -512,5 +514,21 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
         }
         return QueryConditionOperator.GT.equals(gtOperator) ? QueryConditionOperator.LT : QueryConditionOperator.LTE;
     }
-    
+
+    public DomainEntityColumnConfig getDefaultCreateTimeColumn(DomainEntityConfig domainEntityConfig) {
+        DomainEntityColumnConfig createTimeColumn = domainEntityConfig.getDomainEntityColumns().get(getDomain().getDomainCommons().getDefaultCreateTimeColumn());
+        if(createTimeColumn != null && FullyQualifiedJavaType.getStringInstance().equals(createTimeColumn.getIntrospectedColumn().getJavaFieldType())) {
+            return createTimeColumn;
+        }
+        return null;
+    }
+
+    public DomainEntityColumnConfig getDefaultUpdateTimeColumn(DomainEntityConfig domainEntityConfig) {
+        DomainEntityColumnConfig updateTimeColumn = domainEntityConfig.getDomainEntityColumns().get(getDomain().getDomainCommons().getDefaultUpdateTimeColumn());
+        if(updateTimeColumn != null && FullyQualifiedJavaType.getStringInstance().equals(updateTimeColumn.getIntrospectedColumn().getJavaFieldType())) {
+            return updateTimeColumn;
+        }
+        return null;
+    }
+
 }

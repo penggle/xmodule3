@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.codegen.config;
 
-import com.penglecode.xmodule.common.codegen.support.DomainObjectFieldType;
+import com.penglecode.xmodule.common.codegen.support.DomainObjectFieldClass;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import com.penglecode.xmodule.common.codegen.support.QueryConditionOperator;
 
@@ -22,7 +22,7 @@ public class DomainEntityFieldConfig extends DomainObjectFieldConfig {
     /** 如果是DomainObjectFieldType.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD则有值 */
     private QueryConditionOperator queryConditionOperator;
 
-    public DomainEntityFieldConfig(String fieldName, FullyQualifiedJavaType fieldClass, String fieldTitle, String fieldComment, DomainObjectFieldType fieldType, DomainEntityColumnConfig domainEntityColumnConfig, QueryConditionOperator queryConditionOperator) {
+    public DomainEntityFieldConfig(String fieldName, FullyQualifiedJavaType fieldClass, String fieldTitle, String fieldComment, DomainObjectFieldClass fieldType, DomainEntityColumnConfig domainEntityColumnConfig, QueryConditionOperator queryConditionOperator) {
         super(fieldName, fieldClass, fieldTitle, fieldComment, fieldType);
         this.idField = domainEntityColumnConfig != null && domainEntityColumnConfig.isIdColumn();
         this.domainEntityColumnConfig = domainEntityColumnConfig;

@@ -1,6 +1,9 @@
 package com.penglecode.xmodule.common.codegen.config;
 
 import com.penglecode.xmodule.common.codegen.database.IntrospectedTable;
+import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
+import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
+import com.penglecode.xmodule.common.domain.ID;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -133,6 +136,41 @@ public class DomainEntityConfig extends DomainObjectConfig {
      */
     public List<DomainEntityFieldConfig> getIdFields() {
         return domainEntityFields.values().stream().filter(DomainEntityFieldConfig::isIdField).collect(Collectors.toList());
+    }
+
+    /**
+     * 返回领域实体的ID类型
+     * @return
+     */
+    public FullyQualifiedJavaType getIdType() {
+        List<DomainEntityColumnConfig> pkColumns = getIdColumns();
+        if(pkColumns.size() == 1) { //单一主键
+            return pkColumns.get(0).getIntrospectedColumn().getJavaFieldType();
+        } else {
+            return new FullyQualifiedJavaType(ID.class.getName());
+        }
+    }
+
+    /**
+     * 获取领域对象的Bean-Validation校验字段
+     * 其返回值诸如：, Product::getProductName, Product::getUnitPrice, Product::getProductType
+     * @param operationType     - 操作类型：create|modify|byId
+     * @return
+     */
+    public String getValidateFields(String operationType) {
+        StringBuilder validateFields = new StringBuilder();
+        Map<String,DomainEntityColumnConfig> domainEntityColumns = getDomainEntityColumns();
+        for(Map.Entry<String,DomainEntityColumnConfig> entry : domainEntityColumns.entrySet()) {
+            DomainEntityColumnConfig domainEntityColumn = entry.getValue();
+            if(("create".equals(operationType) && domainEntityColumn.isValidateOnInsert())
+                    || ("modify".equals(operationType) && domainEntityColumn.isValidateOnUpdate())
+                    || ("byId".equals(operationType) && domainEntityColumn.isIdColumn())) {
+                String fieldName = domainEntityColumn.getIntrospectedColumn().getJavaFieldName();
+                String fieldType = domainEntityColumn.getIntrospectedColumn().getJavaFieldType().getFullyQualifiedNameWithoutTypeParameters();
+                validateFields.append(", ").append(getGeneratedTargetName(domainEntityName, false, false)).append("::").append(CodegenUtils.getGetterMethodName(fieldName, fieldType));
+            }
+        }
+        return validateFields.toString();
     }
 
     @Override

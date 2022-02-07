@@ -69,6 +69,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
      */
     protected CodegenParameter createDomainEnumCodegenParameter(CodegenContext<DomainObjectCodegenConfigProperties,DomainEnumConfig,DomainEnumConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "DomainEnum.ftl");
+        codegenParameter.put("targetComment", codegenContext.getDomainObjectConfig().getDomainEnumTitle());
         List<Map<String,Object>> enumValues = codegenContext.getTargetConfig().getDomainEnumValues().entrySet().stream().map(entry -> {
             Map<String,Object> enumValue = new HashMap<>();
             enumValue.put("enumValue", entry.getKey());
@@ -95,6 +96,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
      */
     protected CodegenParameter createDomainEntityCodegenParameter(CodegenContext<DomainObjectCodegenConfigProperties,DomainEntityConfig,DomainEntityConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "DomainEntity.ftl");
+        codegenParameter.put("targetComment", codegenContext.getDomainObjectConfig().getDomainEntityTitle() + "实体");
         codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(DomainObject.class.getName()));
         List<Map<String,Object>> inherentFields = new ArrayList<>(); //实体固有字段
         List<Map<String,Object>> supportFields = new ArrayList<>(); //实体辅助字段
@@ -102,10 +104,10 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
         List<Map<String,Object>> decodeEnumFields = new ArrayList<>();
         for(Map.Entry<String,DomainEntityFieldConfig> entry : codegenContext.getTargetConfig().getDomainEntityFields().entrySet()) {
             DomainEntityFieldConfig domainEntityFieldConfig = entry.getValue();
-            if(domainEntityFieldConfig.getFieldType().isSupportField()) { //领域实体辅助字段
+            if(domainEntityFieldConfig.getFieldClass().isSupportField()) { //领域实体辅助字段
                 supportFields.add(buildEntitySupportField(domainEntityFieldConfig, codegenParameter));
                 //处理领域对象数据出站DomainObject#beforeOutbound()实现
-                if(DomainObjectFieldType.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD.equals(domainEntityFieldConfig.getFieldType())) {
+                if(DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD.equals(domainEntityFieldConfig.getFieldType())) {
                     DomainEntityColumnConfig domainEntityColumnConfig = domainEntityFieldConfig.getDomainEntityColumnConfig(); //当前辅助字段是辅助谁的?
                     String shortDomainEnumType = getShortDomainEnumType(domainEntityColumnConfig.getDecodeEnumType());
                     DomainEnumConfig refDomainEnumConfig = resolveDecodeEnumConfig(domainEntityColumnConfig.getDecodeEnumType());
@@ -136,7 +138,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
         List<DomainEntityFieldConfig> idFields = codegenContext.getTargetConfig().getIdFields();
         if(idFields.size() == 1) { //单主键
             DomainEntityFieldConfig idField = idFields.get(0);
-            codegenParameter.put("idFieldType", idField.getFieldClass().getShortName());
+            codegenParameter.put("idFieldType", idField.getFieldType().getShortName());
             codegenParameter.put("idFieldName", idField.getFieldName());
         } else if(idFields.size() > 1) { //复合主键
             FullyQualifiedJavaType idFieldType = new FullyQualifiedJavaType(ID.class.getName());
@@ -157,12 +159,11 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
      */
     protected CodegenParameter createDomainAggregateCodegenParameter(CodegenContext<DomainObjectCodegenConfigProperties,DomainAggregateConfig,DomainAggregateConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "DomainAggregate.ftl");
+        codegenParameter.put("targetComment", codegenContext.getDomainObjectConfig().getDomainAggregateTitle() + "聚合根");
         List<Map<String,Object>> inherentFields = new ArrayList<>();
         DomainAggregateConfig domainAggregateConfig = codegenContext.getTargetConfig();
         DomainEntityConfig masterDomainEntityConfig = codegenContext.getCodegenConfig().getDomain().getDomainEntities().get(domainAggregateConfig.getAggregateMasterEntity());
-        if(!domainAggregateConfig.getTargetPackage().equals(masterDomainEntityConfig.getTargetPackage())) { //不在同一个包中?
-            codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(masterDomainEntityConfig.getGeneratedTargetName(masterDomainEntityConfig.getDomainEntityName(), true, false)));
-        }
+        codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(masterDomainEntityConfig.getGeneratedTargetName(masterDomainEntityConfig.getDomainEntityName(), true, false)));
         Map<String,DomainAggregateFieldConfig> domainAggregateFieldConfigs = domainAggregateConfig.getDomainAggregateFields();
         for(Map.Entry<String,DomainAggregateFieldConfig> entry : domainAggregateFieldConfigs.entrySet()) {
             DomainAggregateFieldConfig domainAggregateFieldConfig = entry.getValue();
@@ -178,9 +179,9 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
     private Map<String,Object> buildEntitySupportField(DomainEntityFieldConfig domainEntityFieldConfig, CodegenParameter codegenParameter) {
         Map<String,Object> field = createDomainObjectFields(domainEntityFieldConfig);
         field.put("fieldAnnotations", Collections.emptyList());
-        field.put("fieldGetterName", CodegenUtils.getGetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
-        field.put("fieldSetterName", CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
-        codegenParameter.getTargetAllImportTypes().add(domainEntityFieldConfig.getFieldClass());
+        field.put("fieldGetterName", CodegenUtils.getGetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.put("fieldSetterName", CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        codegenParameter.getTargetAllImportTypes().add(domainEntityFieldConfig.getFieldType());
         return field;
     }
 
@@ -193,9 +194,9 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
             codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(expressions[0]));
         }
         field.put("fieldAnnotations", fieldAnnotations);
-        field.put("fieldGetterName", CodegenUtils.getGetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
-        field.put("fieldSetterName", CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
-        codegenParameter.getTargetAllImportTypes().add(domainEntityFieldConfig.getFieldClass());
+        field.put("fieldGetterName", CodegenUtils.getGetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.put("fieldSetterName", CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        codegenParameter.getTargetAllImportTypes().add(domainEntityFieldConfig.getFieldType());
         return field;
     }
 
@@ -203,7 +204,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
         Map<String,Object> field = new HashMap<>();
         field.put("refEnumTypeName", refDomainEnumConfig.getDomainEnumName());
         field.put("entityFieldName", domainEntityFieldConfig.getDomainEntityColumnConfig().getIntrospectedColumn().getJavaFieldName()); //当前辅助字段关联的枚举值字段
-        field.put("entityFieldSetterName", CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
+        field.put("entityFieldSetterName", CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
         field.put("refEnumNameFieldGetterName", CodegenUtils.getGetterMethodName(refDomainEnumConfig.getDomainEnumNameField().getFieldName(), refDomainEnumConfig.getDomainEnumNameField().getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
         codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(refDomainEnumConfig.getGeneratedTargetName(refDomainEnumConfig.getDomainEnumName(), true, false)));
         codegenParameter.getTargetAllImportTypes().add(refDomainEnumConfig.getDomainEnumNameField().getFieldType());
@@ -222,18 +223,16 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
         codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(notEmptyAnnotationClass.getName()));
         fieldAnnotations.add(String.format("@%s(message=\"%s\")", notEmptyAnnotationClass.getSimpleName(), domainAggregateFieldConfig.getFieldTitle() + "不能为空!"));
         field.put("fieldAnnotations", fieldAnnotations);
-        field.put("fieldGetterName", CodegenUtils.getGetterMethodName(domainAggregateFieldConfig.getFieldName(), domainAggregateFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
-        field.put("fieldSetterName", CodegenUtils.getSetterMethodName(domainAggregateFieldConfig.getFieldName(), domainAggregateFieldConfig.getFieldClass().getFullyQualifiedNameWithoutTypeParameters()));
-        if(!domainAggregateFieldConfig.getDomainAggregateConfig().getTargetPackage().equals(slaveDomainEntityConfig.getTargetPackage())) { //不在同一个包中?
-            codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(slaveDomainEntityConfig.getGeneratedTargetName(slaveDomainEntityConfig.getDomainEntityName(), true, false)));
-        }
+        field.put("fieldGetterName", CodegenUtils.getGetterMethodName(domainAggregateFieldConfig.getFieldName(), domainAggregateFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.put("fieldSetterName", CodegenUtils.getSetterMethodName(domainAggregateFieldConfig.getFieldName(), domainAggregateFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(slaveDomainEntityConfig.getGeneratedTargetName(slaveDomainEntityConfig.getDomainEntityName(), true, false)));
         return field;
     }
 
     private Map<String,Object> createDomainObjectFields(DomainObjectFieldConfig domainObjectFieldConfig) {
         Map<String,Object> field = new HashMap<>();
         field.put("fieldName", domainObjectFieldConfig.getFieldName());
-        field.put("fieldType", domainObjectFieldConfig.getFieldClass().getShortName());
+        field.put("fieldType", domainObjectFieldConfig.getFieldType().getShortName());
         field.put("fieldComment", domainObjectFieldConfig.getFieldComment());
         return field;
     }

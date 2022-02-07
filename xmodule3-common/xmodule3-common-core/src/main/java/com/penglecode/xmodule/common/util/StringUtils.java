@@ -132,12 +132,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return sb.toString();
     }
 
-    public static String lowerCaseFirstChar(String fieldName) {
-        return fieldName != null ? Character.toLowerCase(fieldName.charAt(0)) + fieldName.substring(1) : null;
+    /**
+     * 将指定的paramName的第一个字符改为小写
+     * @param paramName
+     * @return
+     */
+    public static String lowerCaseFirstChar(String paramName) {
+        return paramName != null ? Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1) : null;
     }
 
-    public static String upperCaseFirstChar(String fieldName) {
-        return fieldName != null ? Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1) : null;
+    /**
+     * 将指定的paramName的第一个字符改为大写
+     * @param paramName
+     * @return
+     */
+    public static String upperCaseFirstChar(String paramName) {
+        return paramName != null ? Character.toUpperCase(paramName.charAt(0)) + paramName.substring(1) : null;
     }
 
     /**
