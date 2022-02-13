@@ -64,7 +64,7 @@ public class ApplicationServiceCodegenMethodParameters {
         methodParameter.setMethodActivated(true);
         if(implementation) {
             List<String> methodCodeLines = new ArrayList<>();
-            DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
+            /*DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
             String domainObjectVariable = methodParameter.getDomainObjectVariable();
             methodCodeLines.add(String.format("ValidationAssert.notNull(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", domainObjectVariable, domainObjectVariable));
             DomainEntityColumnConfig defaultUpdateTimeColumn = codegenContext.getCodegenConfig().getDefaultUpdateTimeColumn(domainEntityConfig);
@@ -94,7 +94,7 @@ public class ApplicationServiceCodegenMethodParameters {
                 codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(Map.class.getName()));
                 codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(MapLambdaBuilder.class.getName()));
             }
-            methodParameter.setMethodCodeLines(methodCodeLines);
+            methodParameter.setMethodCodeLines(methodCodeLines);*/
         }
         return methodParameter;
     }
@@ -108,7 +108,7 @@ public class ApplicationServiceCodegenMethodParameters {
         methodParameter.setMethodActivated(true);
         if(implementation) {
             List<String> methodCodeLines = new ArrayList<>();
-            DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
+            /*DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
             List<DomainEntityColumnConfig> idColumns = domainEntityConfig.getIdColumns();
             if(idColumns.size() == 1) { //单一主键
                 String idFieldName = idColumns.get(0).getIntrospectedColumn().getJavaFieldName();
@@ -117,7 +117,7 @@ public class ApplicationServiceCodegenMethodParameters {
             } else {
                 methodCodeLines.add(String.format("BeanValidator.validateMap(id%s);", domainEntityConfig.getValidateFields("byId")));
             }
-            methodParameter.setMethodCodeLines(methodCodeLines);
+            methodParameter.setMethodCodeLines(methodCodeLines);*/
         }
         return methodParameter;
     }
@@ -161,7 +161,7 @@ public class ApplicationServiceCodegenMethodParameters {
         CodegenMethodParameter methodParameter = createCodegenMethodParameter();
         methodParameter.setMethodActivated(true);
         if(implementation) {
-            DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
+            /*DomainEntityConfig domainEntityConfig = codegenContext.getDomainObjectConfig();
             StringBuilder criteriaCodes = new StringBuilder(String.format("QueryCriteria<%s> criteria = LambdaQueryCriteria.of(condition)", domainEntityConfig.getDomainEntityName())).append("\n");
             Map<String,DomainEntityFieldConfig> domainEntityFields = domainEntityConfig.getDomainEntityFields();
             for(Map.Entry<String,DomainEntityFieldConfig> entry : domainEntityFields.entrySet()) {
@@ -179,7 +179,7 @@ public class ApplicationServiceCodegenMethodParameters {
             }
             criteriaCodes.append("                .dynamic(true)").append("\n");
             criteriaCodes.append("                .orderBy(page.getOrderBys());");
-            methodParameter.setMethodCodeLines(Collections.singletonList(criteriaCodes.toString()));
+            methodParameter.setMethodCodeLines(Collections.singletonList(criteriaCodes.toString()));*/
         }
         return methodParameter;
     }

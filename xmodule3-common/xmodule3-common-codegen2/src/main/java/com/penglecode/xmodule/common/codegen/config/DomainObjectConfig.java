@@ -1,8 +1,5 @@
 package com.penglecode.xmodule.common.codegen.config;
 
-import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
-import com.penglecode.xmodule.common.util.StringUtils;
-
 /**
  * 领域对象(实体、聚合根)配置
  *

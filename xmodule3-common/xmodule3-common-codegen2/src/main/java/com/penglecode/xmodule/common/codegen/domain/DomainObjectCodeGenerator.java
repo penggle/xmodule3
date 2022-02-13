@@ -69,7 +69,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
      */
     protected CodegenParameter createDomainEnumCodegenParameter(CodegenContext<DomainObjectCodegenConfigProperties,DomainEnumConfig,DomainEnumConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "DomainEnum.ftl");
-        codegenParameter.put("targetComment", codegenContext.getDomainObjectConfig().getDomainEnumTitle());
+        codegenParameter.setTargetComment(codegenContext.getDomainObjectConfig().getDomainEnumTitle());
         List<Map<String,Object>> enumValues = codegenContext.getTargetConfig().getDomainEnumValues().entrySet().stream().map(entry -> {
             Map<String,Object> enumValue = new HashMap<>();
             enumValue.put("enumValue", entry.getKey());
@@ -96,7 +96,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
      */
     protected CodegenParameter createDomainEntityCodegenParameter(CodegenContext<DomainObjectCodegenConfigProperties,DomainEntityConfig,DomainEntityConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "DomainEntity.ftl");
-        codegenParameter.put("targetComment", codegenContext.getDomainObjectConfig().getDomainEntityTitle() + "实体");
+        codegenParameter.setTargetComment(codegenContext.getDomainObjectConfig().getDomainEntityTitle() + "实体");
         codegenParameter.getTargetAllImportTypes().add(new FullyQualifiedJavaType(DomainObject.class.getName()));
         List<Map<String,Object>> inherentFields = new ArrayList<>(); //实体固有字段
         List<Map<String,Object>> supportFields = new ArrayList<>(); //实体辅助字段
@@ -159,7 +159,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
      */
     protected CodegenParameter createDomainAggregateCodegenParameter(CodegenContext<DomainObjectCodegenConfigProperties,DomainAggregateConfig,DomainAggregateConfig> codegenContext) {
         CodegenParameter codegenParameter = super.createCodegenParameter(codegenContext, "DomainAggregate.ftl");
-        codegenParameter.put("targetComment", codegenContext.getDomainObjectConfig().getDomainAggregateTitle() + "聚合根");
+        codegenParameter.setTargetComment(codegenContext.getDomainObjectConfig().getDomainAggregateTitle() + "聚合根");
         List<Map<String,Object>> inherentFields = new ArrayList<>();
         DomainAggregateConfig domainAggregateConfig = codegenContext.getTargetConfig();
         DomainEntityConfig masterDomainEntityConfig = codegenContext.getCodegenConfig().getDomain().getDomainEntities().get(domainAggregateConfig.getAggregateMasterEntity());
