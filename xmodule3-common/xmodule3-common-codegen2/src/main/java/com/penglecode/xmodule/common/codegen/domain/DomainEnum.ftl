@@ -25,7 +25,7 @@ import ${targetImport};
 public enum ${targetClass} {
 
 <#list enumValues as item>
-    ${item["enumValue"]}(${item["codeValue"]}, ${item["nameValue"]})<#if (item_has_next)>,<#else>;</#if>
+    ${item.enumValue}(${item.codeValue}, ${item.nameValue})<#if (item_has_next)>,<#else>;</#if>
 </#list>
 
     private final ${codeFieldType} ${codeFieldName};

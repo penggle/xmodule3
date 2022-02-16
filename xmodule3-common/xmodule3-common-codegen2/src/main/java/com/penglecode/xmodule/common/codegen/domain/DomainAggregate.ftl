@@ -27,20 +27,20 @@ public class ${targetClass} extends ${targetExtends} {
     private static final long serialVersionUID = 1L;
 
 <#list inherentFields as field>
-    /** ${field["fieldComment"]} */
-    <#list field["fieldAnnotations"] as fieldAnnotation>
+    /** ${field.fieldComment} */
+    <#list field.fieldAnnotations as fieldAnnotation>
     ${fieldAnnotation}
     </#list>
-    private ${field["fieldType"]} ${field["fieldName"]};
+    private ${field.fieldType} ${field.fieldName};
 
 </#list>
 <#list allFields as field>
-    public ${field["fieldType"]} ${field["fieldGetterName"]}() {
-        return ${field["fieldName"]};
+    public ${field.fieldType} ${field.fieldGetterName}() {
+        return ${field.fieldName};
     }
 
-    public void ${field["fieldSetterName"]}(${field["fieldType"]} ${field["fieldName"]}) {
-        this.${field["fieldName"]} = ${field["fieldName"]};
+    public void ${field.fieldSetterName}(${field.fieldType} ${field.fieldName}) {
+        this.${field.fieldName} = ${field.fieldName};
     }
 
 </#list>

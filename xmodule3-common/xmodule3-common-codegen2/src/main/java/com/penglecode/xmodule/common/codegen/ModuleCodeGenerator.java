@@ -163,35 +163,13 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 		Class<?> resourceLoadClass = getClass();
 		configuration.setClassForTemplateLoading(resourceLoadClass, "/" + resourceLoadClass.getPackage().getName().replace(".", "/"));
-		Template codeTemplate = configuration.getTemplate(codegenParameter.getTemplateFileName());
+		Template codeTemplate = configuration.getTemplate(codegenParameter.getTargetTemplateName());
 		FileUtils.mkDirIfNecessary(targetFilePath);
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFilePath)))) {
 			codegenParameter.calculateTargetImports(codegenContext.getTargetConfig().getTargetPackage()); //计算import列表
 			codeTemplate.process(codegenParameter, out); //最后一步：生成代码
 		}
 		return targetFilePath;
-	}
-
-	/**
-	 * 创建代码生成参数
-	 *
-	 * @param codegenContext		- 代码生成上下文
-	 * @param templateFileName		- 模板文件名
-	 * @param <T> 当前生成目标配置
-	 * @param <D> 当前生成目标绑定的领域对象
-	 * @return 返回代码生成参数
-	 */
-	protected <T extends GenerableTargetConfig, D extends DomainObjectConfig> CodegenParameter createCodegenParameter(CodegenContext<C,T,D> codegenContext, String templateFileName) {
-		String domainObjectName = codegenContext.getDomainObjectConfig().getDomainObjectName();
-		CodegenParameter codegenParameter = new CodegenParameter();
-		codegenParameter.setTemplateFileName(templateFileName);
-		codegenParameter.setTargetFileName(codegenContext.getTargetConfig().getGeneratedTargetName(domainObjectName, false, true));
-		codegenParameter.setTargetPackage(codegenContext.getTargetConfig().getTargetPackage());
-		codegenParameter.setTargetClass(codegenContext.getTargetConfig().getGeneratedTargetName(domainObjectName, false, false));
-		codegenParameter.setTargetAuthor(codegenContext.getCodegenConfig().getDomain().getDomainCommons().getCommentAuthor());
-		codegenParameter.setTargetVersion("1.0.0");
-		codegenParameter.setTargetCreated(DateTimeUtils.formatNow("yyyy'年'MM'月'dd'日' a HH:mm"));
-		return codegenParameter;
 	}
 
 	/**

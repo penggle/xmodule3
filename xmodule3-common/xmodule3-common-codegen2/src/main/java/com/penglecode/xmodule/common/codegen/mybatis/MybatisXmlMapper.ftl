@@ -12,8 +12,8 @@
     <sql id="SelectBaseColumnsClause">
         <trim suffixOverrides=",">
         <#list queryColumns as column>
-            <if test="@${mapperHelperClass}@containsColumn(columns, '${column["fieldName"]}')">
-                ${column["columnName"]}   ${column["fieldName"]},
+            <if test="@${mapperHelperClass}@containsColumn(columns, '${column.fieldName}')">
+                ${column.columnName}   ${column.fieldName},
             </if>
         </#list>
         </trim>
@@ -22,14 +22,14 @@
     <sql id="UpdateDynamicColumnsClause">
         <trim suffixOverrides=",">
         <#list updateColumns as column>
-            <if test="@${mapperHelperClass}@containsColumn(columns, '${column["fieldName"]}')">
-                ${tableAliasName}.${column["columnName"]} = <#noparse>#{</#noparse>columns.${column["fieldName"]}, jdbcType=${column["jdbcTypeName"]}<#noparse>}</#noparse>,
+            <if test="@${mapperHelperClass}@containsColumn(columns, '${column.fieldName}')">
+                ${tableAliasName}.${column.columnName} = <#noparse>#{</#noparse>columns.${column.fieldName}, jdbcType=${column.jdbcTypeName}<#noparse>}</#noparse>,
             </if>
         </#list>
         </trim>
     </sql>
 
-    <insert id="insertModel" <#if idGenStrategy == "IDENTITY">keyProperty="${idFieldName}"</#if> parameterType="${domainObjectName}" statementType="PREPARED"<#if idGenStrategy??> useGeneratedKeys="true"</#if>>
+    <insert id="insertModel" <#if idGenStrategy == "IDENTITY">keyProperty="${idFieldName}"</#if> parameterType="${domainObjectName}" statementType="PREPARED"<#if idGenStrategy != "NONE"> useGeneratedKeys="true"</#if>>
     <#if idGenStrategy == "SEQUENCE">
         <selectKey resultType="${idFieldType}" order="BEFORE" keyProperty="${idFieldName}">
             SELECT ${idGenParameter}.NEXTVAL AS ${idFieldName} FROM dual
@@ -37,11 +37,11 @@
     </#if>
         INSERT INTO ${domainEntityTable}(
         <#list insertColumns as column>
-            ${column["columnName"]}<#if column_has_next>,</#if>
+            ${column.columnName}<#if column_has_next>,</#if>
         </#list>
         ) VALUES (
         <#list insertColumns as column>
-            <#noparse>#{</#noparse>${column["fieldName"]}, jdbcType=${column["jdbcTypeName"]}<#noparse>}</#noparse><#if column_has_next>,</#if>
+            <#noparse>#{</#noparse>${column.fieldName}, jdbcType=${column.jdbcTypeName}<#noparse>}</#noparse><#if column_has_next>,</#if>
         </#list>
         )
     </insert>
@@ -49,7 +49,7 @@
     <update id="updateModelById" parameterType="java.util.Map" statementType="PREPARED">
         UPDATE ${domainEntityTable} ${tableAliasName}
            SET <include refid="UpdateDynamicColumnsClause"/>
-         WHERE <#list idColumns as column>${tableAliasName}.${column["idColumnName"]} = <#noparse>#{</#noparse><#if (idColumns?size == 1)>id<#else>id.${column["idFieldName"]}</#if>, jdbcType=${column["idJdbcTypeName"]}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>
+         WHERE <#list idColumns as column>${tableAliasName}.${column.idColumnName} = <#noparse>#{</#noparse><#if (idColumns?size == 1)>id<#else>id.${column.idFieldName}</#if>, jdbcType=${column.idJdbcTypeName}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>
     </update>
 
     <update id="updateModelByCriteria" parameterType="java.util.Map" statementType="PREPARED">
@@ -60,7 +60,7 @@
 
     <delete id="deleteModelById" parameterType="java.util.Map" statementType="PREPARED">
         DELETE ${deleteTargetAliasName} FROM ${domainEntityTable} ${tableAliasName}
-         WHERE <#list idColumns as column>${tableAliasName}.${column["idColumnName"]} = <#noparse>#{</#noparse><#if (idColumns?size == 1)>id<#else>id.${column["idFieldName"]}</#if>, jdbcType=${column["idJdbcTypeName"]}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>
+         WHERE <#list idColumns as column>${tableAliasName}.${column.idColumnName} = <#noparse>#{</#noparse><#if (idColumns?size == 1)>id<#else>id.${column.idFieldName}</#if>, jdbcType=${column.idJdbcTypeName}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>
     </delete>
 
     <delete id="deleteModelByIds" parameterType="java.util.Map" statementType="PREPARED">
@@ -72,7 +72,7 @@
         </foreach>
     <#else>
         DELETE ${deleteTargetAliasName} FROM ${domainEntityTable} ${tableAliasName}
-         WHERE <foreach collection="ids" index="index" item="id" open="" separator=" OR " close="">(<#list idColumns as column>${tableAliasName}.${column["idColumnName"]} = <#noparse>#{</#noparse>id.${column["idFieldName"]}, jdbcType=${column["idJdbcTypeName"]}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>)</foreach>
+         WHERE <foreach collection="ids" index="index" item="id" open="" separator=" OR " close="">(<#list idColumns as column>${tableAliasName}.${column.idColumnName} = <#noparse>#{</#noparse>id.${column.idFieldName}, jdbcType=${column.idJdbcTypeName}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>)</foreach>
     </#if>
     </delete>
 
@@ -84,7 +84,7 @@
     <select id="selectModelById" parameterType="java.util.Map" resultType="${domainObjectName}" statementType="PREPARED">
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM ${domainEntityTable} ${tableAliasName}
-         WHERE <#list idColumns as column>${tableAliasName}.${column["idColumnName"]} = <#noparse>#{</#noparse><#if (idColumns?size == 1)>id<#else>id.${column["idFieldName"]}</#if>, jdbcType=${column["idJdbcTypeName"]}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>
+         WHERE <#list idColumns as column>${tableAliasName}.${column.idColumnName} = <#noparse>#{</#noparse><#if (idColumns?size == 1)>id<#else>id.${column.idFieldName}</#if>, jdbcType=${column.idJdbcTypeName}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>
     </select>
 
     <select id="selectModelByCriteria" parameterType="java.util.Map" resultType="${domainObjectName}" statementType="PREPARED">
@@ -110,7 +110,7 @@
     <#else>
         SELECT <include refid="SelectBaseColumnsClause"/>
           FROM ${domainEntityTable} ${tableAliasName}
-         WHERE <foreach collection="ids" index="index" item="id" open="" separator=" OR " close="">(<#list idColumns as column>${tableAliasName}.${column["idColumnName"]} = <#noparse>#{</#noparse>id.${column["idFieldName"]}, jdbcType=${column["idJdbcTypeName"]}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>)</foreach>
+         WHERE <foreach collection="ids" index="index" item="id" open="" separator=" OR " close="">(<#list idColumns as column>${tableAliasName}.${column.idColumnName} = <#noparse>#{</#noparse>id.${column.idFieldName}, jdbcType=${column.idJdbcTypeName}<#noparse>}</#noparse><#if column_has_next> AND </#if></#list>)</foreach>
     </#if>
     </select>
 

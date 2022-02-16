@@ -59,9 +59,9 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
      * class SubClass extends SuperClass<String> { ... }
      * 使用该方法能得到具体的泛型类型: java.lang.String
      *
-     * @param subClass
-     * @param superClass
-     * @param index
+     * @param subClass      - 子类(当前类)
+     * @param superClass    - 父类Class
+     * @param index         - zero based
      * @return
      */
     public static <T,G> Class<G> getSuperClassGenericType(Class<? extends T> subClass, Class<T> superClass, int index) {

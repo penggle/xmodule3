@@ -27,11 +27,11 @@ public class ${targetClass} implements EntityObject {
     private static final long serialVersionUID = 1L;
 
 <#list inherentFields as field>
-    /** ${field["fieldComment"]} */
-    <#list field["fieldAnnotations"] as fieldAnnotation>
+    /** ${field.fieldComment} */
+    <#list field.fieldAnnotations as fieldAnnotation>
     ${fieldAnnotation}
     </#list>
-    private ${field["fieldType"]} ${field["fieldName"]};
+    private ${field.fieldType} ${field.fieldName};
 
 </#list>
 <#if (supportFields?size > 0)>
@@ -39,17 +39,17 @@ public class ${targetClass} implements EntityObject {
 
 </#if>
 <#list supportFields as field>
-    /** ${field["fieldComment"]} */
-    private ${field["fieldType"]} ${field["fieldName"]};
+    /** ${field.fieldComment} */
+    private ${field.fieldType} ${field.fieldName};
 
 </#list>
 <#list allFields as field>
-    public ${field["fieldType"]} ${field["fieldGetterName"]}() {
-        return ${field["fieldName"]};
+    public ${field.fieldType} ${field.fieldGetterName}() {
+        return ${field.fieldName};
     }
 
-    public void ${field["fieldSetterName"]}(${field["fieldType"]} ${field["fieldName"]}) {
-        this.${field["fieldName"]} = ${field["fieldName"]};
+    public void ${field.fieldSetterName}(${field.fieldType} ${field.fieldName}) {
+        this.${field.fieldName} = ${field.fieldName};
     }
 
 </#list>
@@ -58,11 +58,11 @@ public class ${targetClass} implements EntityObject {
         return ${idFieldName};
     }
 
-<#if (decodeEnumFields?size > 0)>
+<#if (.enumFieldDecodes?size > 0)>
     @Override
     public ${targetClass} beforeOutbound() {
-    <#list decodeEnumFields as field>
-        Optional.ofNullable(${field["refEnumTypeName"]}.of(${field["entityFieldName"]})).ifPresent(em -> ${field["entityFieldSetterName"]}(em.${field["refEnumNameFieldGetterName"]}()));
+    <#list enumFieldDecodes as decode>
+        Optional.ofNullable(${decode.refEnumTypeName}.of(${decode.entityFieldName})).ifPresent(em -> ${decode.entityFieldSetterName}(em.${decode.refEnumNameFieldGetterName}()));
     </#list>
         return this;
     }

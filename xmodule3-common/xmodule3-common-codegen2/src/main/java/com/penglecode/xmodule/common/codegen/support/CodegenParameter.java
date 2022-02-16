@@ -6,142 +6,178 @@ import com.penglecode.xmodule.common.util.CollectionUtils;
 import java.util.*;
 
 /**
- * 代码生成Freemarker模板参数
+ * 代码生成Freemarker模板参数基类
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/1/24 15:50
  */
-@SuppressWarnings("unchecked")
-public class CodegenParameter extends HashMap<String,Object> {
+public abstract class CodegenParameter {
 
     private static final long serialVersionUID = 1L;
 
-    public CodegenParameter() {
-        this(new HashMap<>());
-    }
-
-    public CodegenParameter(Map<? extends String, ?> m) {
-        super(m);
-        put("targetAllImportTypes", new HashSet<>());
-    }
-
-    public void setTemplateFileName(String templateFileName) {
-        put("templateFileName", templateFileName);
-    }
-
     /** 待生成目标对象的Freemarker模板文件名 */
-    public String getTemplateFileName() {
-        return (String) get("templateFileName");
+    private final String targetTemplateName;
+
+    /** 待生成目标对象的文件名 */
+    private String targetFileName;
+
+    /** 待生成目标对象的第三方imports */
+    private List<String> targetProjectImports;
+
+    /** 待生成目标对象的第三方imports */
+    private List<String> targetThirdImports;
+
+    /** 待生成目标对象的JDK imports */
+    private List<String> targetJdkImports;
+
+    private final Set<FullyQualifiedJavaType> targetAllImportTypes = new HashSet<>();
+
+    /** 待生成目标对象的类名 */
+    private String targetClass;
+
+    /** 待生成目标对象的extends父类名 */
+    private String targetExtends;
+
+    /** 待生成目标对象的实现接口名列表 */
+    private List<String> targetImplements;
+
+    /** 待生成目标对象的包名 */
+    private String targetPackage;
+
+    /** 待生成目标对象的注释 */
+    private String targetComment;
+
+    /** 待生成目标对象的作者 */
+    private String targetAuthor;
+
+    /** 待生成目标对象的版本 */
+    private String targetVersion;
+
+    /** 待生成目标对象的创建时间 */
+    private String targetCreated;
+
+    /** 待生成目标对象的SpringBean的名称 */
+    private List<String> targetAnnotations;
+
+    public CodegenParameter(String targetTemplateName) {
+        this.targetTemplateName = targetTemplateName;
+    }
+
+    public String getTargetTemplateName() {
+        return targetTemplateName;
+    }
+
+    public String getTargetFileName() {
+        return targetFileName;
     }
 
     public void setTargetFileName(String targetFileName) {
-        put("targetFileName", targetFileName);
+        this.targetFileName = targetFileName;
     }
 
-    /** 待生成目标对象的文件名 */
-    public String getTargetFileName() {
-        return (String) get("targetFileName");
+    public List<String> getTargetProjectImports() {
+        return targetProjectImports;
     }
 
-    /** 待生成目标对象的项目内imports */
     protected void setTargetProjectImports(List<String> targetProjectImports) {
-        put("targetProjectImports", targetProjectImports);
+        this.targetProjectImports = targetProjectImports;
     }
 
-    /** 待生成目标对象的第三方imports */
+    public List<String> getTargetThirdImports() {
+        return targetThirdImports;
+    }
+
     protected void setTargetThirdImports(List<String> targetThirdImports) {
-        put("targetThirdImports", targetThirdImports);
+        this.targetThirdImports = targetThirdImports;
     }
 
-    /** 待生成目标对象的JDK imports */
+    public List<String> getTargetJdkImports() {
+        return targetJdkImports;
+    }
+
     protected void setTargetJdkImports(List<String> targetJdkImports) {
-        put("targetJdkImports", targetJdkImports);
+        this.targetJdkImports = targetJdkImports;
     }
 
-    public Set<FullyQualifiedJavaType> getTargetAllImportTypes() {
-        return (Set<FullyQualifiedJavaType>) get("targetAllImportTypes");
+    protected Set<FullyQualifiedJavaType> getTargetAllImportTypes() {
+        return targetAllImportTypes;
+    }
+
+    public String getTargetClass() {
+        return targetClass;
     }
 
     public void setTargetClass(String targetClass) {
-        put("targetClass", targetClass);
+        this.targetClass = targetClass;
     }
 
-    /** 待生成目标对象的类名 */
-    public String getTargetClass() {
-        return (String) get("targetClass");
+    public String getTargetExtends() {
+        return targetExtends;
     }
 
     public void setTargetExtends(String targetExtends) {
-        put("targetExtends", targetExtends);
+        this.targetExtends = targetExtends;
     }
 
-    /** 待生成目标对象的extends父类名 */
-    public String getTargetExtends() {
-        return (String) get("targetExtends");
+    public List<String> getTargetImplements() {
+        return targetImplements;
     }
 
     public void setTargetImplements(List<String> targetImplements) {
-        put("targetImplements", targetImplements);
+        this.targetImplements = targetImplements;
     }
 
-    /** 待生成目标对象的实现接口名列表 */
-    public List<String> getTargetImplements() {
-        return (List<String>) get("targetImplements");
+    public String getTargetPackage() {
+        return targetPackage;
     }
 
     public void setTargetPackage(String targetPackage) {
-        put("targetPackage", targetPackage);
+        this.targetPackage = targetPackage;
     }
 
-    /** 待生成目标对象的包名 */
-    public String getTargetPackage() {
-        return (String) get("targetPackage");
+    public String getTargetComment() {
+        return targetComment;
     }
 
     public void setTargetComment(String targetComment) {
-        put("targetComment", targetComment);
+        this.targetComment = targetComment;
     }
 
-    /** 待生成目标对象的注释 */
-    public String getTargetComment() {
-        return (String) get("targetComment");
+    public String getTargetAuthor() {
+        return targetAuthor;
     }
 
     public void setTargetAuthor(String targetAuthor) {
-        put("targetAuthor", targetAuthor);
+        this.targetAuthor = targetAuthor;
     }
 
-    /** 待生成目标对象的作者 */
-    public String getTargetAuthor() {
-        return (String) get("targetAuthor");
+    public String getTargetVersion() {
+        return targetVersion;
     }
 
     public void setTargetVersion(String targetVersion) {
-        put("targetVersion", targetVersion);
+        this.targetVersion = targetVersion;
     }
 
-    /** 待生成目标对象的版本 */
-    public String getTargetVersion() {
-        return (String) get("targetVersion");
+    public String getTargetCreated() {
+        return targetCreated;
     }
 
     public void setTargetCreated(String targetCreated) {
-        put("targetCreated", targetCreated);
+        this.targetCreated = targetCreated;
     }
 
-    /** 待生成目标对象的创建时间 */
-    public String getTargetCreated() {
-        return (String) get("targetCreated");
+    public List<String> getTargetAnnotations() {
+        return targetAnnotations;
     }
 
     public void setTargetAnnotations(List<String> targetAnnotations) {
-        put("targetAnnotations", targetAnnotations);
+        this.targetAnnotations = targetAnnotations;
     }
 
-    /** 待生成目标对象的SpringBean的名称 */
-    public List<String> getTargetAnnotations() {
-        return (List<String>) get("targetAnnotations");
+    public void addTargetImportType(FullyQualifiedJavaType targetImportType) {
+        targetAllImportTypes.add(targetImportType);
     }
 
     /**
