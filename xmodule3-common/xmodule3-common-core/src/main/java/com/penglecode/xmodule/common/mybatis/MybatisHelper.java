@@ -7,6 +7,7 @@ import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import com.penglecode.xmodule.common.mybatis.executor.JdbcBatchOperation;
 import com.penglecode.xmodule.common.mybatis.mapper.BaseMybatisMapper;
 import com.penglecode.xmodule.common.util.ObjectUtils;
+import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.session.RowBounds;
 
 import java.io.Serializable;
@@ -58,8 +59,8 @@ public class MybatisHelper {
      * @param domainMybatisMapper   - 领域对象的MybatisMapper
      * @param <T>
      */
-    public static <T extends DomainObject> void batchUpdateDomainObjects(List<T> domainObjects, Consumer<T> updateOperation, BaseMybatisMapper<T> domainMybatisMapper) {
-        batchUpdateDomainObjects(domainObjects, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, updateOperation, domainMybatisMapper);
+    public static <T extends DomainObject> int batchUpdateDomainObjects(List<T> domainObjects, Consumer<T> updateOperation, BaseMybatisMapper<T> domainMybatisMapper) {
+        return batchUpdateDomainObjects(domainObjects, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, updateOperation, domainMybatisMapper);
     }
 
     /**
@@ -71,8 +72,8 @@ public class MybatisHelper {
      * @param domainMybatisMapper   - 领域对象的MybatisMapper
      * @param <T>
      */
-    public static <T extends DomainObject> void batchUpdateDomainObjects(List<T> domainObjects, int batchSize, Consumer<T> updateOperation, BaseMybatisMapper<T> domainMybatisMapper) {
-        executebatchUpdateDomainObjects(domainObjects, batchSize, updateOperation, domainMybatisMapper);
+    public static <T extends DomainObject> int batchUpdateDomainObjects(List<T> domainObjects, int batchSize, Consumer<T> updateOperation, BaseMybatisMapper<T> domainMybatisMapper) {
+        return executebatchUpdateDomainObjects(domainObjects, batchSize, updateOperation, domainMybatisMapper);
     }
 
     /**
@@ -82,8 +83,8 @@ public class MybatisHelper {
      * @param domainMybatisMapper   - 领域对象的MybatisMapper
      * @param <T>
      */
-    public static <T extends Serializable, D extends DomainObject> void batchDeleteDomainObjects(List<T> ids, BaseMybatisMapper<D> domainMybatisMapper) {
-        batchDeleteDomainObjects(ids, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, domainMybatisMapper);
+    public static <T extends Serializable, D extends DomainObject> int batchDeleteDomainObjects(List<T> ids, BaseMybatisMapper<D> domainMybatisMapper) {
+        return batchDeleteDomainObjects(ids, GlobalConstants.DEFAULT_JDBC_BATCH_SIZE, domainMybatisMapper);
     }
 
     /**
@@ -95,11 +96,11 @@ public class MybatisHelper {
      * @param <T>                   - 操作目标
      * @param <D>                   - 操作领域对象
      */
-    public static <T extends Serializable, D extends DomainObject> void batchDeleteDomainObjects(List<T> ids, int batchSize, BaseMybatisMapper<D> domainMybatisMapper) {
+    public static <T extends Serializable, D extends DomainObject> int batchDeleteDomainObjects(List<T> ids, int batchSize, BaseMybatisMapper<D> domainMybatisMapper) {
         if(ids.size() > IN_SQL_LIMITS) {
-            executebatchUpdateDomainObjects(ids, batchSize, domainMybatisMapper::deleteModelById, domainMybatisMapper);
+            return executebatchUpdateDomainObjects(ids, batchSize, domainMybatisMapper::deleteModelById, domainMybatisMapper);
         } else {
-            domainMybatisMapper.deleteModelByIds(ids);
+            return domainMybatisMapper.deleteModelByIds(ids);
         }
     }
 
@@ -113,20 +114,34 @@ public class MybatisHelper {
      * @param <T>                   - 操作目标
      * @param <D>                   - 操作领域对象
      */
-    protected static <T extends Serializable, D extends DomainObject> void executebatchUpdateDomainObjects(List<T> targetList, int batchSize, Consumer<T> updateOperation, BaseMybatisMapper<D> domainMybatisMapper) {
+    protected static <T extends Serializable, D extends DomainObject> int executebatchUpdateDomainObjects(List<T> targetList, int batchSize, Consumer<T> updateOperation, BaseMybatisMapper<D> domainMybatisMapper) {
         batchSize = batchSize > 0 ? batchSize : GlobalConstants.DEFAULT_JDBC_BATCH_SIZE;
+        int updateCounts = 0;
         try(JdbcBatchOperation batchOperation = new JdbcBatchOperation()) {
             for(int i = 0, size = targetList.size(); i < size; i++) {
                 T target = targetList.get(i);
                 if(target != null) {
                     updateOperation.accept(target);
                     if(size > batchSize && ((i + 1) % batchSize == 0)) {
-                        domainMybatisMapper.flushStatements();
+                        List<BatchResult> results = domainMybatisMapper.flushStatements();
+                        updateCounts += collectUpdateCounts(results);
                     }
                 }
             }
-            domainMybatisMapper.flushStatements();
+            List<BatchResult> results = domainMybatisMapper.flushStatements();
+            updateCounts += collectUpdateCounts(results);
         }
+        return updateCounts;
+    }
+
+    private static int collectUpdateCounts(List<BatchResult> results) {
+        int updateCounts = 0;
+        for(BatchResult result : results) {
+            for(int updateCount : result.getUpdateCounts()) {
+                updateCounts += updateCount;
+            }
+        }
+        return updateCounts;
     }
 
 }

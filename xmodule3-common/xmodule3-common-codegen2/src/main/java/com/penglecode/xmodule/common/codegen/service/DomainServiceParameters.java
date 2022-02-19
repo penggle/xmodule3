@@ -2,9 +2,8 @@ package com.penglecode.xmodule.common.codegen.service;
 
 import com.penglecode.xmodule.common.codegen.config.DomainEntityConfig;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 领域服务参数
@@ -13,7 +12,9 @@ import java.util.Map;
  * @version 1.0
  * @since 2021/2/6 21:23
  */
-public class DomainServiceParameters {
+public class DomainServiceParameters extends ArrayList<DomainServiceParameters.DomainServiceParameter> {
+
+    private static final long serialVersionUID = 1L;
 
     private final DomainServiceParameter masterDomainServiceParameter;
 
@@ -22,6 +23,10 @@ public class DomainServiceParameters {
     public DomainServiceParameters(DomainServiceParameter masterDomainServiceParameter, List<DomainServiceParameter> slaveDomainServiceParameters) {
         this.masterDomainServiceParameter = masterDomainServiceParameter;
         this.slaveDomainServiceParameters = slaveDomainServiceParameters;
+        List<DomainServiceParameters.DomainServiceParameter> allDomainServiceParameters = new ArrayList<>();
+        allDomainServiceParameters.add(masterDomainServiceParameter);
+        allDomainServiceParameters.addAll(slaveDomainServiceParameters);
+        addAll(allDomainServiceParameters);
     }
 
     public DomainServiceParameter getMasterDomainServiceParameter() {
@@ -34,6 +39,8 @@ public class DomainServiceParameters {
 
     public static class DomainServiceParameter {
 
+        private final DomainServiceInterfaceCodegenParameter domainServiceCodegenParameter;
+
         private final DomainEntityConfig domainEntityConfig;
 
         private final String domainServiceName;
@@ -42,11 +49,16 @@ public class DomainServiceParameters {
 
         private final String domainServiceInstanceName;
 
-        public DomainServiceParameter(DomainEntityConfig domainEntityConfig, String domainServiceName, String domainServiceBeanName, String domainServiceInstanceName) {
+        public DomainServiceParameter(DomainServiceInterfaceCodegenParameter domainServiceCodegenParameter, DomainEntityConfig domainEntityConfig, String domainServiceName, String domainServiceBeanName, String domainServiceInstanceName) {
+            this.domainServiceCodegenParameter = domainServiceCodegenParameter;
             this.domainEntityConfig = domainEntityConfig;
             this.domainServiceName = domainServiceName;
             this.domainServiceBeanName = domainServiceBeanName;
             this.domainServiceInstanceName = domainServiceInstanceName;
+        }
+
+        public DomainServiceInterfaceCodegenParameter getDomainServiceCodegenParameter() {
+            return domainServiceCodegenParameter;
         }
 
         public DomainEntityConfig getDomainEntityConfig() {
@@ -63,14 +75,6 @@ public class DomainServiceParameters {
 
         public String getDomainServiceInstanceName() {
             return domainServiceInstanceName;
-        }
-
-        public Map<String,Object> asMap() {
-            Map<String,Object> map = new HashMap<>();
-            map.put("domainServiceName", domainServiceName);
-            map.put("domainServiceBeanName", domainServiceBeanName);
-            map.put("domainServiceInstanceName", domainServiceInstanceName);
-            return map;
         }
 
     }

@@ -18,28 +18,28 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * 领域实体的Mybatis XML-Mapper代码生成参数Factory
+ * 领域实体的Mybatis XML-Mapper代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/2/6 22:03
  */
-public class MybatisXmlMapperCodegenParameterFactory extends CodegenParameterFactory<MybatisCodegenConfigProperties, MybatisXmlMapperConfig, DomainEntityConfig, MybatisXmlMapperCodegenParameter> {
+public class MybatisXmlMapperCodegenParameterBuilder extends CodegenParameterBuilder<MybatisCodegenConfigProperties, MybatisXmlMapperConfig, DomainEntityConfig, MybatisXmlMapperCodegenParameter> {
 
     private final MybatisCodegenDialect defaultMybatisCodegenDialect = new DefaultMybatisCodegenDialect();
 
     private volatile Map<SupportedDatabaseType,MybatisCodegenDialect> dbTypedMybatisCodegenDialects;
 
-    public MybatisXmlMapperCodegenParameterFactory(CodegenContext<MybatisCodegenConfigProperties, MybatisXmlMapperConfig, DomainEntityConfig> codegenContext) {
+    public MybatisXmlMapperCodegenParameterBuilder(CodegenContext<MybatisCodegenConfigProperties, MybatisXmlMapperConfig, DomainEntityConfig> codegenContext) {
         super(codegenContext);
     }
 
-    public MybatisXmlMapperCodegenParameterFactory(MybatisCodegenConfigProperties codegenConfig, MybatisXmlMapperConfig targetConfig, DomainEntityConfig domainObjectConfig) {
+    public MybatisXmlMapperCodegenParameterBuilder(MybatisCodegenConfigProperties codegenConfig, MybatisXmlMapperConfig targetConfig, DomainEntityConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
     }
 
     @Override
-    protected MybatisXmlMapperCodegenParameter setCodegenParameterCustom(MybatisXmlMapperCodegenParameter codegenParameter) {
+    protected MybatisXmlMapperCodegenParameter setCustomCodegenParameter(MybatisXmlMapperCodegenParameter codegenParameter) {
         MybatisCodegenDialect mybatisCodegenDialect = getMybatisCodegenDialect(getDomainObjectConfig().getIntrospectConfig().getIntrospectDatabaseType());
         codegenParameter.setDomainObjectName(getDomainObjectConfig().getDomainEntityName());
         codegenParameter.setMapperNamespace(getTargetConfig().getGeneratedTargetName(getDomainObjectConfig().getDomainEntityName(), true, false));

@@ -10,24 +10,24 @@ import com.penglecode.xmodule.common.domain.ID;
 import java.util.*;
 
 /**
- * 领域实体代码生成参数Factory
+ * 领域实体代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/2/6 22:03
  */
-public class DomainEntityCodegenParameterFactory extends CodegenParameterFactory<DomainObjectCodegenConfigProperties, DomainEntityConfig, DomainEntityConfig, DomainEntityCodegenParameter> {
+public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder<DomainObjectCodegenConfigProperties, DomainEntityConfig, DomainEntityConfig, DomainEntityCodegenParameter> {
 
-    public DomainEntityCodegenParameterFactory(CodegenContext<DomainObjectCodegenConfigProperties, DomainEntityConfig, DomainEntityConfig> codegenContext) {
+    public DomainEntityCodegenParameterBuilder(CodegenContext<DomainObjectCodegenConfigProperties, DomainEntityConfig, DomainEntityConfig> codegenContext) {
         super(codegenContext);
     }
 
-    public DomainEntityCodegenParameterFactory(DomainObjectCodegenConfigProperties codegenConfig, DomainEntityConfig targetConfig, DomainEntityConfig domainObjectConfig) {
+    public DomainEntityCodegenParameterBuilder(DomainObjectCodegenConfigProperties codegenConfig, DomainEntityConfig targetConfig, DomainEntityConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
     }
 
     @Override
-    protected DomainEntityCodegenParameter setCodegenParameterCustom(DomainEntityCodegenParameter codegenParameter) {
+    protected DomainEntityCodegenParameter setCustomCodegenParameter(DomainEntityCodegenParameter codegenParameter) {
         codegenParameter.setTargetComment(getDomainObjectConfig().getDomainEntityTitle() + "实体");
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(DomainObject.class.getName()));
         List<ObjectField> inherentFields = new ArrayList<>(); //实体固有字段
@@ -64,8 +64,8 @@ public class DomainEntityCodegenParameterFactory extends CodegenParameterFactory
     protected ObjectField buildEntitySupportField(DomainEntityFieldConfig domainEntityFieldConfig, CodegenParameter codegenParameter) {
         ObjectField field = createDomainObjectFields(domainEntityFieldConfig);
         field.setFieldAnnotations(Collections.emptyList());
-        field.setFieldGetterName(CodegenUtils.getGetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
-        field.setFieldSetterName(CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.setFieldGetterName(domainEntityFieldConfig.getFieldGetterName());
+        field.setFieldSetterName(domainEntityFieldConfig.getFieldSetterName());
         codegenParameter.addTargetImportType(domainEntityFieldConfig.getFieldType());
         return field;
     }

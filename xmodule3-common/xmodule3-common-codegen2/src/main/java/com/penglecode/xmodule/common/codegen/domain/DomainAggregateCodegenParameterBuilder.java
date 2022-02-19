@@ -12,24 +12,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 领域聚合根代码生成参数Factory
+ * 领域聚合根代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0
  * @since 202q/2/6 22:03
  */
-public class DomainAggregateCodegenParameterFactory extends CodegenParameterFactory<DomainObjectCodegenConfigProperties, DomainAggregateConfig, DomainAggregateConfig, DomainAggregateCodegenParameter> {
+public class DomainAggregateCodegenParameterBuilder extends CodegenParameterBuilder<DomainObjectCodegenConfigProperties, DomainAggregateConfig, DomainAggregateConfig, DomainAggregateCodegenParameter> {
 
-    public DomainAggregateCodegenParameterFactory(CodegenContext<DomainObjectCodegenConfigProperties, DomainAggregateConfig, DomainAggregateConfig> codegenContext) {
+    public DomainAggregateCodegenParameterBuilder(CodegenContext<DomainObjectCodegenConfigProperties, DomainAggregateConfig, DomainAggregateConfig> codegenContext) {
         super(codegenContext);
     }
 
-    public DomainAggregateCodegenParameterFactory(DomainObjectCodegenConfigProperties codegenConfig, DomainAggregateConfig targetConfig, DomainAggregateConfig domainObjectConfig) {
+    public DomainAggregateCodegenParameterBuilder(DomainObjectCodegenConfigProperties codegenConfig, DomainAggregateConfig targetConfig, DomainAggregateConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
     }
 
     @Override
-    protected DomainAggregateCodegenParameter setCodegenParameterCustom(DomainAggregateCodegenParameter codegenParameter) {
+    protected DomainAggregateCodegenParameter setCustomCodegenParameter(DomainAggregateCodegenParameter codegenParameter) {
         codegenParameter.setTargetComment(getDomainObjectConfig().getDomainAggregateTitle() + "聚合根");
         List<ObjectField> inherentFields = new ArrayList<>();
         DomainAggregateConfig domainAggregateConfig = getTargetConfig();
@@ -58,8 +58,8 @@ public class DomainAggregateCodegenParameterFactory extends CodegenParameterFact
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(notEmptyAnnotationClass.getName()));
         fieldAnnotations.add(String.format("@%s(message=\"%s\")", notEmptyAnnotationClass.getSimpleName(), domainAggregateFieldConfig.getFieldTitle() + "不能为空!"));
         field.setFieldAnnotations(fieldAnnotations);
-        field.setFieldGetterName(CodegenUtils.getGetterMethodName(domainAggregateFieldConfig.getFieldName(), domainAggregateFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
-        field.setFieldSetterName(CodegenUtils.getSetterMethodName(domainAggregateFieldConfig.getFieldName(), domainAggregateFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.setFieldGetterName(domainAggregateFieldConfig.getFieldGetterName());
+        field.setFieldSetterName(domainAggregateFieldConfig.getFieldSetterName());
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(slaveDomainEntityConfig.getGeneratedTargetName(slaveDomainEntityConfig.getDomainEntityName(), true, false)));
         return field;
     }

@@ -23,170 +23,165 @@ import ${targetImport};
  * @since ${targetCreated}
  */
 public interface ${targetClass} {
-<#if createDomainObject["methodActivated"]>
+<#if createDomainObject.activated>
 
     /**
-     * 创建${createDomainObject["domainObjectTitle"]}
+     * 创建${createDomainObject.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${createDomainObject["domainObjectVariable"]}     - 被保存的领域对象
+     * @param ${createDomainObject.domainObjectParameter.lowerDomainObjectName}     - 被保存的领域对象
      */
-    void create${createDomainObject["domainObjectAlias"]}(${createDomainObject["domainObjectName"]} ${createDomainObject["domainObjectVariable"]});
+    void create${createDomainObject.domainObjectParameter.domainObjectAlias}(${createDomainObject.domainObjectParameter.domainObjectName} ${createDomainObject.domainObjectParameter.lowerDomainObjectName});
 </#if>
-<#if batchCreateDomainObjects["methodActivated"]>
+<#if batchCreateDomainObjects.activated>
 
     /**
-     * 批量创建${batchCreateDomainObjects["domainObjectTitle"]}
+     * 批量创建${batchCreateDomainObjects.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${batchCreateDomainObjects["domainObjectVariables"]}    - 被保存的领域对象集合
+     * @param ${batchCreateDomainObjects.domainObjectParameter.lowerDomainObjectsName}    - 被保存的领域对象集合
      */
-    void batchCreate${batchCreateDomainObjects["domainObjectAliases"]}(List<${batchCreateDomainObjects["domainObjectName"]}> ${batchCreateDomainObjects["domainObjectVariables"]});
+    void batchCreate${batchCreateDomainObjects.domainObjectParameter.domainObjectsAlias}(List<${batchCreateDomainObjects.domainObjectParameter.domainObjectName}> ${batchCreateDomainObjects.domainObjectParameter.lowerDomainObjectsName});
 </#if>
-<#if modifyDomainObjectById["methodActivated"]>
+<#if modifyDomainObjectById.activated>
 
     /**
-     * 根据ID修改${modifyDomainObjectById["domainObjectTitle"]}
+     * 根据ID修改${modifyDomainObjectById.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${modifyDomainObjectById["domainObjectVariable"]}     - 被保存的领域对象(其id字段必须有值)
+     * @param ${modifyDomainObjectById.domainObjectParameter.lowerDomainObjectName}     - 被保存的领域对象(其id字段必须有值)
      */
-    void modify${modifyDomainObjectById["domainObjectAlias"]}ById(${modifyDomainObjectById["domainObjectName"]} ${modifyDomainObjectById["domainObjectVariable"]});
+    void modify${modifyDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${modifyDomainObjectById.domainObjectParameter.domainObjectName} ${modifyDomainObjectById.domainObjectParameter.lowerDomainObjectName});
 </#if>
-<#if batchModifyDomainObjectsById["methodActivated"]>
+<#if batchModifyDomainObjectsById.activated>
 
     /**
-     * 根据ID批量修改${batchModifyDomainObjectsById["domainObjectTitle"]}
+     * 根据ID批量修改${batchModifyDomainObjectsById.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${batchModifyDomainObjectsById["domainObjectVariables"]}    - 被保存的领域对象集合(其id字段必须有值)
+     * @param ${batchModifyDomainObjectsById.domainObjectParameter.lowerDomainObjectsName}    - 被保存的领域对象集合(其id字段必须有值)
      */
-    void batchModify${batchModifyDomainObjectsById["domainObjectAliases"]}ById(List<${batchModifyDomainObjectsById["domainObjectName"]}> ${batchModifyDomainObjectsById["domainObjectVariables"]});
+    void batchModify${batchModifyDomainObjectsById.domainObjectParameter.domainObjectsAlias}ById(List<${batchModifyDomainObjectsById.domainObjectParameter.domainObjectName}> ${batchModifyDomainObjectsById.domainObjectParameter.lowerDomainObjectsName});
 </#if>
-<#if removeDomainObjectById["methodActivated"]>
+<#if removeDomainObjectById.activated>
 
     /**
-     * 根据ID删除${removeDomainObjectById["domainObjectTitle"]}
+     * 根据ID删除${removeDomainObjectById.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${removeDomainObjectById["domainObjectIdName"]}    - ID主键
+     * @param ${removeDomainObjectById.domainObjectParameter.domainObjectIdName}    - ID主键
      */
-    void remove${removeDomainObjectById["domainObjectAlias"]}ById(${removeDomainObjectById["domainObjectIdType"]} ${removeDomainObjectById["domainObjectIdName"]});
+    int remove${removeDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${removeDomainObjectById.domainObjectParameter.domainObjectIdType} ${removeDomainObjectById.domainObjectParameter.domainObjectIdName});
 </#if>
-<#if removeDomainObjectsByIds["methodActivated"]>
+<#if removeDomainObjectsByIds.activated>
 
     /**
-     * 根据多个ID删除${removeDomainObjectsByIds["domainObjectTitle"]}
+     * 根据多个ID删除${removeDomainObjectsByIds.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${removeDomainObjectsByIds["domainObjectIdsName"]}    - ID主键列表
+     * @param ${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdsName}    - ID主键列表
      */
-    void remove${removeDomainObjectsByIds["domainObjectAliases"]}ByIds(List<${removeDomainObjectsByIds["domainObjectIdType"]}> ${removeDomainObjectsByIds["domainObjectIdsName"]});
+    int remove${removeDomainObjectsByIds.domainObjectParameter.domainObjectsAlias}ByIds(List<${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdType}> ${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdsName});
 </#if>
-<#if removeDomainObjectsByXxxMasterId["methodActivated"]>
-<#list removeDomainObjectsByXxxMasterId["removeByMasterIdMethods"] as removeDomainObjectsByMasterId>
-<#if removeDomainObjectsByMasterId["methodActivated"]>
+<#list removeDomainObjectsByXxxMasterId?values as removeDomainObjectsByMasterId>
+<#if removeDomainObjectsByMasterId.activated>
 
     /**
-     * 根据${removeDomainObjectsByMasterId["masterDomainObjectTitle"]}ID删除${removeDomainObjectsByMasterId["domainObjectTitle"]}
+     * 根据${removeDomainObjectsByMasterId.masterDomainObjectParameter.domainObjectTitle}ID删除${removeDomainObjectsByMasterId.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${removeDomainObjectsByMasterId["masterDomainObjectIdName"]}   - ${removeDomainObjectsByMasterId["masterDomainObjectTitle"]}ID
+     * @param ${removeDomainObjectsByMasterId.masterIdNameOfSlave}   - ${removeDomainObjectsByMasterId.masterDomainObjectParameter.domainObjectTitle}ID
      */
-    void remove${removeDomainObjectsByMasterId["domainObjectAliases"]}By${removeDomainObjectsByMasterId["upperMasterDomainObjectIdName"]}(${removeDomainObjectsByMasterId["masterDomainObjectIdType"]} ${removeDomainObjectsByMasterId["masterDomainObjectIdName"]});
+    int remove${removeDomainObjectsByMasterId.domainObjectParameter.domainObjectsAlias}By${removeDomainObjectsByMasterId.upperMasterIdNameOfSlave}(${removeDomainObjectsByMasterId.masterDomainObjectParameter.domainObjectIdType} ${removeDomainObjectsByMasterId.masterIdNameOfSlave});
 </#if>
 </#list>
-</#if>
-<#if getDomainObjectById["methodActivated"]>
+<#if getDomainObjectById.activated>
 
     /**
-     * 根据ID获取${getDomainObjectById["domainObjectTitle"]}
+     * 根据ID获取${getDomainObjectById.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${getDomainObjectById["domainObjectIdName"]}    - ID主键
+     * @param ${getDomainObjectById.domainObjectParameter.domainObjectIdName}    - ID主键
      * @return 返回完整的领域对象信息
      */
-    ${getDomainObjectById["domainObjectName"]} get${getDomainObjectById["domainObjectAlias"]}ById(${getDomainObjectById["domainObjectIdType"]} ${getDomainObjectById["domainObjectIdName"]});
+    ${getDomainObjectById.domainObjectParameter.domainObjectName} get${getDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${getDomainObjectById.domainObjectParameter.domainObjectIdType} ${getDomainObjectById.domainObjectParameter.domainObjectIdName});
 </#if>
-<#if getDomainObjectsByIds["methodActivated"]>
+<#if getDomainObjectsByIds.activated>
 
     /**
-     * 根据多个ID获取${getDomainObjectsByIds["domainObjectTitle"]}
+     * 根据多个ID获取${getDomainObjectsByIds.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${getDomainObjectsByIds["domainObjectIdsName"]}   - ID主键列表
+     * @param ${getDomainObjectsByIds.domainObjectParameter.domainObjectIdsName}   - ID主键列表
      * @return 返回完整的领域对象信息列表
      */
-    List<${getDomainObjectsByIds["domainObjectName"]}> get${getDomainObjectsByIds["domainObjectAliases"]}ByIds(List<${getDomainObjectsByIds["domainObjectIdType"]}> ${getDomainObjectsByIds["domainObjectIdsName"]});
+    List<${getDomainObjectsByIds.domainObjectParameter.domainObjectName}> get${getDomainObjectsByIds.domainObjectParameter.domainObjectsAlias}ByIds(List<${getDomainObjectsByIds.domainObjectParameter.domainObjectIdType}> ${getDomainObjectsByIds.domainObjectParameter.domainObjectIdsName});
 </#if>
-<#if getDomainObjectsByXxxMasterId["methodActivated"]>
-<#list getDomainObjectsByXxxMasterId["getByMasterIdMethods"] as getDomainObjectsByMasterId>
-<#if getDomainObjectsByMasterId["methodActivated"]>
+<#list getDomainObjectsByXxxMasterId?values as getDomainObjectsByMasterId>
+<#if getDomainObjectsByMasterId.activated>
 
     /**
-     * 根据${getDomainObjectsByMasterId["masterDomainObjectTitle"]}ID获取${getDomainObjectsByMasterId["domainObjectTitle"]}
+     * 根据${getDomainObjectsByMasterId.masterDomainObjectParameter.domainObjectTitle}ID获取${getDomainObjectsByMasterId.domainObjectParameter.domainObjectTitle}
      *
-     * @param ${getDomainObjectsByMasterId["masterDomainObjectIdName"]}   - ${getDomainObjectsByMasterId["masterDomainObjectTitle"]}ID
+     * @param ${getDomainObjectsByMasterId.masterIdNameOfSlave}   - ${getDomainObjectsByMasterId.masterDomainObjectParameter.domainObjectTitle}ID
      * @return 返回完整的领域对象信息
      */
-    ${getDomainObjectsByMasterId["methodDynamicReturnType"]} get${getDomainObjectsByMasterId["domainObjectAliases"]}By${getDomainObjectsByMasterId["upperMasterDomainObjectIdName"]}(${getDomainObjectsByMasterId["masterDomainObjectIdType"]} ${getDomainObjectsByMasterId["masterDomainObjectIdName"]});
+    ${getDomainObjectsByMasterId.methodReturnType} get${getDomainObjectsByMasterId.domainObjectParameter.domainObjectsAlias}By${getDomainObjectsByMasterId.upperMasterIdNameOfSlave}(${getDomainObjectsByMasterId.masterDomainObjectParameter.domainObjectIdType} ${getDomainObjectsByMasterId.masterIdNameOfSlave});
 </#if>
 </#list>
-</#if>
-<#if getDomainObjectsByXxxMasterIds["methodActivated"]>
-<#list getDomainObjectsByXxxMasterIds["getByMasterIdsMethods"] as getDomainObjectsByMasterIds>
-<#if getDomainObjectsByMasterIds["methodActivated"]>
+<#list getDomainObjectsByXxxMasterIds?values as getDomainObjectsByMasterIds>
+<#if getDomainObjectsByMasterIds.activated>
 
     /**
-     * 根据多个${getDomainObjectsByMasterIds["masterDomainObjectTitle"]}ID获取${getDomainObjectsByMasterIds["domainObjectTitle"]}列表
+     * 根据多个${getDomainObjectsByMasterIds.masterDomainObjectParameter.domainObjectTitle}ID获取${getDomainObjectsByMasterIds.domainObjectParameter.domainObjectTitle}列表
      *
-     * @param ${getDomainObjectsByMasterIds["masterDomainObjectIdsName"]}   - ${getDomainObjectsByMasterIds["masterDomainObjectTitle"]}ID列表
+     * @param ${getDomainObjectsByMasterIds.masterIdsNameOfSlave}   - ${getDomainObjectsByMasterIds.masterDomainObjectParameter.domainObjectTitle}ID列表
      * @return 返回完整的领域对象信息
      */
-    ${getDomainObjectsByMasterIds["methodDynamicReturnType"]} get${getDomainObjectsByMasterIds["domainObjectsAliases"]}By${getDomainObjectsByMasterIds["upperMasterDomainObjectIdsName"]}(List<${getDomainObjectsByMasterIds["masterDomainObjectIdType"]}> ${getDomainObjectsByMasterIds["masterDomainObjectIdsName"]});
+    ${getDomainObjectsByMasterIds.methodReturnType} get${getDomainObjectsByMasterIds.domainObjectParameter.domainObjectsAlias}By${getDomainObjectsByMasterIds.upperMasterIdsNameOfSlave}(List<${getDomainObjectsByMasterIds.masterDomainObjectParameter.domainObjectIdType}> ${getDomainObjectsByMasterIds.masterIdsNameOfSlave});
 </#if>
 </#list>
-</#if>
-<#if getDomainObjectsByPage["methodActivated"]>
+<#if getDomainObjectsByPage.activated>
 
     /**
-     * 根据条件查询${getDomainObjectsByPage["domainObjectTitle"]}列表(排序、分页)
+     * 根据条件查询${getDomainObjectsByPage.domainObjectParameter.domainObjectTitle}列表(排序、分页)
      *
      * @param condition		- 查询条件
      * @param page			- 分页/排序参数
      * @return 返回完整的领域对象列表
      */
-    List<${getDomainObjectsByPage["domainObjectName"]}> get${getDomainObjectsByPage["domainObjectAliases"]}ByPage(${getDomainObjectsByPage["domainObjectName"]} condition, Page page);
+    List<${getDomainObjectsByPage.domainObjectParameter.domainObjectName}> get${getDomainObjectsByPage.domainObjectParameter.domainObjectsAlias}ByPage(${getDomainObjectsByPage.domainObjectParameter.domainObjectName} condition, Page page);
 </#if>
-<#if getDomainObjectTotalCount["methodActivated"]>
+<#if getDomainObjectTotalCount.activated>
 
     /**
-     * 获取${getDomainObjectTotalCount["domainObjectTitle"]}总记录数
+     * 获取${getDomainObjectTotalCount.domainObjectParameter.domainObjectTitle}总记录数
      *
      * @return 返回领域对象总记录数
      */
-    int get${getDomainObjectTotalCount["domainObjectAlias"]}TotalCount();
+    int get${getDomainObjectTotalCount.domainObjectParameter.domainObjectAlias}TotalCount();
 </#if>
-<#if forEachDomainObject1["methodActivated"]>
+<#if forEachDomainObject1.activated>
 
     /**
-     * 基于Mybatis游标操作，遍历所有${forEachDomainObject1["domainObjectTitle"]}
+     * 基于Mybatis游标操作，遍历所有${forEachDomainObject1.domainObjectParameter.domainObjectTitle}
      * (在数据量大的情况下，避免一次加载出所有数据而引起内存溢出)
      * 典型示例1、(数据量不大的情况下一次获取所有元素)：
      *      List&lt;MyModel&gt; allModels = new ArrayList<>(); //承接所有元素的集合
-     *      myModelService.forEach${forEachDomainObject1["domainObjectAlias"]}(allModels::add); //加载所有元素进入集合
+     *      myModelService.forEach${forEachDomainObject1.domainObjectParameter.domainObjectAlias}(allModels::add); //加载所有元素进入集合
      *
      * 典型示例2、(数据量大的情况需要逐步迭代处理每个元素)：
-     *      myModelService.forEach${forEachDomainObject1["domainObjectAlias"]}(System.out::println); //逐步迭代处理每个元素
+     *      myModelService.forEach${forEachDomainObject1.domainObjectParameter.domainObjectAlias}(System.out::println); //逐步迭代处理每个元素
      *
      * @param consumer  - 遍历元素的Consumer
      */
-    void forEach${forEachDomainObject1["domainObjectAlias"]}(Consumer<${forEachDomainObject1["domainObjectName"]}> consumer);
+    void forEach${forEachDomainObject1.domainObjectParameter.domainObjectAlias}(Consumer<${forEachDomainObject1.domainObjectParameter.domainObjectName}> consumer);
 </#if>
-<#if forEachDomainObject2["methodActivated"]>
+<#if forEachDomainObject2.activated>
+
     /**
-     * 基于Mybatis游标操作，遍历所有${forEachDomainObject2["domainObjectTitle"]}
+     * 基于Mybatis游标操作，遍历所有${forEachDomainObject2.domainObjectParameter.domainObjectTitle}
      * (在数据量大的情况下，避免一次加载出所有数据而引起内存溢出)
      *
      * 典型示例、(数据量大的情况需要逐步迭代处理每个元素)：
-     *      myModelService.forEach${forEachDomainObject2["domainObjectAlias"]}((item, index) -> {
+     *      myModelService.forEach${forEachDomainObject2.domainObjectParameter.domainObjectAlias}((item, index) -> {
      *          System.out.println("index = " + index + ", item = " + item);
      *      }); //逐步迭代处理每个元素
      *
      * @param consumer  - 遍历元素的ObjIntConsumer
      */
-    void forEach${forEachDomainObject2["domainObjectAlias"]}(ObjIntConsumer<${forEachDomainObject2["domainObjectName"]}> consumer);
+    void forEach${forEachDomainObject2.domainObjectParameter.domainObjectAlias}(ObjIntConsumer<${forEachDomainObject2.domainObjectParameter.domainObjectName}> consumer);
 </#if>
 
 }

@@ -9,24 +9,24 @@ import com.penglecode.xmodule.common.util.TemplateUtils;
 import java.util.*;
 
 /**
- * 领域实体的Mybatis Java-Mapper代码生成参数Factory
+ * 领域实体的Mybatis Java-Mapper代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/2/6 22:03
  */
-public class MybatisJavaMapperCodegenParameterFactory extends CodegenParameterFactory<MybatisCodegenConfigProperties, MybatisJavaMapperConfig, DomainEntityConfig, MybatisJavaMapperCodegenParameter> {
+public class MybatisJavaMapperCodegenParameterBuilder extends CodegenParameterBuilder<MybatisCodegenConfigProperties, MybatisJavaMapperConfig, DomainEntityConfig, MybatisJavaMapperCodegenParameter> {
 
-    public MybatisJavaMapperCodegenParameterFactory(CodegenContext<MybatisCodegenConfigProperties, MybatisJavaMapperConfig, DomainEntityConfig> codegenContext) {
+    public MybatisJavaMapperCodegenParameterBuilder(CodegenContext<MybatisCodegenConfigProperties, MybatisJavaMapperConfig, DomainEntityConfig> codegenContext) {
         super(codegenContext);
     }
 
-    public MybatisJavaMapperCodegenParameterFactory(MybatisCodegenConfigProperties codegenConfig, MybatisJavaMapperConfig targetConfig, DomainEntityConfig domainObjectConfig) {
+    public MybatisJavaMapperCodegenParameterBuilder(MybatisCodegenConfigProperties codegenConfig, MybatisJavaMapperConfig targetConfig, DomainEntityConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
     }
 
     @Override
-    protected MybatisJavaMapperCodegenParameter setCodegenParameterCustom(MybatisJavaMapperCodegenParameter codegenParameter) {
+    protected MybatisJavaMapperCodegenParameter setCustomCodegenParameter(MybatisJavaMapperCodegenParameter codegenParameter) {
         codegenParameter.setTargetComment(getDomainObjectConfig().getDomainEntityTitle() + "Mybatis-Mapper接口");
         codegenParameter.setTargetExtends(String.format("BaseMybatisMapper<%s>", getDomainObjectConfig().getDomainEntityName()));
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(getDomainObjectConfig().getGeneratedTargetName(getDomainObjectConfig().getDomainEntityName(), true, false)));

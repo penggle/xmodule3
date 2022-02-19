@@ -3,31 +3,31 @@ package com.penglecode.xmodule.common.codegen.domain;
 import com.penglecode.xmodule.common.codegen.config.DomainEnumConfig;
 import com.penglecode.xmodule.common.codegen.config.DomainObjectCodegenConfigProperties;
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
-import com.penglecode.xmodule.common.codegen.support.CodegenParameterFactory;
+import com.penglecode.xmodule.common.codegen.support.CodegenParameterBuilder;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 领域枚举代码生成参数Factory
+ * 领域枚举代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/2/6 22:03
  */
-public class DomainEnumCodegenParameterFactory extends CodegenParameterFactory<DomainObjectCodegenConfigProperties, DomainEnumConfig, DomainEnumConfig, DomainEnumCodegenParameter> {
+public class DomainEnumCodegenParameterBuilder extends CodegenParameterBuilder<DomainObjectCodegenConfigProperties, DomainEnumConfig, DomainEnumConfig, DomainEnumCodegenParameter> {
 
-    public DomainEnumCodegenParameterFactory(CodegenContext<DomainObjectCodegenConfigProperties, DomainEnumConfig, DomainEnumConfig> codegenContext) {
+    public DomainEnumCodegenParameterBuilder(CodegenContext<DomainObjectCodegenConfigProperties, DomainEnumConfig, DomainEnumConfig> codegenContext) {
         super(codegenContext);
     }
 
-    public DomainEnumCodegenParameterFactory(DomainObjectCodegenConfigProperties codegenConfig, DomainEnumConfig targetConfig, DomainEnumConfig domainObjectConfig) {
+    public DomainEnumCodegenParameterBuilder(DomainObjectCodegenConfigProperties codegenConfig, DomainEnumConfig targetConfig, DomainEnumConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
     }
 
     @Override
-    protected DomainEnumCodegenParameter setCodegenParameterCustom(DomainEnumCodegenParameter codegenParameter) {
+    protected DomainEnumCodegenParameter setCustomCodegenParameter(DomainEnumCodegenParameter codegenParameter) {
         codegenParameter.setTargetComment(getDomainObjectConfig().getDomainEnumTitle());
         List<DomainEnumCodegenParameter.EnumValue> enumValues = getTargetConfig().getDomainEnumValues().entrySet().stream().map(entry -> {
             DomainEnumCodegenParameter.EnumValue enumValue = new DomainEnumCodegenParameter.EnumValue();

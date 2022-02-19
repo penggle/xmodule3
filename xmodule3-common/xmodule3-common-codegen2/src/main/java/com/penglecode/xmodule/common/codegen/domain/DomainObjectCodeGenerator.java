@@ -37,7 +37,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
             for(DomainEnumConfig domainEnumConfig : domainEnumConfigs) {
                 if(domainEnumConfig.getDomainEnumClass() == null) { //需要生成领域枚举对象?
                     CodegenContext<DomainObjectCodegenConfigProperties,DomainEnumConfig,DomainEnumConfig> codegenContext = new CodegenContext<>(codegenConfig, domainEnumConfig, domainEnumConfig);
-                    generateTarget(codegenContext, new DomainEnumCodegenParameterFactory(codegenContext).createCodegenParameter());
+                    generateTarget(codegenContext, new DomainEnumCodegenParameterBuilder(codegenContext).buildCodegenParameter());
                 }
             }
         }
@@ -46,7 +46,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
             for(Map.Entry<String,DomainEntityConfig> entry : domainEntityConfigs.entrySet()) {
                 DomainEntityConfig domainEntityConfig = entry.getValue();
                 CodegenContext<DomainObjectCodegenConfigProperties,DomainEntityConfig,DomainEntityConfig> codegenContext = new CodegenContext<>(codegenConfig, domainEntityConfig, domainEntityConfig);
-                generateTarget(codegenContext, new DomainEntityCodegenParameterFactory(codegenContext).createCodegenParameter());
+                generateTarget(codegenContext, new DomainEntityCodegenParameterBuilder(codegenContext).buildCodegenParameter());
             }
         }
         Map<String,DomainAggregateConfig> domainAggregateConfigs = codegenConfig.getDomain().getDomainAggregates();
@@ -54,7 +54,7 @@ public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectC
             for(Map.Entry<String,DomainAggregateConfig> entry : domainAggregateConfigs.entrySet()) {
                 DomainAggregateConfig domainAggregateConfig = entry.getValue();
                 CodegenContext<DomainObjectCodegenConfigProperties,DomainAggregateConfig,DomainAggregateConfig> codegenContext = new CodegenContext<>(codegenConfig, domainAggregateConfig, domainAggregateConfig);
-                generateTarget(codegenContext, new DomainAggregateCodegenParameterFactory(codegenContext).createCodegenParameter());
+                generateTarget(codegenContext, new DomainAggregateCodegenParameterBuilder(codegenContext).buildCodegenParameter());
             }
         }
     }

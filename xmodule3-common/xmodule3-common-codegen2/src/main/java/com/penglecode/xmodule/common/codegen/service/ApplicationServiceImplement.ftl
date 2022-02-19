@@ -28,101 +28,109 @@ import ${targetImport};
 public class ${targetClass} implements <#list targetImplements as targetImplement>${targetImplement}<#if (item_has_next)>, </#if></#list> {
 
 <#list domainServices as domainService>
-    @Resource(name="${domainService["domainServiceBeanName"]}")
-    private ${domainService["domainServiceName"]} ${domainService["domainServiceInstanceName"]};
+    @Resource(name="${domainService.domainServiceBeanName}")
+    private ${domainService.domainServiceName} ${domainService.domainServiceInstanceName};
 
 </#list>
-<#if createDomainObject["methodActivated"]>
+<#if createDomainObject.activated>
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void create${createDomainObject["domainObjectAlias"]}(${createDomainObject["domainObjectName"]} ${createDomainObject["domainObjectVariable"]}) {
-    <#list createDomainObject["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public void create${createDomainObject.domainObjectParameter.domainObjectAlias}(${createDomainObject.domainObjectParameter.domainObjectName} ${createDomainObject.domainObjectParameter.lowerDomainObjectName}) {
+    <#list createDomainObject.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if modifyDomainObjectById["methodActivated"]>
+<#if modifyDomainObjectById.activated>
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void modify${modifyDomainObjectById["domainObjectAlias"]}ById(${modifyDomainObjectById["domainObjectName"]} ${modifyDomainObjectById["domainObjectVariable"]}) {
-    <#list modifyDomainObjectById["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public void modify${modifyDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${modifyDomainObjectById.domainObjectParameter.domainObjectName} ${modifyDomainObjectById.domainObjectParameter.lowerDomainObjectName}) {
+    <#list modifyDomainObjectById.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if removeDomainObjectById["methodActivated"]>
+<#if removeDomainObjectById.activated>
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void remove${removeDomainObjectById["domainObjectAlias"]}ById(${removeDomainObjectById["domainObjectIdType"]} ${removeDomainObjectById["domainObjectIdName"]}) {
-    <#list removeDomainObjectById["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public void remove${removeDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${removeDomainObjectById.domainObjectParameter.domainObjectIdType} ${removeDomainObjectById.domainObjectParameter.domainObjectIdName}) {
+    <#list removeDomainObjectById.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if removeDomainObjectsByIds["methodActivated"]>
+<#if removeDomainObjectsByIds.activated>
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void remove${removeDomainObjectsByIds["domainObjectAliases"]}ByIds(List<${removeDomainObjectsByIds["domainObjectIdType"]}> ${removeDomainObjectsByIds["domainObjectIdsName"]}) {
-    <#list removeDomainObjectsByIds["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public void remove${removeDomainObjectsByIds.domainObjectParameter.domainObjectsAlias}ByIds(List<${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdType}> ${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdsName}) {
+    <#list removeDomainObjectsByIds.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if getDomainObjectById["methodActivated"]>
+<#if getDomainObjectById.activated>
 
     @Override
-    public ${getDomainObjectById["domainObjectName"]} get${getDomainObjectById["domainObjectAlias"]}ById(${getDomainObjectById["domainObjectIdType"]} ${getDomainObjectById["domainObjectIdName"]}, boolean cascade) {
-    <#list getDomainObjectById["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public ${getDomainObjectById.domainObjectParameter.domainObjectName} get${getDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${getDomainObjectById.domainObjectParameter.domainObjectIdType} ${getDomainObjectById.domainObjectParameter.domainObjectIdName}, boolean cascade) {
+    <#list getDomainObjectById.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if getDomainObjectByIds["methodActivated"]>
+<#if getDomainObjectsByIds.activated>
 
     @Override
-    public List<${getDomainObjectsByIds["domainObjectName"]}> get${getDomainObjectsByIds["domainObjectAliases"]}ByIds(List<${getDomainObjectsByIds["domainObjectIdType"]}> ${getDomainObjectsByIds["domainObjectIdsName"]}, boolean cascade) {
-    <#list getDomainObjectByIds["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public List<${getDomainObjectsByIds.domainObjectParameter.domainObjectName}> get${getDomainObjectsByIds.domainObjectParameter.domainObjectsAlias}ByIds(List<${getDomainObjectsByIds.domainObjectParameter.domainObjectIdType}> ${getDomainObjectsByIds.domainObjectParameter.domainObjectIdsName}, boolean cascade) {
+    <#list getDomainObjectByIds.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if getDomainObjectsByPage["methodActivated"]>
+<#if getDomainObjectsByPage.activated>
 
     @Override
-    public List<${getDomainObjectsByPage["domainObjectName"]}> get${getDomainObjectsByPage["domainObjectAliases"]}ByPage(${getDomainObjectsByPage["domainObjectName"]} condition, Page page, boolean cascade) {
-    <#list getDomainObjectByIds["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public List<${getDomainObjectsByPage.domainObjectParameter.domainObjectName}> get${getDomainObjectsByPage.domainObjectParameter.domainObjectsAlias}ByPage(${getDomainObjectsByPage.domainObjectParameter.domainObjectName} condition, Page page, boolean cascade) {
+    <#list getDomainObjectsByPage.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if getDomainObjectTotalCount["methodActivated"]>
+<#if prepareAggregateObjects.activated>
 
-    @Override
-    public int get${getDomainObjectTotalCount["domainObjectAlias"]}TotalCount() {
-    <#list getDomainObjectTotalCount["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    protected List<${prepareAggregateObjects.domainObjectParameter.domainObjectName}> prepare${prepareAggregateObjects.domainObjectParameter.lowerDomainObjectName}List(List<${prepareAggregateObjects.masterDomainObjectParameter.domainObjectName}> ${prepareAggregateObjects.masterDomainObjectParameter.lowerDomainObjectsName}, boolean cascade) {
+    <#list prepareAggregateObjects.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if forEachDomainObject1["methodActivated"]>
+<#if getDomainObjectTotalCount.activated>
 
     @Override
-    public void forEach${forEachDomainObject1["domainObjectAlias"]}(Consumer<${forEachDomainObject1["domainObjectName"]}> consumer) {
-    <#list forEachDomainObject1["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public int get${getDomainObjectTotalCount.domainObjectParameter.domainObjectAlias}TotalCount() {
+    <#list getDomainObjectTotalCount.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>
-<#if forEachDomainObject2["methodActivated"]>
+<#if forEachDomainObject1.activated>
 
     @Override
-    public void forEach${forEachDomainObject2["domainObjectAlias"]}(ObjIntConsumer<${forEachDomainObject2["domainObjectName"]}> consumer) {
-    <#list forEachDomainObject2["methodCodeLines"] as methodCodeLine>
-        ${methodCodeLine}
+    public void forEach${forEachDomainObject1.domainObjectParameter.domainObjectAlias}(Consumer<${forEachDomainObject1.domainObjectParameter.domainObjectName}> consumer) {
+    <#list forEachDomainObject1.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
+    </#list>
+    }
+</#if>
+<#if forEachDomainObject2.activated>
+
+    @Override
+    public void forEach${forEachDomainObject2.domainObjectParameter.domainObjectAlias}(ObjIntConsumer<${forEachDomainObject2.domainObjectParameter.domainObjectName}> consumer) {
+    <#list forEachDomainObject2.methodBodyLines as methodBodyLine>
+        ${methodBodyLine}
     </#list>
     }
 </#if>

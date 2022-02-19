@@ -4,6 +4,7 @@ import com.penglecode.xmodule.common.codegen.database.IntrospectedTable;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 import com.penglecode.xmodule.common.domain.ID;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -131,11 +132,31 @@ public class DomainEntityConfig extends DomainObjectConfig {
     }
 
     /**
+     * 以单一主键的假设来获取主键列，如果不是单一主键则会报错
+     * @return
+     */
+    public DomainEntityColumnConfig getSingleIdColumn() {
+        List<DomainEntityColumnConfig> idColumns = getIdColumns();
+        Assert.state(idColumns.size() == 1, String.format("领域实体(%s)必须是单一主键!", getDomainEntityName()));
+        return idColumns.get(0);
+    }
+
+    /**
      * 返回领域对象的ID字段
      * @return
      */
     public List<DomainEntityFieldConfig> getIdFields() {
         return domainEntityFields.values().stream().filter(DomainEntityFieldConfig::isIdField).collect(Collectors.toList());
+    }
+
+    /**
+     * 以单一主键的假设来获取主键列，如果不是单一主键则会报错
+     * @return
+     */
+    public DomainEntityFieldConfig getSingleIdField() {
+        List<DomainEntityFieldConfig> idFields = getIdFields();
+        Assert.state(idFields.size() == 1, String.format("领域实体(%s)必须是单一主键!", getDomainEntityName()));
+        return idFields.get(0);
     }
 
     /**

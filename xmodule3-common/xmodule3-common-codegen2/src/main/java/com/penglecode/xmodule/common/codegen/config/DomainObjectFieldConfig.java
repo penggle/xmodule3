@@ -2,6 +2,7 @@ package com.penglecode.xmodule.common.codegen.config;
 
 import com.penglecode.xmodule.common.codegen.support.DomainObjectFieldClass;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
+import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 
 /**
  * 领域对象字段配置
@@ -53,6 +54,14 @@ public abstract class DomainObjectFieldConfig {
 
     public DomainObjectFieldClass getFieldClass() {
         return fieldClass;
+    }
+
+    public String getFieldGetterName() {
+        return CodegenUtils.getGetterMethodName(getFieldName(), getFieldType().getFullyQualifiedNameWithoutTypeParameters());
+    }
+
+    public String getFieldSetterName() {
+        return CodegenUtils.getSetterMethodName(getFieldName(), getFieldType().getFullyQualifiedNameWithoutTypeParameters());
     }
 
 }
