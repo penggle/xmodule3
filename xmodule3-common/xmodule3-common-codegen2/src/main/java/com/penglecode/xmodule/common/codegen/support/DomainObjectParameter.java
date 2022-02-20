@@ -1,4 +1,4 @@
-package com.penglecode.xmodule.common.codegen.service;
+package com.penglecode.xmodule.common.codegen.support;
 
 /**
  * 领域对象参数
@@ -47,6 +47,18 @@ public class DomainObjectParameter {
 
     /** 首字母大写领域对象ID字段名称(复数形式) */
     private String upperDomainObjectIdsName;
+
+    /** 领域对象ID的getter方法名 */
+    private String domainObjectIdGetterName;
+
+    /** 领域对象ID的setter方法名 */
+    private String domainObjectIdSetterName;
+
+    /** 领域对象ID的getter方法名 */
+    private String domainObjectIdsGetterName;
+
+    /** 领域对象ID的setter方法名 */
+    private String domainObjectIdsSetterName;
 
     public String getDomainObjectName() {
         return domainObjectName;
@@ -152,4 +164,35 @@ public class DomainObjectParameter {
         this.upperDomainObjectIdsName = upperDomainObjectIdsName;
     }
 
+    public String getDomainObjectIdGetterName() {
+        return domainObjectIdGetterName;
+    }
+
+    public void setDomainObjectIdGetterName(String domainObjectIdGetterName) {
+        this.domainObjectIdGetterName = domainObjectIdGetterName;
+    }
+
+    public String getDomainObjectIdSetterName() {
+        return domainObjectIdSetterName;
+    }
+
+    public void setDomainObjectIdSetterName(String domainObjectIdSetterName) {
+        this.domainObjectIdSetterName = domainObjectIdSetterName;
+    }
+
+    public String getDomainObjectIdsGetterName() {
+        return domainObjectIdsGetterName;
+    }
+
+    public void setDomainObjectIdsGetterName(String domainObjectIdsGetterName) {
+        this.domainObjectIdsGetterName = domainObjectIdsGetterName;
+    }
+
+    public String getDomainObjectIdsSetterName() {
+        return domainObjectIdsSetterName;
+    }
+
+    public void setDomainObjectIdsSetterName(String domainObjectIdsSetterName) {
+        this.domainObjectIdsSetterName = domainObjectIdsSetterName;
+    }
 }

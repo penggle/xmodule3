@@ -1,134 +1,59 @@
 package com.penglecode.xmodule.common.codegen.support;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
- * 方法代码生成参数
+ * 领域服务/应用服务/接口服务方法生成参数
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/5 20:46
+ * @since 2021/2/6 23:56
  */
-@SuppressWarnings("unchecked")
-public class CodegenMethodParameter extends HashMap<String,Object> {
+public class CodegenMethodParameter {
 
-    private static final long serialVersionUID = 1L;
+    /** 是否生成当前方法,默认true */
+    private boolean activated;
 
-    public CodegenMethodParameter() {
+    /** 方法返回类型 */
+    private String methodReturnType;
+
+    /** 方法名 */
+    private String methodName;
+
+    /** 方法体代码行 */
+    private List<String> methodBodyLines = new ArrayList<>();
+
+    public boolean isActivated() {
+        return activated;
     }
 
-    public CodegenMethodParameter(Map<? extends String, ?> m) {
-        super(m);
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
-    public void setMethodActivated(boolean methodActivated) {
-        put("methodActivated", methodActivated);
+    public String getMethodReturnType() {
+        return methodReturnType;
     }
 
-    /** 方法是否激活 */
-    public boolean getMethodActivated() {
-        return (boolean) get("methodActivated");
+    public void setMethodReturnType(String methodReturnType) {
+        this.methodReturnType = methodReturnType;
     }
 
-    public void setMethodDynamicReturnType(String methodDynamicReturnType) {
-        put("methodDynamicReturnType", methodDynamicReturnType);
+    public String getMethodName() {
+        return methodName;
     }
 
-    /** 方法动态返回类型 */
-    public String getMethodDynamicReturnType() {
-        return (String) get("methodDynamicReturnType");
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
-    public void setDomainObjectTitle(String domainObjectTitle) {
-        put("domainObjectTitle", domainObjectTitle);
+    public List<String> getMethodBodyLines() {
+        return methodBodyLines;
     }
 
-    /** 领域对象中文名称 */
-    public String getDomainObjectTitle() {
-        return (String) get("domainObjectTitle");
-    }
-
-    public void setDomainObjectName(String domainObjectName) {
-        put("domainObjectName", domainObjectName);
-    }
-
-    /** 领域对象英文名称 */
-    public String getDomainObjectName() {
-        return (String) get("domainObjectName");
-    }
-
-    public void setDomainObjectAlias(String domainObjectAlias) {
-        put("domainObjectAlias", domainObjectAlias);
-    }
-
-    /** 领域对象英文别名(单数形式) */
-    public String getDomainObjectAlias() {
-        return (String) get("domainObjectAlias");
-    }
-
-    public void setDomainObjectAliases(String domainObjectAliases) {
-        put("domainObjectAliases", domainObjectAliases);
-    }
-
-    /** 领域对象英文别名(复数形式) */
-    public String getDomainObjectAliases() {
-        return (String) get("domainObjectAliases");
-    }
-
-    public void setDomainObjectVariable(String domainObjectVariable) {
-        put("domainObjectVariable", domainObjectVariable);
-    }
-
-    /** 领域对象变量名(单数形式) */
-    public String getDomainObjectVariable() {
-        return (String) get("domainObjectVariable");
-    }
-
-    public void setDomainObjectVariables(String domainObjectVariables) {
-        put("domainObjectVariables", domainObjectVariables);
-    }
-
-    /** 领域对象变量名(复数形式) */
-    public String getDomainObjectVariables() {
-        return (String) get("domainObjectVariables");
-    }
-
-    public void setDomainObjectIdType(String domainObjectIdType) {
-        put("domainObjectIdType", domainObjectIdType);
-    }
-
-    /** 领域对象ID字段类型*/
-    public String getDomainObjectIdType() {
-        return (String) get("domainObjectIdType");
-    }
-
-    public void setDomainObjectIdName(String domainObjectIdName) {
-        put("domainObjectIdName", domainObjectIdName);
-    }
-
-    /** 领域对象ID字段名称(单数形式) */
-    public String getDomainObjectIdName() {
-        return (String) get("domainObjectIdName");
-    }
-
-    public void setDomainObjectIdsName(String domainObjectIdsName) {
-        put("domainObjectIdsName", domainObjectIdsName);
-    }
-
-    /** 领域对象ID字段名称(复数形式) */
-    public String getDomainObjectIdsName() {
-        return (String) get("domainObjectIdsName");
-    }
-
-    public void setMethodCodeLines(List<String> methodCodeLines) {
-        put("methodCodeLines", methodCodeLines);
-    }
-
-    /** 领域对象ID字段名称(复数形式) */
-    public List<String> getMethodCodeLines() {
-        return (List<String>) get("methodCodeLines");
+    public void setMethodBodyLines(List<String> methodBodyLines) {
+        this.methodBodyLines = methodBodyLines;
     }
 
 }

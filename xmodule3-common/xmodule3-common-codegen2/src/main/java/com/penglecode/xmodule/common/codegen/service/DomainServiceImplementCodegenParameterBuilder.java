@@ -87,18 +87,18 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
     
     @Override
-    protected DomainServiceMethod createDomainObject(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.createDomainObject(codegenParameter);
+    protected DomainServiceMethodParameter createDomainObject(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.createDomainObject(codegenParameter);
         //开始生成方法实现(方法体代码)
         List<String> methodBodyLines = new ArrayList<>();
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        String lowerDomainObjectName = serviceMethod.getDomainObjectParameter().getLowerDomainObjectName();
-        methodBodyLines.add(String.format("ValidationAssert.notNull(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", lowerDomainObjectName, lowerDomainObjectName));
+        String domainObjectVariableName = codegenParameter.getDomainObjectParameter().getLowerDomainObjectName();
+        methodBodyLines.add(String.format("ValidationAssert.notNull(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", domainObjectVariableName, domainObjectVariableName));
         DomainEntityColumnConfig defaultCreateTimeColumn = getCodegenConfig().getDefaultCreateTimeColumn(domainEntityConfig);
         String upperDefaultCreateTimeFieldName = null;
         if(defaultCreateTimeColumn != null && defaultCreateTimeColumn.isColumnOnInsert()) {
             upperDefaultCreateTimeFieldName = StringUtils.upperCaseFirstChar(defaultCreateTimeColumn.getIntrospectedColumn().getJavaFieldName());
-            methodBodyLines.add(String.format("%s.set%s(StringUtils.defaultIfBlank(%s.get%s(), DateTimeUtils.formatNow()));", lowerDomainObjectName, upperDefaultCreateTimeFieldName, lowerDomainObjectName, upperDefaultCreateTimeFieldName));
+            methodBodyLines.add(String.format("%s.set%s(StringUtils.defaultIfBlank(%s.get%s(), DateTimeUtils.formatNow()));", domainObjectVariableName, upperDefaultCreateTimeFieldName, domainObjectVariableName, upperDefaultCreateTimeFieldName));
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(StringUtils.class.getName()));
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(DateTimeUtils.class.getName()));
         }
@@ -106,49 +106,49 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
         if(defaultUpdateTimeColumn != null && defaultUpdateTimeColumn.isColumnOnInsert()) {
             String upperDefaultUpdateTimeFieldName = StringUtils.upperCaseFirstChar(defaultUpdateTimeColumn.getIntrospectedColumn().getJavaFieldName());
             if(upperDefaultCreateTimeFieldName != null) {
-                methodBodyLines.add(String.format("%s.set%s(%s.get%s());", lowerDomainObjectName, upperDefaultUpdateTimeFieldName, lowerDomainObjectName, upperDefaultCreateTimeFieldName));
+                methodBodyLines.add(String.format("%s.set%s(%s.get%s());", domainObjectVariableName, upperDefaultUpdateTimeFieldName, domainObjectVariableName, upperDefaultCreateTimeFieldName));
             } else {
-                methodBodyLines.add(String.format("%s.set%s(DateTimeUtils.formatNow());", lowerDomainObjectName, upperDefaultUpdateTimeFieldName));
+                methodBodyLines.add(String.format("%s.set%s(DateTimeUtils.formatNow());", domainObjectVariableName, upperDefaultUpdateTimeFieldName));
             }
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(DateTimeUtils.class.getName()));
         }
         String validateFields = domainEntityConfig.getValidateFields("create");
         if(StringUtils.isNotBlank(validateFields)) {
-            methodBodyLines.add(String.format("BeanValidator.validateBean(%s);", lowerDomainObjectName + validateFields));
+            methodBodyLines.add(String.format("BeanValidator.validateBean(%s);", domainObjectVariableName + validateFields));
         }
         serviceMethod.setMethodBodyLines(methodBodyLines);
         return serviceMethod;
     }
 
     @Override
-    protected DomainServiceMethod batchCreateDomainObjects(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.batchCreateDomainObjects(codegenParameter);
+    protected DomainServiceMethodParameter batchCreateDomainObjects(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.batchCreateDomainObjects(codegenParameter);
         List<String> methodBodyLines = new ArrayList<>();
-        String lowerDomainObjectsName = serviceMethod.getDomainObjectParameter().getLowerDomainObjectsName();
-        methodBodyLines.add(String.format("ValidationAssert.notEmpty(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", lowerDomainObjectsName, lowerDomainObjectsName));
+        String domainObjectsVariableName = codegenParameter.getDomainObjectParameter().getLowerDomainObjectsName();
+        methodBodyLines.add(String.format("ValidationAssert.notEmpty(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", domainObjectsVariableName, domainObjectsVariableName));
         serviceMethod.setMethodBodyLines(methodBodyLines);
         return serviceMethod;
     }
 
     @Override
-    protected DomainServiceMethod modifyDomainObjectById(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.modifyDomainObjectById(codegenParameter);
+    protected DomainServiceMethodParameter modifyDomainObjectById(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.modifyDomainObjectById(codegenParameter);
         List<String> methodBodyLines = new ArrayList<>();
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        String lowerDomainObjectName = serviceMethod.getDomainObjectParameter().getLowerDomainObjectName();
-        methodBodyLines.add(String.format("ValidationAssert.notNull(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", lowerDomainObjectName, lowerDomainObjectName));
+        String domainObjectVariableName = codegenParameter.getDomainObjectParameter().getLowerDomainObjectName();
+        methodBodyLines.add(String.format("ValidationAssert.notNull(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", domainObjectVariableName, domainObjectVariableName));
         DomainEntityColumnConfig defaultUpdateTimeColumn = getCodegenConfig().getDefaultUpdateTimeColumn(domainEntityConfig);
         if(defaultUpdateTimeColumn != null && defaultUpdateTimeColumn.isColumnOnUpdate()) {
             String upperDefaultUpdateTimeFieldName = StringUtils.upperCaseFirstChar(defaultUpdateTimeColumn.getIntrospectedColumn().getJavaFieldName());
-            methodBodyLines.add(String.format("%s.set%s(StringUtils.defaultIfBlank(%s.get%s(), DateTimeUtils.formatNow()));", lowerDomainObjectName, upperDefaultUpdateTimeFieldName, lowerDomainObjectName, upperDefaultUpdateTimeFieldName));
+            methodBodyLines.add(String.format("%s.set%s(StringUtils.defaultIfBlank(%s.get%s(), DateTimeUtils.formatNow()));", domainObjectVariableName, upperDefaultUpdateTimeFieldName, domainObjectVariableName, upperDefaultUpdateTimeFieldName));
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(StringUtils.class.getName()));
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(DateTimeUtils.class.getName()));
         }
         String validateFields = domainEntityConfig.getValidateFields("modify");
         if(StringUtils.isNotBlank(validateFields)) {
-            methodBodyLines.add(String.format("BeanValidator.validateBean(%s);", lowerDomainObjectName + validateFields));
+            methodBodyLines.add(String.format("BeanValidator.validateBean(%s);", domainObjectVariableName + validateFields));
         }
-        StringBuilder updateFields = new StringBuilder(String.format("Map<String,Object> updateColumns = MapLambdaBuilder.of(%s)", lowerDomainObjectName)).append("\n");
+        StringBuilder updateFields = new StringBuilder(String.format("Map<String,Object> updateColumns = MapLambdaBuilder.of(%s)", domainObjectVariableName)).append("\n");
         Map<String,DomainEntityColumnConfig> domainEntityColumns = domainEntityConfig.getDomainEntityColumns();
         for(Map.Entry<String,DomainEntityColumnConfig> entry : domainEntityColumns.entrySet()) {
             DomainEntityColumnConfig domainEntityColumn = entry.getValue();
@@ -169,20 +169,20 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
 
     @Override
-    protected DomainServiceMethod batchModifyDomainObjectsById(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.batchModifyDomainObjectsById(codegenParameter);
+    protected DomainServiceMethodParameter batchModifyDomainObjectsById(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.batchModifyDomainObjectsById(codegenParameter);
         List<String> methodBodyLines = new ArrayList<>();
-        String lowerDomainObjectsName = serviceMethod.getDomainObjectParameter().getLowerDomainObjectsName();
-        methodBodyLines.add(String.format("ValidationAssert.notEmpty(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", lowerDomainObjectsName, lowerDomainObjectsName));
+        String domainObjectsVariableName = codegenParameter.getDomainObjectParameter().getLowerDomainObjectsName();
+        methodBodyLines.add(String.format("ValidationAssert.notEmpty(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", domainObjectsVariableName, domainObjectsVariableName));
         serviceMethod.setMethodBodyLines(methodBodyLines);
         return serviceMethod;
     }
 
     @Override
-    protected DomainServiceMethod removeDomainObjectById(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.removeDomainObjectById(codegenParameter);
+    protected DomainServiceMethodParameter removeDomainObjectById(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.removeDomainObjectById(codegenParameter);
         List<String> methodBodyLines = new ArrayList<>();
-        String domainObjectIdName = serviceMethod.getDomainObjectParameter().getDomainObjectIdName();
+        String domainObjectIdName = codegenParameter.getDomainObjectParameter().getDomainObjectIdName();
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         List<DomainEntityColumnConfig> idColumns = domainEntityConfig.getIdColumns();
         if(idColumns.size() == 1) { //单一主键
@@ -197,20 +197,20 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
 
     @Override
-    protected DomainServiceMethod removeDomainObjectsByIds(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.removeDomainObjectsByIds(codegenParameter);
+    protected DomainServiceMethodParameter removeDomainObjectsByIds(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.removeDomainObjectsByIds(codegenParameter);
         List<String> methodBodyLines = new ArrayList<>();
-        String domainObjectIdsName = serviceMethod.getDomainObjectParameter().getDomainObjectIdsName();
+        String domainObjectIdsName = codegenParameter.getDomainObjectParameter().getDomainObjectIdsName();
         methodBodyLines.add(String.format("ValidationAssert.notEmpty(%s, MessageSupplier.ofRequiredParameter(\"%s\"));", domainObjectIdsName, domainObjectIdsName));
         serviceMethod.setMethodBodyLines(methodBodyLines);
         return serviceMethod;
     }
 
     @Override
-    protected ByMasterIdDomainServiceMethod removeDomainObjectsByMasterId(DomainServiceImplementCodegenParameter codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = super.removeDomainObjectsByMasterId(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, domainAggregateSlaveConfig, masterIdNameOfSlave);
+    protected ByMasterIdDomainServiceMethodParameter removeDomainObjectsByMasterId(DomainServiceImplementCodegenParameter codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = super.removeDomainObjectsByMasterId(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, domainAggregateSlaveConfig, masterIdNameOfSlave);
         List<String> methodBodyLines = new ArrayList<>();
-        String slaveDomainObjectName = serviceMethod.getDomainObjectParameter().getDomainObjectName();
+        String slaveDomainObjectName = codegenParameter.getDomainObjectParameter().getDomainObjectName();
         String getMasterDomainObjectIdRef = slaveDomainObjectName + "::" + CodegenUtils.getGetterMethodName(masterIdNameOfSlave, serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType());
         methodBodyLines.add(String.format("BeanValidator.validateProperty(%s, %s);", masterIdNameOfSlave, getMasterDomainObjectIdRef));
         methodBodyLines.add(String.format("QueryCriteria<%s> criteria = LambdaQueryCriteria.ofEmpty(%s::new)", slaveDomainObjectName, slaveDomainObjectName));
@@ -220,26 +220,26 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
 
     @Override
-    protected DomainServiceMethod getDomainObjectById(DomainServiceImplementCodegenParameter codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectById(DomainServiceImplementCodegenParameter codegenParameter) {
         //nothing to do
         return super.getDomainObjectById(codegenParameter);
     }
 
     @Override
-    protected DomainServiceMethod getDomainObjectsByIds(DomainServiceImplementCodegenParameter codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectsByIds(DomainServiceImplementCodegenParameter codegenParameter) {
         //nothing to do
         return super.getDomainObjectsByIds(codegenParameter);
     }
 
     @Override
-    protected ByMasterIdDomainServiceMethod getDomainObjectsByMasterId(DomainServiceImplementCodegenParameter codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = super.getDomainObjectsByMasterId(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, domainAggregateSlaveConfig, masterIdNameOfSlave);
+    protected ByMasterIdDomainServiceMethodParameter getDomainObjectsByMasterId(DomainServiceImplementCodegenParameter codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = super.getDomainObjectsByMasterId(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, domainAggregateSlaveConfig, masterIdNameOfSlave);
         String mapperSelectMethod = "selectModelByCriteria";
         if(DomainMasterSlaveRelation.RELATION_1N.equals(domainAggregateSlaveConfig.getMasterSlaveMapping().getMasterSlaveRelation())) { //如果是1:N关系?
             mapperSelectMethod = "selectModelListByCriteria";
         }
         List<String> methodBodyLines = new ArrayList<>();
-        String slaveDomainObjectName = serviceMethod.getDomainObjectParameter().getDomainObjectName();
+        String slaveDomainObjectName = codegenParameter.getDomainObjectParameter().getDomainObjectName();
         methodBodyLines.add(String.format("if(!ObjectUtils.isEmpty(%s)) {", masterIdNameOfSlave));
         methodBodyLines.add(String.format("    QueryCriteria<%s> criteria = LambdaQueryCriteria.ofEmpty(%s::new)", slaveDomainObjectName, slaveDomainObjectName));
         methodBodyLines.add(String.format("        .eq(%s::%s, %s);", slaveDomainObjectName, CodegenUtils.getGetterMethodName(masterIdNameOfSlave, serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType()), masterIdNameOfSlave));
@@ -251,21 +251,21 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
 
     @Override
-    protected ByMasterIdDomainServiceMethod getDomainObjectsByMasterIds(DomainServiceImplementCodegenParameter codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = super.getDomainObjectsByMasterIds(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, domainAggregateSlaveConfig, masterIdNameOfSlave);
+    protected ByMasterIdDomainServiceMethodParameter getDomainObjectsByMasterIds(DomainServiceImplementCodegenParameter codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = super.getDomainObjectsByMasterIds(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, domainAggregateSlaveConfig, masterIdNameOfSlave);
         List<String> methodBodyLines = new ArrayList<>();
         String masterIdsNameOfSlave = serviceMethod.getMasterIdsNameOfSlave();
-        String slaveDomainObjectName = serviceMethod.getDomainObjectParameter().getDomainObjectName();
+        String slaveDomainObjectName = codegenParameter.getDomainObjectParameter().getDomainObjectName();
         String getMasterIdOfSlaveRef = slaveDomainObjectName + "::" + CodegenUtils.getGetterMethodName(serviceMethod.getMasterIdNameOfSlave(), serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType());
         methodBodyLines.add(String.format("if(!CollectionUtils.isEmpty(%s)) {", masterIdsNameOfSlave));
         methodBodyLines.add(String.format("    QueryCriteria<%s> criteria = LambdaQueryCriteria.ofEmpty(%s::new)", slaveDomainObjectName, slaveDomainObjectName));
         methodBodyLines.add(String.format("        .in(%s, %s.toArray());", getMasterIdOfSlaveRef, masterIdsNameOfSlave));
-        String slaveDomainObjectsName = serviceMethod.getDomainObjectParameter().getLowerDomainObjectsName();
+        String slaveDomainObjectsName = codegenParameter.getDomainObjectParameter().getLowerDomainObjectsName();
         methodBodyLines.add(String.format("    List<%s> %s = %s.selectModelListByCriteria(criteria);", slaveDomainObjectName, slaveDomainObjectsName, codegenParameter.getMapperInstanceName()));
         methodBodyLines.add(String.format("    if(!CollectionUtils.isEmpty(%s)) {", slaveDomainObjectsName));
         if(DomainMasterSlaveRelation.RELATION_1N.equals(domainAggregateSlaveConfig.getMasterSlaveMapping().getMasterSlaveRelation())) { //如果是1:N关系?
             methodBodyLines.add(String.format("        return %s.stream().collect(Collectors.groupingBy(%s, Collectors.toList()));", slaveDomainObjectsName, getMasterIdOfSlaveRef));
-        } else {
+        } else if(DomainMasterSlaveRelation.RELATION_11.equals(domainAggregateSlaveConfig.getMasterSlaveMapping().getMasterSlaveRelation())) { //如果是1:1关系?
             methodBodyLines.add(String.format("        return %s.stream().collect(Collectors.toMap(%s, Function.identity()));", slaveDomainObjectsName, getMasterIdOfSlaveRef));
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(Function.class.getName()));
         }
@@ -279,11 +279,11 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
 
     @Override
-    protected DomainServiceMethod getDomainObjectsByPage(DomainServiceImplementCodegenParameter codegenParameter) {
-        DomainServiceMethod serviceMethod = super.getDomainObjectsByPage(codegenParameter);
+    protected DomainServiceMethodParameter getDomainObjectsByPage(DomainServiceImplementCodegenParameter codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = super.getDomainObjectsByPage(codegenParameter);
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        String lowerDomainObjectName = serviceMethod.getDomainObjectParameter().getLowerDomainObjectName();
-        StringBuilder criteriaCodes = new StringBuilder(String.format("QueryCriteria<%s> criteria = LambdaQueryCriteria.of(condition)", lowerDomainObjectName)).append("\n");
+        String domainObjectVariableName = codegenParameter.getDomainObjectParameter().getLowerDomainObjectName();
+        StringBuilder criteriaCodes = new StringBuilder(String.format("QueryCriteria<%s> criteria = LambdaQueryCriteria.of(condition)", domainObjectVariableName)).append("\n");
         Map<String,DomainEntityFieldConfig> domainEntityFields = domainEntityConfig.getDomainEntityFields();
         for(Map.Entry<String,DomainEntityFieldConfig> entry : domainEntityFields.entrySet()) {
             DomainEntityFieldConfig domainEntityField = entry.getValue();
@@ -305,19 +305,19 @@ public class DomainServiceImplementCodegenParameterBuilder extends AbstractDomai
     }
 
     @Override
-    protected DomainServiceMethod getDomainObjectTotalCount(DomainServiceImplementCodegenParameter codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectTotalCount(DomainServiceImplementCodegenParameter codegenParameter) {
         //nothing to do
         return super.getDomainObjectTotalCount(codegenParameter);
     }
 
     @Override
-    protected DomainServiceMethod forEachDomainObject1(DomainServiceImplementCodegenParameter codegenParameter) {
+    protected DomainServiceMethodParameter forEachDomainObject1(DomainServiceImplementCodegenParameter codegenParameter) {
         //nothing to do
         return super.forEachDomainObject1(codegenParameter);
     }
 
     @Override
-    protected DomainServiceMethod forEachDomainObject2(DomainServiceImplementCodegenParameter codegenParameter) {
+    protected DomainServiceMethodParameter forEachDomainObject2(DomainServiceImplementCodegenParameter codegenParameter) {
         //nothing to do
         return super.forEachDomainObject2(codegenParameter);
     }

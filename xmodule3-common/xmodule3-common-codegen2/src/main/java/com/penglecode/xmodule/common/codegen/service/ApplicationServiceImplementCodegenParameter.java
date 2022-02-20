@@ -16,7 +16,7 @@ public class ApplicationServiceImplementCodegenParameter extends AbstractApplica
     private String transactionManagerName;
 
     /** 创建聚合根的方法参数 */
-    private PrepareAggregatesApplicationServiceMethod prepareAggregateObjects;
+    private ApplicationServiceMethodParameter prepareAggregateObjects;
 
     public ApplicationServiceImplementCodegenParameter(String targetTemplateName) {
         super(targetTemplateName);
@@ -38,11 +38,11 @@ public class ApplicationServiceImplementCodegenParameter extends AbstractApplica
         this.transactionManagerName = transactionManagerName;
     }
 
-    public PrepareAggregatesApplicationServiceMethod getPrepareAggregateObjects() {
+    public ApplicationServiceMethodParameter getPrepareAggregateObjects() {
         return prepareAggregateObjects;
     }
 
-    public void setPrepareAggregateObjects(PrepareAggregatesApplicationServiceMethod prepareAggregateObjects) {
+    public void setPrepareAggregateObjects(ApplicationServiceMethodParameter prepareAggregateObjects) {
         this.prepareAggregateObjects = prepareAggregateObjects;
     }
 

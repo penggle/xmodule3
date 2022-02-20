@@ -1,5 +1,7 @@
 package com.penglecode.xmodule.common.codegen.service;
 
+import com.penglecode.xmodule.common.codegen.support.DomainObjectParameter;
+
 /**
  * 根据MasterId的一些领域方法参数
  * 例如：removeDomainObjectsByXxxMasterId,getDomainObjectsByXxxMasterId,getDomainObjectsByXxxMasterIds
@@ -8,7 +10,7 @@ package com.penglecode.xmodule.common.codegen.service;
  * @version 1.0
  * @since 2021/2/6 22:31
  */
-public class ByMasterIdDomainServiceMethod extends DomainServiceMethod {
+public class ByMasterIdDomainServiceMethodParameter extends DomainServiceMethodParameter {
 
     /** Master方的领域对象参数 */
     private DomainObjectParameter masterDomainObjectParameter;

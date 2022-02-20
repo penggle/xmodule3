@@ -4,7 +4,6 @@ import com.penglecode.xmodule.common.codegen.config.DomainObjectConfig;
 import com.penglecode.xmodule.common.codegen.config.GenerableTargetConfig;
 import com.penglecode.xmodule.common.codegen.config.ModuleCodegenConfigProperties;
 import com.penglecode.xmodule.common.codegen.exception.CodegenRuntimeException;
-import com.penglecode.xmodule.common.codegen.service.DomainObjectParameter;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 import com.penglecode.xmodule.common.util.ClassUtils;
 import com.penglecode.xmodule.common.util.DateTimeUtils;

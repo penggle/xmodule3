@@ -6,6 +6,7 @@ import com.penglecode.xmodule.common.codegen.config.GenerableTargetConfig;
 import com.penglecode.xmodule.common.codegen.config.ServiceCodegenConfigProperties;
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.codegen.support.CodegenParameterBuilder;
+import com.penglecode.xmodule.common.codegen.support.DomainObjectParameter;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import com.penglecode.xmodule.common.model.Page;
 
@@ -28,6 +29,14 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
 
     protected AbstractApplicationServiceCodegenParameterBuilder(ServiceCodegenConfigProperties codegenConfig, T targetConfig, DomainAggregateConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
+    }
+
+    @Override
+    protected P setCommonCodegenParameter(P codegenParameter) {
+        codegenParameter = super.setCommonCodegenParameter(codegenParameter);
+        DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
+        codegenParameter.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
+        return codegenParameter;
     }
 
     @Override
@@ -62,13 +71,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 创建领域对象
      * @return
      */
-    protected ApplicationServiceMethod createDomainObject(P codegenParameter) {
+    protected ApplicationServiceMethodParameter createDomainObject(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("create" + serviceMethod.getDomainObjectParameter().getDomainObjectName());
+        serviceMethod.setMethodName("create" + codegenParameter.getDomainObjectParameter().getDomainObjectName());
         return serviceMethod;
     }
 
@@ -76,13 +84,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 根据领域对象ID修改领域对象
      * @return
      */
-    protected ApplicationServiceMethod modifyDomainObjectById(P codegenParameter) {
+    protected ApplicationServiceMethodParameter modifyDomainObjectById(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("modify" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "ById");
+        serviceMethod.setMethodName("modify" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "ById");
         return serviceMethod;
     }
 
@@ -90,13 +97,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 根据领域对象ID删除领域对象
      * @return
      */
-    protected ApplicationServiceMethod removeDomainObjectById(P codegenParameter) {
+    protected ApplicationServiceMethodParameter removeDomainObjectById(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("remove" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "ById");
+        serviceMethod.setMethodName("remove" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "ById");
         return serviceMethod;
     }
 
@@ -104,13 +110,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 根据多个领域对象ID删除领域对象
      * @return
      */
-    protected ApplicationServiceMethod removeDomainObjectsByIds(P codegenParameter) {
+    protected ApplicationServiceMethodParameter removeDomainObjectsByIds(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("remove" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
+        serviceMethod.setMethodName("remove" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
         return serviceMethod;
     }
 
@@ -118,13 +123,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 根据领域对象ID获取领域对象
      * @return
      */
-    protected ApplicationServiceMethod getDomainObjectById(P codegenParameter) {
+    protected ApplicationServiceMethodParameter getDomainObjectById(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
-        serviceMethod.setMethodReturnType(serviceMethod.getDomainObjectParameter().getDomainObjectName());
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "ById");
+        serviceMethod.setMethodReturnType(codegenParameter.getDomainObjectParameter().getDomainObjectName());
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "ById");
         return serviceMethod;
     }
 
@@ -132,13 +136,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 根据多个领域对象ID获取领域对象
      * @return
      */
-    protected ApplicationServiceMethod getDomainObjectsByIds(P codegenParameter) {
+    protected ApplicationServiceMethodParameter getDomainObjectsByIds(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
-        serviceMethod.setMethodReturnType("List<" + serviceMethod.getDomainObjectParameter().getDomainObjectName() + ">");
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
+        serviceMethod.setMethodReturnType("List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
         return serviceMethod;
     }
 
@@ -146,13 +149,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 根据条件查询领域对象(分页、排序)
      * @return
      */
-    protected ApplicationServiceMethod getDomainObjectsByPage(P codegenParameter) {
+    protected ApplicationServiceMethodParameter getDomainObjectsByPage(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
-        serviceMethod.setMethodReturnType("List<" + serviceMethod.getDomainObjectParameter().getDomainObjectName() + ">");
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ByPage");
+        serviceMethod.setMethodReturnType("List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ByPage");
         return serviceMethod;
     }
 
@@ -160,13 +162,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 获取领域对象总数
      * @return
      */
-    protected ApplicationServiceMethod getDomainObjectTotalCount(P codegenParameter) {
+    protected ApplicationServiceMethodParameter getDomainObjectTotalCount(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
         serviceMethod.setMethodReturnType("int");
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "TotalCount");
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "TotalCount");
         return serviceMethod;
     }
 
@@ -174,13 +175,12 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 基于游标遍历所有领域对象
      * @return
      */
-    protected ApplicationServiceMethod forEachDomainObject1(P codegenParameter) {
+    protected ApplicationServiceMethodParameter forEachDomainObject1(P codegenParameter) {
         DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        ApplicationServiceMethod serviceMethod = new ApplicationServiceMethod();
+        ApplicationServiceMethodParameter serviceMethod = new ApplicationServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("forEach" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias());
+        serviceMethod.setMethodName("forEach" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias());
         return serviceMethod;
     }
 
@@ -188,7 +188,7 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
      * 基于游标遍历所有领域对象
      * @return
      */
-    protected ApplicationServiceMethod forEachDomainObject2(P codegenParameter) {
+    protected ApplicationServiceMethodParameter forEachDomainObject2(P codegenParameter) {
         return forEachDomainObject1(codegenParameter);
     }
 

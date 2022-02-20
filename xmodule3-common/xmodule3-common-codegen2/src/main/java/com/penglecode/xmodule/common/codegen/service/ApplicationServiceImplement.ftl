@@ -36,7 +36,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void create${createDomainObject.domainObjectParameter.domainObjectAlias}(${createDomainObject.domainObjectParameter.domainObjectName} ${createDomainObject.domainObjectParameter.lowerDomainObjectName}) {
+    public void create${domainObjectParameter.domainObjectAlias}(${domainObjectParameter.domainObjectName} ${domainObjectParameter.lowerDomainObjectName}) {
     <#list createDomainObject.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -46,7 +46,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void modify${modifyDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${modifyDomainObjectById.domainObjectParameter.domainObjectName} ${modifyDomainObjectById.domainObjectParameter.lowerDomainObjectName}) {
+    public void modify${domainObjectParameter.domainObjectAlias}ById(${domainObjectParameter.domainObjectName} ${domainObjectParameter.lowerDomainObjectName}) {
     <#list modifyDomainObjectById.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -56,7 +56,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void remove${removeDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${removeDomainObjectById.domainObjectParameter.domainObjectIdType} ${removeDomainObjectById.domainObjectParameter.domainObjectIdName}) {
+    public void remove${domainObjectParameter.domainObjectAlias}ById(${domainObjectParameter.domainObjectIdType} ${domainObjectParameter.domainObjectIdName}) {
     <#list removeDomainObjectById.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -66,7 +66,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 
     @Override
     @Transactional(transactionManager="${transactionManagerName}", rollbackFor=Exception.class)
-    public void remove${removeDomainObjectsByIds.domainObjectParameter.domainObjectsAlias}ByIds(List<${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdType}> ${removeDomainObjectsByIds.domainObjectParameter.domainObjectIdsName}) {
+    public void remove${domainObjectParameter.domainObjectsAlias}ByIds(List<${domainObjectParameter.domainObjectIdType}> ${domainObjectParameter.domainObjectIdsName}) {
     <#list removeDomainObjectsByIds.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -75,7 +75,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 <#if getDomainObjectById.activated>
 
     @Override
-    public ${getDomainObjectById.domainObjectParameter.domainObjectName} get${getDomainObjectById.domainObjectParameter.domainObjectAlias}ById(${getDomainObjectById.domainObjectParameter.domainObjectIdType} ${getDomainObjectById.domainObjectParameter.domainObjectIdName}, boolean cascade) {
+    public ${domainObjectParameter.domainObjectName} get${domainObjectParameter.domainObjectAlias}ById(${domainObjectParameter.domainObjectIdType} ${domainObjectParameter.domainObjectIdName}, boolean cascade) {
     <#list getDomainObjectById.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -84,7 +84,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 <#if getDomainObjectsByIds.activated>
 
     @Override
-    public List<${getDomainObjectsByIds.domainObjectParameter.domainObjectName}> get${getDomainObjectsByIds.domainObjectParameter.domainObjectsAlias}ByIds(List<${getDomainObjectsByIds.domainObjectParameter.domainObjectIdType}> ${getDomainObjectsByIds.domainObjectParameter.domainObjectIdsName}, boolean cascade) {
+    public List<${domainObjectParameter.domainObjectName}> get${domainObjectParameter.domainObjectsAlias}ByIds(List<${domainObjectParameter.domainObjectIdType}> ${domainObjectParameter.domainObjectIdsName}, boolean cascade) {
     <#list getDomainObjectByIds.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -93,7 +93,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 <#if getDomainObjectsByPage.activated>
 
     @Override
-    public List<${getDomainObjectsByPage.domainObjectParameter.domainObjectName}> get${getDomainObjectsByPage.domainObjectParameter.domainObjectsAlias}ByPage(${getDomainObjectsByPage.domainObjectParameter.domainObjectName} condition, Page page, boolean cascade) {
+    public List<${domainObjectParameter.domainObjectName}> get${domainObjectParameter.domainObjectsAlias}ByPage(${domainObjectParameter.domainObjectName} condition, Page page, boolean cascade) {
     <#list getDomainObjectsByPage.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -101,7 +101,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 </#if>
 <#if prepareAggregateObjects.activated>
 
-    protected List<${prepareAggregateObjects.domainObjectParameter.domainObjectName}> prepare${prepareAggregateObjects.domainObjectParameter.lowerDomainObjectName}List(List<${prepareAggregateObjects.masterDomainObjectParameter.domainObjectName}> ${prepareAggregateObjects.masterDomainObjectParameter.lowerDomainObjectsName}, boolean cascade) {
+    protected List<${domainObjectParameter.domainObjectName}> prepare${domainObjectParameter.lowerDomainObjectName}List(List<${prepareAggregateObjects.masterDomainObjectParameter.domainObjectName}> ${prepareAggregateObjects.masterDomainObjectParameter.lowerDomainObjectsName}, boolean cascade) {
     <#list prepareAggregateObjects.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -110,7 +110,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 <#if getDomainObjectTotalCount.activated>
 
     @Override
-    public int get${getDomainObjectTotalCount.domainObjectParameter.domainObjectAlias}TotalCount() {
+    public int get${domainObjectParameter.domainObjectAlias}TotalCount() {
     <#list getDomainObjectTotalCount.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -119,7 +119,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 <#if forEachDomainObject1.activated>
 
     @Override
-    public void forEach${forEachDomainObject1.domainObjectParameter.domainObjectAlias}(Consumer<${forEachDomainObject1.domainObjectParameter.domainObjectName}> consumer) {
+    public void forEach${domainObjectParameter.domainObjectAlias}(Consumer<${domainObjectParameter.domainObjectName}> consumer) {
     <#list forEachDomainObject1.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>
@@ -128,7 +128,7 @@ public class ${targetClass} implements <#list targetImplements as targetImplemen
 <#if forEachDomainObject2.activated>
 
     @Override
-    public void forEach${forEachDomainObject2.domainObjectParameter.domainObjectAlias}(ObjIntConsumer<${forEachDomainObject2.domainObjectParameter.domainObjectName}> consumer) {
+    public void forEach${domainObjectParameter.domainObjectAlias}(ObjIntConsumer<${domainObjectParameter.domainObjectName}> consumer) {
     <#list forEachDomainObject2.methodBodyLines as methodBodyLine>
         ${methodBodyLine}
     </#list>

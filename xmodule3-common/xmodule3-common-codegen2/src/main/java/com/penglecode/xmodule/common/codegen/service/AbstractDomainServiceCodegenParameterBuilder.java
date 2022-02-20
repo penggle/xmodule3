@@ -1,10 +1,7 @@
 package com.penglecode.xmodule.common.codegen.service;
 
 import com.penglecode.xmodule.common.codegen.config.*;
-import com.penglecode.xmodule.common.codegen.support.CodegenContext;
-import com.penglecode.xmodule.common.codegen.support.CodegenParameterBuilder;
-import com.penglecode.xmodule.common.codegen.support.DomainMasterSlaveRelation;
-import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
+import com.penglecode.xmodule.common.codegen.support.*;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.util.StringUtils;
@@ -31,6 +28,14 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
 
     protected AbstractDomainServiceCodegenParameterBuilder(ServiceCodegenConfigProperties codegenConfig, T targetConfig, DomainEntityConfig domainObjectConfig) {
         super(codegenConfig, targetConfig, domainObjectConfig);
+    }
+
+    @Override
+    protected P setCommonCodegenParameter(P codegenParameter) {
+        codegenParameter = super.setCommonCodegenParameter(codegenParameter);
+        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
+        codegenParameter.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
+        return codegenParameter;
     }
 
     @Override
@@ -70,13 +75,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 创建领域对象
      * @return
      */
-    protected DomainServiceMethod createDomainObject(P codegenParameter) {
+    protected DomainServiceMethodParameter createDomainObject(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("create" + serviceMethod.getDomainObjectParameter().getDomainObjectName());
+        serviceMethod.setMethodName("create" + codegenParameter.getDomainObjectParameter().getDomainObjectName());
         return serviceMethod;
     }
 
@@ -84,13 +88,11 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 批量创建领域对象
      * @return
      */
-    protected DomainServiceMethod batchCreateDomainObjects(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+    protected DomainServiceMethodParameter batchCreateDomainObjects(P codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("batchCreate" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias());
+        serviceMethod.setMethodName("batchCreate" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias());
         return serviceMethod;
     }
 
@@ -98,13 +100,11 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据领域对象ID修改领域对象
      * @return
      */
-    protected DomainServiceMethod modifyDomainObjectById(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+    protected DomainServiceMethodParameter modifyDomainObjectById(P codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("modify" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "ById");
+        serviceMethod.setMethodName("modify" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "ById");
         return serviceMethod;
     }
 
@@ -112,13 +112,11 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据领域对象ID批量修改领域对象
      * @return
      */
-    protected DomainServiceMethod batchModifyDomainObjectsById(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+    protected DomainServiceMethodParameter batchModifyDomainObjectsById(P codegenParameter) {
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("batchModify" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ById");
+        serviceMethod.setMethodName("batchModify" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ById");
         return serviceMethod;
     }
 
@@ -126,13 +124,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据领域对象ID删除领域对象
      * @return
      */
-    protected DomainServiceMethod removeDomainObjectById(P codegenParameter) {
+    protected DomainServiceMethodParameter removeDomainObjectById(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("int");
-        serviceMethod.setMethodName("remove" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "ById");
+        serviceMethod.setMethodName("remove" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "ById");
         return serviceMethod;
     }
 
@@ -140,13 +137,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据多个领域对象ID删除领域对象
      * @return
      */
-    protected DomainServiceMethod removeDomainObjectsByIds(P codegenParameter) {
+    protected DomainServiceMethodParameter removeDomainObjectsByIds(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("int");
-        serviceMethod.setMethodName("remove" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
+        serviceMethod.setMethodName("remove" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
         return serviceMethod;
     }
 
@@ -154,9 +150,9 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据某master领域对象ID删除当前领域对象(slave)
      * @return
      */
-    protected Map<String,ByMasterIdDomainServiceMethod> removeDomainObjectsByXxxMasterId(P codegenParameter) {
+    protected Map<String, ByMasterIdDomainServiceMethodParameter> removeDomainObjectsByXxxMasterId(P codegenParameter) {
         DomainEntityConfig slaveDomainEntityConfig = getDomainObjectConfig();
-        Map<String,ByMasterIdDomainServiceMethod> serviceMethodMap = new HashMap<>();
+        Map<String, ByMasterIdDomainServiceMethodParameter> serviceMethodMap = new HashMap<>();
         //当前Slave实体可能属于多个Master
         processDomainObjectsByMasterId(slaveDomainEntityConfig, (domainAggregateSlaveConfig, masterDomainEntityConfig) -> {
             String masterIdNameOfSlave = domainAggregateSlaveConfig.getMasterSlaveMapping().getRelateFieldNameOfSlave(); //slave中与masterId关联的那个字段
@@ -175,10 +171,10 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @param masterIdNameOfSlave
      * @return
      */
-    protected ByMasterIdDomainServiceMethod removeDomainObjectsByMasterId(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = createByMasterIdDomainServiceMethod(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, masterIdNameOfSlave);
+    protected ByMasterIdDomainServiceMethodParameter removeDomainObjectsByMasterId(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = createByMasterIdDomainServiceMethod(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, masterIdNameOfSlave);
         serviceMethod.setMethodReturnType("int");
-        serviceMethod.setMethodName("remove" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "By" + serviceMethod.getUpperMasterIdNameOfSlave());
+        serviceMethod.setMethodName("remove" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "By" + serviceMethod.getUpperMasterIdNameOfSlave());
         return serviceMethod;
     }
 
@@ -186,13 +182,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据领域对象ID获取领域对象
      * @return
      */
-    protected DomainServiceMethod getDomainObjectById(P codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectById(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
-        serviceMethod.setMethodReturnType(serviceMethod.getDomainObjectParameter().getDomainObjectName());
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "ById");
+        serviceMethod.setMethodReturnType(codegenParameter.getDomainObjectParameter().getDomainObjectName());
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "ById");
         return serviceMethod;
     }
 
@@ -200,13 +195,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据多个领域对象ID获取领域对象
      * @return
      */
-    protected DomainServiceMethod getDomainObjectsByIds(P codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectsByIds(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
-        serviceMethod.setMethodReturnType("List<" + serviceMethod.getDomainObjectParameter().getDomainObjectName() + ">");
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
+        serviceMethod.setMethodReturnType("List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ByIds");
         return serviceMethod;
     }
 
@@ -214,9 +208,9 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据某个master领域对象ID获取当前领域对象(slave)
      * @return
      */
-    protected Map<String,ByMasterIdDomainServiceMethod> getDomainObjectsByXxxMasterId(P codegenParameter) {
+    protected Map<String, ByMasterIdDomainServiceMethodParameter> getDomainObjectsByXxxMasterId(P codegenParameter) {
         DomainEntityConfig slaveDomainEntityConfig = getDomainObjectConfig();
-        Map<String,ByMasterIdDomainServiceMethod> serviceMethodMap = new HashMap<>();
+        Map<String, ByMasterIdDomainServiceMethodParameter> serviceMethodMap = new HashMap<>();
         //当前Slave实体可能属于多个Master
         processDomainObjectsByMasterId(slaveDomainEntityConfig, (domainAggregateSlaveConfig, masterDomainEntityConfig) -> {
             String masterIdNameOfSlave = domainAggregateSlaveConfig.getMasterSlaveMapping().getRelateFieldNameOfSlave(); //slave中与masterId关联的那个字段
@@ -235,14 +229,14 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @param masterIdNameOfSlave
      * @return
      */
-    protected ByMasterIdDomainServiceMethod getDomainObjectsByMasterId(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = createByMasterIdDomainServiceMethod(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, masterIdNameOfSlave);
-        String methodReturnType = serviceMethod.getDomainObjectParameter().getDomainObjectName();
+    protected ByMasterIdDomainServiceMethodParameter getDomainObjectsByMasterId(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = createByMasterIdDomainServiceMethod(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, masterIdNameOfSlave);
+        String methodReturnType = codegenParameter.getDomainObjectParameter().getDomainObjectName();
         if(DomainMasterSlaveRelation.RELATION_1N.equals(domainAggregateSlaveConfig.getMasterSlaveMapping().getMasterSlaveRelation())) { //如果是1:N关系?
-            methodReturnType = "List<" + serviceMethod.getDomainObjectParameter().getDomainObjectName() + ">";
+            methodReturnType = "List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">";
         }
         serviceMethod.setMethodReturnType(methodReturnType);
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "By" + serviceMethod.getUpperMasterIdNameOfSlave());
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "By" + serviceMethod.getUpperMasterIdNameOfSlave());
         return serviceMethod;
     }
 
@@ -250,9 +244,9 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据多个master领域对象ID获取当前领域对象(slave)
      * @return
      */
-    protected Map<String,ByMasterIdDomainServiceMethod> getDomainObjectsByXxxMasterIds(P codegenParameter) {
+    protected Map<String, ByMasterIdDomainServiceMethodParameter> getDomainObjectsByXxxMasterIds(P codegenParameter) {
         DomainEntityConfig slaveDomainEntityConfig = getDomainObjectConfig();
-        Map<String,ByMasterIdDomainServiceMethod> serviceMethodMap = new HashMap<>();
+        Map<String, ByMasterIdDomainServiceMethodParameter> serviceMethodMap = new HashMap<>();
         //当前Slave实体可能属于多个Master
         processDomainObjectsByMasterId(slaveDomainEntityConfig, (domainAggregateSlaveConfig, masterDomainEntityConfig) -> {
             String masterIdNameOfSlave = domainAggregateSlaveConfig.getMasterSlaveMapping().getRelateFieldNameOfSlave(); //slave中与masterId关联的那个字段
@@ -271,21 +265,20 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @param masterIdNameOfSlave
      * @return
      */
-    protected ByMasterIdDomainServiceMethod getDomainObjectsByMasterIds(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = createByMasterIdDomainServiceMethod(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, masterIdNameOfSlave);
-        String methodReturnType = String.format("Map<%s,%s>", serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType(), serviceMethod.getDomainObjectParameter().getDomainObjectName());
+    protected ByMasterIdDomainServiceMethodParameter getDomainObjectsByMasterIds(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, DomainAggregateSlaveConfig domainAggregateSlaveConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = createByMasterIdDomainServiceMethod(codegenParameter, slaveDomainEntityConfig, masterDomainEntityConfig, masterIdNameOfSlave);
+        String methodReturnType = String.format("Map<%s,%s>", serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType(), codegenParameter.getDomainObjectParameter().getDomainObjectName());
         if(DomainMasterSlaveRelation.RELATION_1N.equals(domainAggregateSlaveConfig.getMasterSlaveMapping().getMasterSlaveRelation())) { //如果是1:N关系?
-            methodReturnType = String.format("Map<%s,%s>", serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType(), "List<" + serviceMethod.getDomainObjectParameter().getDomainObjectName() + ">");
+            methodReturnType = String.format("Map<%s,%s>", serviceMethod.getMasterDomainObjectParameter().getDomainObjectIdType(), "List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
         }
         serviceMethod.setMethodReturnType(methodReturnType);
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "By" + serviceMethod.getUpperMasterIdsNameOfSlave());
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "By" + serviceMethod.getUpperMasterIdsNameOfSlave());
         return serviceMethod;
     }
 
-    protected ByMasterIdDomainServiceMethod createByMasterIdDomainServiceMethod(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, String masterIdNameOfSlave) {
-        ByMasterIdDomainServiceMethod serviceMethod = new ByMasterIdDomainServiceMethod();
+    protected ByMasterIdDomainServiceMethodParameter createByMasterIdDomainServiceMethod(P codegenParameter, DomainEntityConfig slaveDomainEntityConfig, DomainEntityConfig masterDomainEntityConfig, String masterIdNameOfSlave) {
+        ByMasterIdDomainServiceMethodParameter serviceMethod = new ByMasterIdDomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(slaveDomainEntityConfig));
         serviceMethod.setMasterDomainObjectParameter(createDomainObjectParameter(masterDomainEntityConfig));
         serviceMethod.setMasterIdNameOfSlave(masterIdNameOfSlave);
         serviceMethod.setUpperMasterIdNameOfSlave(StringUtils.upperCaseFirstChar(serviceMethod.getMasterIdNameOfSlave()));
@@ -298,13 +291,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 根据条件查询领域对象(分页、排序)
      * @return
      */
-    protected DomainServiceMethod getDomainObjectsByPage(P codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectsByPage(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
-        serviceMethod.setMethodReturnType("List<" + serviceMethod.getDomainObjectParameter().getDomainObjectName() + ">");
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectsAlias() + "ByPage");
+        serviceMethod.setMethodReturnType("List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectsAlias() + "ByPage");
         return serviceMethod;
     }
 
@@ -312,13 +304,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 获取领域对象总数
      * @return
      */
-    protected DomainServiceMethod getDomainObjectTotalCount(P codegenParameter) {
+    protected DomainServiceMethodParameter getDomainObjectTotalCount(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("int");
-        serviceMethod.setMethodName("get" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias() + "TotalCount");
+        serviceMethod.setMethodName("get" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias() + "TotalCount");
         return serviceMethod;
     }
 
@@ -326,13 +317,12 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 基于游标遍历所有领域对象
      * @return
      */
-    protected DomainServiceMethod forEachDomainObject1(P codegenParameter) {
+    protected DomainServiceMethodParameter forEachDomainObject1(P codegenParameter) {
         DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        DomainServiceMethod serviceMethod = new DomainServiceMethod();
+        DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
-        serviceMethod.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
         serviceMethod.setMethodReturnType("void");
-        serviceMethod.setMethodName("forEach" + serviceMethod.getDomainObjectParameter().getDomainObjectAlias());
+        serviceMethod.setMethodName("forEach" + codegenParameter.getDomainObjectParameter().getDomainObjectAlias());
         return serviceMethod;
     }
 
@@ -340,7 +330,7 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * 基于游标遍历所有领域对象
      * @return
      */
-    protected DomainServiceMethod forEachDomainObject2(P codegenParameter) {
+    protected DomainServiceMethodParameter forEachDomainObject2(P codegenParameter) {
         return forEachDomainObject1(codegenParameter);
     }
 
