@@ -34,8 +34,7 @@ public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extend
     @Override
     protected P setCommonCodegenParameter(P codegenParameter) {
         codegenParameter = super.setCommonCodegenParameter(codegenParameter);
-        DomainAggregateConfig domainAggregateConfig = getDomainObjectConfig();
-        codegenParameter.setDomainObjectParameter(createDomainObjectParameter(domainAggregateConfig));
+        codegenParameter.setDomainObjectParameter(createDomainObjectParameter(getDomainObjectConfig()));
         return codegenParameter;
     }
 

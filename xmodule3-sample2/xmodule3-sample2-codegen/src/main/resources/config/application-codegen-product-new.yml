@@ -165,7 +165,7 @@ spring:
                         targetProject: src/main/java
                         #XxxMapper.java所在包名
                         targetPackage: com.penglecode.xmodule.samples.product.dal.mapper
-                        #当前领域对象的Mapper接口上的数据库名称,默认单库即:'@NamedDatabase("${runtimeDataSource}")'
+                        #当前领域对象的Mapper接口上的数据库名称,默认:'@NamedDatabase("${runtimeDataSource}")'
                         mapperAnnotations: '@NamedDatabase("${runtimeDataSource}")'
                 #Service代码部分
                 service:
@@ -210,6 +210,6 @@ spring:
                     runtimeConfig:
                         #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
                         #apiDeclarations:
-                            #ProductAggregate: create,modify,removeById,removeByIds,getById,getByIds,getByPage
+                            #ProductAggregate: CREATE,MODIFY_BY_ID,REMOVE_BY_ID,REMOVE_BY_IDS,GET_BY_ID,GET_BY_IDS,GET_BY_PAGE
                         #API接口继承父类(可以不配置)
                         apiExtendsClass: com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport

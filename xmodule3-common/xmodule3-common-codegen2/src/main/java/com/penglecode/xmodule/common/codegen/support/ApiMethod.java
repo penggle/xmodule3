@@ -14,23 +14,23 @@ import java.util.Collections;
  */
 public enum ApiMethod {
 
-    CREATE("create${domainObjectName}", "创建领域对象"),
-    MODIFY_BY_ID("modify${domainObjectName}ById", "根据ID修改领域对象"),
-    REMOVE_BY_ID("remove${domainObjectName}ById", "根据ID删除领域对象"),
-    REMOVE_BY_IDS("remove${domainObjectName}ByIds", "根据多个ID删除领域对象") {
+    CREATE("createDomainObject", "创建领域对象"),
+    MODIFY_BY_ID("modifyDomainObjectById", "根据ID修改领域对象"),
+    REMOVE_BY_ID("removeDomainObjectById", "根据ID删除领域对象"),
+    REMOVE_BY_IDS("removeDomainObjectsByIds", "根据多个ID删除领域对象") {
         @Override
         public String getMethodName(String domainObjectName) {
             return super.getMethodName(CodegenUtils.getPluralNameOfDomainObject(domainObjectName));
         }
     },
-    GET_BY_ID("get${domainObjectName}ById", "根据多个ID获取领域对象"),
-    GET_BY_IDS("get${domainObjectName}ByIds", "根据多个ID获取领域对象") {
+    GET_BY_ID("getDomainObjectById", "根据多个ID获取领域对象"),
+    GET_BY_IDS("getDomainObjectsByIds", "根据多个ID获取领域对象") {
         @Override
         public String getMethodName(String domainObjectName) {
             return super.getMethodName(CodegenUtils.getPluralNameOfDomainObject(domainObjectName));
         }
     },
-    GET_BY_PAGE("get${domainObjectName}ByPage", "根据多个ID获取领域对象") {
+    GET_BY_PAGE("getDomainObjectsByPage", "根据多个ID获取领域对象") {
         @Override
         public String getMethodName(String domainObjectName) {
             return super.getMethodName(CodegenUtils.getPluralNameOfDomainObject(domainObjectName));

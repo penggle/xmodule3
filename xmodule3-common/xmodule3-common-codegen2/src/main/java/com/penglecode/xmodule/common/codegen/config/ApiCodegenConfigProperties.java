@@ -5,6 +5,7 @@ import com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,6 +68,12 @@ public class ApiCodegenConfigProperties extends ServiceCodegenConfigProperties {
         apiProtocols.add(ApiProtocol.FEIGN);
         if(api.getRuntimeConfig().getApiExtendsClass() == null) {
             api.getRuntimeConfig().setApiExtendsClass(ServletHttpApiSupport.class);
+        }
+        if(api.getClientConfig().getApiDeclarations() == null) {
+            api.getClientConfig().setApiDeclarations(new HashMap<>());
+        }
+        if(api.getRuntimeConfig().getApiDeclarations() == null) {
+            api.getRuntimeConfig().setApiDeclarations(new HashMap<>());
         }
     }
 

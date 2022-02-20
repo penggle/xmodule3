@@ -33,8 +33,7 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
     @Override
     protected P setCommonCodegenParameter(P codegenParameter) {
         codegenParameter = super.setCommonCodegenParameter(codegenParameter);
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
-        codegenParameter.setDomainObjectParameter(createDomainObjectParameter(domainEntityConfig));
+        codegenParameter.setDomainObjectParameter(createDomainObjectParameter(getDomainObjectConfig()));
         return codegenParameter;
     }
 
@@ -125,7 +124,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter removeDomainObjectById(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType("int");
@@ -138,7 +136,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter removeDomainObjectsByIds(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType("int");
@@ -183,7 +180,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter getDomainObjectById(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType(codegenParameter.getDomainObjectParameter().getDomainObjectName());
@@ -196,7 +192,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter getDomainObjectsByIds(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType("List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
@@ -292,7 +287,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter getDomainObjectsByPage(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType("List<" + codegenParameter.getDomainObjectParameter().getDomainObjectName() + ">");
@@ -305,7 +299,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter getDomainObjectTotalCount(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType("int");
@@ -318,7 +311,6 @@ public abstract class AbstractDomainServiceCodegenParameterBuilder<T extends Gen
      * @return
      */
     protected DomainServiceMethodParameter forEachDomainObject1(P codegenParameter) {
-        DomainEntityConfig domainEntityConfig = getDomainObjectConfig();
         DomainServiceMethodParameter serviceMethod = new DomainServiceMethodParameter();
         serviceMethod.setActivated(true);
         serviceMethod.setMethodReturnType("void");
