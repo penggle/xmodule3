@@ -9,11 +9,22 @@ package com.penglecode.xmodule.common.codegen.config;
  */
 public class ApiConfig extends GenerableTargetLocation {
 
+    /** API接口数据模型配置 */
+    private ApiModelConfig modelConfig;
+
     /** API接口客户端配置 */
     private ApiClientConfig clientConfig;
 
     /** API接口实现配置 */
     private ApiRuntimeConfig runtimeConfig;
+
+    public ApiModelConfig getModelConfig() {
+        return modelConfig;
+    }
+
+    public void setModelConfig(ApiModelConfig modelConfig) {
+        this.modelConfig = modelConfig;
+    }
 
     public ApiClientConfig getClientConfig() {
         return clientConfig;

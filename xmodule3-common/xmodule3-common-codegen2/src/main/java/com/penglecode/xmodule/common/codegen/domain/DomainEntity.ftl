@@ -58,7 +58,7 @@ public class ${targetClass} implements EntityObject {
         return ${idFieldName};
     }
 
-<#if (.enumFieldDecodes?size > 0)>
+<#if (enumFieldDecodes?size > 0)>
     @Override
     public ${targetClass} beforeOutbound() {
     <#list enumFieldDecodes as decode>

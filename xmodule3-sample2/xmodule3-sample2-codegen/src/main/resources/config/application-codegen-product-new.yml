@@ -199,6 +199,12 @@ spring:
                     targetProject: src/main/java
                     #API接口所在公共父包,其下约定有子包：service、controller、dto、request、response五个子包
                     targetPackage: com.penglecode.xmodule.samples.product.api
+                    #API接口DTO配置
+                    dtoConfig:
+                        #API接口源码输出项目目录
+                        targetProject: src/main/java
+                        #API接口DTO所在公共父包,其下约定有子包：dto、request、response三个子包
+                        targetPackage: com.penglecode.xmodule.samples.product.api
                     #API接口客户端配置
                     clientConfig:
                         #API接口协议,FEIGN是必须的,DUBBO是可选的

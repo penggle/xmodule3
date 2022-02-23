@@ -30,16 +30,16 @@ public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder
     protected DomainEntityCodegenParameter setCustomCodegenParameter(DomainEntityCodegenParameter codegenParameter) {
         codegenParameter.setTargetComment(getDomainObjectConfig().getDomainEntityTitle() + "实体");
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(DomainObject.class.getName()));
-        List<ObjectField> inherentFields = new ArrayList<>(); //实体固有字段
-        List<ObjectField> supportFields = new ArrayList<>(); //实体辅助字段
-        List<ObjectField> allFields = new ArrayList<>(); //实体所有字段
+        List<ObjectFieldParameter> inherentFields = new ArrayList<>(); //实体固有字段
+        List<ObjectFieldParameter> supportFields = new ArrayList<>(); //实体辅助字段
+        List<ObjectFieldParameter> allFields = new ArrayList<>(); //实体所有字段
         List<DomainEntityCodegenParameter.EnumFieldDecode> enumFieldDecodes = new ArrayList<>();
         for(Map.Entry<String,DomainEntityFieldConfig> entry : getTargetConfig().getDomainEntityFields().entrySet()) {
             DomainEntityFieldConfig domainEntityFieldConfig = entry.getValue();
             if(domainEntityFieldConfig.getFieldClass().isSupportField()) { //领域实体辅助字段
                 supportFields.add(buildEntitySupportField(domainEntityFieldConfig, codegenParameter));
                 //处理领域对象数据出站DomainObject#beforeOutbound()实现
-                if(DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD.equals(domainEntityFieldConfig.getFieldClass())) {
+                if(DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTBOUND_FIELD.equals(domainEntityFieldConfig.getFieldClass())) {
                     DomainEntityColumnConfig domainEntityColumnConfig = domainEntityFieldConfig.getDomainEntityColumnConfig(); //当前辅助字段是辅助谁的?
                     String shortDomainEnumType = getShortDomainEnumType(domainEntityColumnConfig.getDecodeEnumType());
                     DomainEnumConfig refDomainEnumConfig = resolveDecodeEnumConfig(domainEntityColumnConfig.getDecodeEnumType());
@@ -61,8 +61,8 @@ public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder
         return codegenParameter;
     }
 
-    protected ObjectField buildEntitySupportField(DomainEntityFieldConfig domainEntityFieldConfig, CodegenParameter codegenParameter) {
-        ObjectField field = createDomainObjectFields(domainEntityFieldConfig);
+    protected ObjectFieldParameter buildEntitySupportField(DomainEntityFieldConfig domainEntityFieldConfig, CodegenParameter codegenParameter) {
+        ObjectFieldParameter field = createDomainObjectFields(domainEntityFieldConfig);
         field.setFieldAnnotations(Collections.emptyList());
         field.setFieldGetterName(domainEntityFieldConfig.getFieldGetterName());
         field.setFieldSetterName(domainEntityFieldConfig.getFieldSetterName());
@@ -70,8 +70,8 @@ public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder
         return field;
     }
 
-    protected ObjectField buildEntityInherentField(DomainEntityFieldConfig domainEntityFieldConfig, CodegenParameter codegenParameter) {
-        ObjectField field = createDomainObjectFields(domainEntityFieldConfig);
+    protected ObjectFieldParameter buildEntityInherentField(DomainEntityFieldConfig domainEntityFieldConfig, CodegenParameter codegenParameter) {
+        ObjectFieldParameter field = createDomainObjectFields(domainEntityFieldConfig);
         List<String> fieldAnnotations = new ArrayList<>();
         for(String validateExpression : domainEntityFieldConfig.getDomainEntityColumnConfig().getValidateExpressions()) {
             String[] expressions = validateExpression.split(":");
@@ -79,8 +79,8 @@ public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(expressions[0]));
         }
         field.setFieldAnnotations(fieldAnnotations);
-        field.setFieldGetterName(CodegenUtils.getGetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
-        field.setFieldSetterName(CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.setFieldGetterName(domainEntityFieldConfig.getFieldGetterName());
+        field.setFieldSetterName(domainEntityFieldConfig.getFieldSetterName());
         codegenParameter.addTargetImportType(domainEntityFieldConfig.getFieldType());
         return field;
     }
@@ -89,7 +89,7 @@ public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder
         EnumFieldDecode field = new EnumFieldDecode();
         field.setRefEnumTypeName(refDomainEnumConfig.getDomainEnumName());
         field.setEntityFieldName(domainEntityFieldConfig.getDomainEntityColumnConfig().getIntrospectedColumn().getJavaFieldName()); //当前辅助字段关联的枚举值字段
-        field.setEntityFieldSetterName(CodegenUtils.getSetterMethodName(domainEntityFieldConfig.getFieldName(), domainEntityFieldConfig.getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
+        field.setEntityFieldSetterName(domainEntityFieldConfig.getFieldSetterName());
         field.setRefEnumNameFieldGetterName(CodegenUtils.getGetterMethodName(refDomainEnumConfig.getDomainEnumNameField().getFieldName(), refDomainEnumConfig.getDomainEnumNameField().getFieldType().getFullyQualifiedNameWithoutTypeParameters()));
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(refDomainEnumConfig.getGeneratedTargetName(refDomainEnumConfig.getDomainEnumName(), true, false)));
         codegenParameter.addTargetImportType(refDomainEnumConfig.getDomainEnumNameField().getFieldType());
@@ -119,8 +119,8 @@ public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder
         }
     }
 
-    protected ObjectField createDomainObjectFields(DomainObjectFieldConfig domainObjectFieldConfig) {
-        ObjectField field = new ObjectField();
+    protected ObjectFieldParameter createDomainObjectFields(DomainObjectFieldConfig domainObjectFieldConfig) {
+        ObjectFieldParameter field = new ObjectFieldParameter();
         field.setFieldName(domainObjectFieldConfig.getFieldName());
         field.setFieldType(domainObjectFieldConfig.getFieldType().getShortName());
         field.setFieldComment(domainObjectFieldConfig.getFieldComment());

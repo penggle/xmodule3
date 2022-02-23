@@ -1,6 +1,7 @@
 package com.penglecode.xmodule.common.codegen.domain;
 
 import com.penglecode.xmodule.common.codegen.support.CodegenParameter;
+import com.penglecode.xmodule.common.codegen.support.ObjectFieldParameter;
 
 import java.util.List;
 
@@ -20,13 +21,13 @@ public class DomainEntityCodegenParameter extends CodegenParameter {
     private String idFieldName;
 
     /** 实体自有字段 */
-    private List<ObjectField> inherentFields;
+    private List<ObjectFieldParameter> inherentFields;
 
     /** 实体辅助字段 */
-    private List<ObjectField> supportFields;
+    private List<ObjectFieldParameter> supportFields;
 
     /** 实体所有字段(自有字段 + 辅助字段) */
-    private List<ObjectField> allFields;
+    private List<ObjectFieldParameter> allFields;
 
     /** 实体枚举字段Decode */
     private List<EnumFieldDecode> enumFieldDecodes;
@@ -51,27 +52,27 @@ public class DomainEntityCodegenParameter extends CodegenParameter {
         this.idFieldName = idFieldName;
     }
 
-    public List<ObjectField> getInherentFields() {
+    public List<ObjectFieldParameter> getInherentFields() {
         return inherentFields;
     }
 
-    public void setInherentFields(List<ObjectField> inherentFields) {
+    public void setInherentFields(List<ObjectFieldParameter> inherentFields) {
         this.inherentFields = inherentFields;
     }
 
-    public List<ObjectField> getSupportFields() {
+    public List<ObjectFieldParameter> getSupportFields() {
         return supportFields;
     }
 
-    public void setSupportFields(List<ObjectField> supportFields) {
+    public void setSupportFields(List<ObjectFieldParameter> supportFields) {
         this.supportFields = supportFields;
     }
 
-    public List<ObjectField> getAllFields() {
+    public List<ObjectFieldParameter> getAllFields() {
         return allFields;
     }
 
-    public void setAllFields(List<ObjectField> allFields) {
+    public void setAllFields(List<ObjectFieldParameter> allFields) {
         this.allFields = allFields;
     }
 

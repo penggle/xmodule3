@@ -85,12 +85,6 @@
             <artifactId>spring-tx</artifactId>
         </dependency>
 
-        <!-- jakarta.validation-api -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-
         <!-- guava -->
         <dependency>
             <groupId>com.google.guava</groupId>

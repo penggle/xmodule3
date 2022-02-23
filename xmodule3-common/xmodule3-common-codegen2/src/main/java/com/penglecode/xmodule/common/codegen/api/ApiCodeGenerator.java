@@ -3,6 +3,7 @@ package com.penglecode.xmodule.common.codegen.api;
 import com.penglecode.xmodule.common.codegen.ModuleCodeGenerator;
 import com.penglecode.xmodule.common.codegen.config.*;
 import com.penglecode.xmodule.common.codegen.support.ApiMethod;
+import com.penglecode.xmodule.common.codegen.support.ApiModelType;
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.util.CollectionUtils;
 
@@ -36,12 +37,18 @@ public class ApiCodeGenerator extends ModuleCodeGenerator<ApiCodegenConfigProper
         if(!CollectionUtils.isEmpty(domainEntityConfigs)) {
             for (Map.Entry<String,DomainEntityConfig> entry : domainEntityConfigs.entrySet()) {
                 DomainEntityConfig domainEntityConfig = entry.getValue();
-                if(clientApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) {
-                    //1、生成指定领域实体的API接口(Client)
-                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainEntityConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainEntityConfig);
-                } else if(runtimeApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) {
-                    //2、生成指定领域实体的API接口(Controller/Client实现)
-                    CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainEntityConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainEntityConfig);
+                if(clientApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) { //1、生成指定领域实体的API接口(Client)
+                    for(ApiModelType apiModelType : ApiModelType.values()) {
+                        //生成指定领域实体的Request/Response DTO对象
+                        if(ApiModelType.CREATE_REQUEST.equals(apiModelType) || ApiModelType.MODIFY_REQUEST.equals(apiModelType) || ApiModelType.QUERY_REQUEST.equals(apiModelType)) {
+                            CodegenContext<ApiCodegenConfigProperties,ApiModelConfig,DomainEntityConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getModelConfig().withModelType(apiModelType), domainEntityConfig);
+                            generateTarget(codegenContext1, new ApiModelCodegenParameterBuilder<>(codegenContext1).buildCodegenParameter());
+                        }
+                    }
+
+                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainEntityConfig> codegenContext2 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainEntityConfig);
+                } else if(runtimeApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) { //2、生成指定领域实体的API接口(Controller/Client实现)
+                    CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainEntityConfig> codegenContext2 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainEntityConfig);
                 }
             }
         }
@@ -49,12 +56,12 @@ public class ApiCodeGenerator extends ModuleCodeGenerator<ApiCodegenConfigProper
         if(!CollectionUtils.isEmpty(domainAggregateConfigs)) {
             for (Map.Entry<String, DomainAggregateConfig> entry : domainAggregateConfigs.entrySet()) {
                 DomainAggregateConfig domainAggregateConfig = entry.getValue();
-                if(clientApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) {
-                    //3、生成指定聚合根的API接口(Client)
-                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainAggregateConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainAggregateConfig);
-                } else if(runtimeApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) {
-                    //4、生成指定聚合根的API接口(Controller/Client实现)
-                    CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainAggregateConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainAggregateConfig);
+                if(clientApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) { //3、生成指定聚合根的API接口(Client)
+
+                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainAggregateConfig> codegenContext2 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainAggregateConfig);
+                } else if(runtimeApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) { //4、生成指定聚合根的API接口(Controller/Client实现)
+
+                    CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainAggregateConfig> codegenContext2 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainAggregateConfig);
                 }
             }
         }

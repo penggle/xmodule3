@@ -2,7 +2,6 @@ package com.penglecode.xmodule.common.codegen.domain;
 
 import com.penglecode.xmodule.common.codegen.config.*;
 import com.penglecode.xmodule.common.codegen.support.*;
-import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,7 +30,7 @@ public class DomainAggregateCodegenParameterBuilder extends CodegenParameterBuil
     @Override
     protected DomainAggregateCodegenParameter setCustomCodegenParameter(DomainAggregateCodegenParameter codegenParameter) {
         codegenParameter.setTargetComment(getDomainObjectConfig().getDomainAggregateTitle() + "聚合根");
-        List<ObjectField> inherentFields = new ArrayList<>();
+        List<ObjectFieldParameter> inherentFields = new ArrayList<>();
         DomainAggregateConfig domainAggregateConfig = getTargetConfig();
         DomainEntityConfig masterDomainEntityConfig = getCodegenConfig().getDomain().getDomainEntities().get(domainAggregateConfig.getAggregateMasterEntity());
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(masterDomainEntityConfig.getGeneratedTargetName(masterDomainEntityConfig.getDomainEntityName(), true, false)));
@@ -42,13 +41,12 @@ public class DomainAggregateCodegenParameterBuilder extends CodegenParameterBuil
             inherentFields.add(buildAggregateInherentField(domainAggregateFieldConfig, slaveDomainEntityConfig, codegenParameter)); //添加聚合属性
         }
         codegenParameter.setInherentFields(inherentFields);
-        codegenParameter.setAllFields(inherentFields);
         codegenParameter.setTargetExtends(domainAggregateConfig.getAggregateMasterEntity());
         return codegenParameter;
     }
 
-    private ObjectField buildAggregateInherentField(DomainAggregateFieldConfig domainAggregateFieldConfig, DomainEntityConfig slaveDomainEntityConfig, CodegenParameter codegenParameter) {
-        ObjectField field = createDomainObjectFields(domainAggregateFieldConfig);
+    private ObjectFieldParameter buildAggregateInherentField(DomainAggregateFieldConfig domainAggregateFieldConfig, DomainEntityConfig slaveDomainEntityConfig, CodegenParameter codegenParameter) {
+        ObjectFieldParameter field = createDomainObjectFields(domainAggregateFieldConfig);
         List<String> fieldAnnotations = new ArrayList<>();
         Class<? extends Annotation> notEmptyAnnotationClass = NotNull.class;
         if(DomainMasterSlaveRelation.RELATION_1N.equals(domainAggregateFieldConfig.getDomainAggregateSlaveConfig().getMasterSlaveMapping().getMasterSlaveRelation())) {
@@ -64,8 +62,8 @@ public class DomainAggregateCodegenParameterBuilder extends CodegenParameterBuil
         return field;
     }
 
-    protected ObjectField createDomainObjectFields(DomainObjectFieldConfig domainObjectFieldConfig) {
-        ObjectField field = new ObjectField();
+    protected ObjectFieldParameter createDomainObjectFields(DomainObjectFieldConfig domainObjectFieldConfig) {
+        ObjectFieldParameter field = new ObjectFieldParameter();
         field.setFieldName(domainObjectFieldConfig.getFieldName());
         field.setFieldType(domainObjectFieldConfig.getFieldType().getShortName());
         field.setFieldComment(domainObjectFieldConfig.getFieldComment());

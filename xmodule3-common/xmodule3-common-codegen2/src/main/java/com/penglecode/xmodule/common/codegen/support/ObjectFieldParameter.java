@@ -1,15 +1,15 @@
-package com.penglecode.xmodule.common.codegen.domain;
+package com.penglecode.xmodule.common.codegen.support;
 
 import java.util.List;
 
 /**
- * 领域对象字段
+ * 对象字段
  *
  * @author pengpeng
  * @version 1.0
  * @since 2021/2/6 23:37
  */
-public class ObjectField {
+public class ObjectFieldParameter {
 
     /** 字段名称 */
     private String fieldName;

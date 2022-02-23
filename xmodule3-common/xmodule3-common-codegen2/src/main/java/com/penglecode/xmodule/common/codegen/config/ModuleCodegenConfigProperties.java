@@ -402,10 +402,10 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                     if(isRangeQuerySupportFieldRequired(columnQueryOperators)) { //需要辅助的范围查询条件?
                         String rangeMinSupportPropertyName = getRangeQuerySupportFieldName1(refJavaFieldName);
                         String fieldTitle = refJavaFieldName + "的范围查询条件辅助字段";
-                        DomainEntityFieldConfig rangeMinFieldConfig = new DomainEntityFieldConfig(rangeMinSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, getGTQueryConditionOperator(columnQueryOperators));
+                        DomainEntityFieldConfig rangeMinFieldConfig = new DomainEntityFieldConfig(rangeMinSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INBOUND_FIELD, domainEntityColumnConfig, getGTQueryConditionOperator(columnQueryOperators));
                         domainEntityFields.put(rangeMinFieldConfig.getFieldName(), rangeMinFieldConfig);
                         String rangeMaxSupportPropertyName = getRangeQuerySupportFieldName2(refJavaFieldName);
-                        DomainEntityFieldConfig rangeMaxFieldConfig = new DomainEntityFieldConfig(rangeMaxSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, getLTQueryConditionOperator(columnQueryOperators));
+                        DomainEntityFieldConfig rangeMaxFieldConfig = new DomainEntityFieldConfig(rangeMaxSupportPropertyName, refJavaFieldType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INBOUND_FIELD, domainEntityColumnConfig, getLTQueryConditionOperator(columnQueryOperators));
                         domainEntityFields.put(rangeMaxFieldConfig.getFieldName(), rangeMaxFieldConfig);
                         //辅助字段关联的持久化字段在此情况下可以存在EQ操作符的,此处修正1处的queryConditionOperator设置
                         domainEntityFields.get(refJavaFieldName).setQueryConditionOperator(QueryConditionOperator.EQ);
@@ -413,7 +413,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                         String inSupportPropertyName = getInQuerySupportFieldName(refJavaFieldName);
                         String fieldTitle = refJavaFieldName + "的IN查询条件辅助字段";
                         FullyQualifiedJavaType inSupportPropertyType = new FullyQualifiedJavaType(String.format("%s[]", refJavaFieldType)); //数组
-                        DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(inSupportPropertyName, inSupportPropertyType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD, domainEntityColumnConfig, QueryConditionOperator.IN);
+                        DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(inSupportPropertyName, inSupportPropertyType, fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_INBOUND_FIELD, domainEntityColumnConfig, QueryConditionOperator.IN);
                         domainEntityFields.put(supportFieldConfig.getFieldName(), supportFieldConfig);
                         //辅助字段关联的持久化字段在此情况下可以存在EQ操作符的,此处修正1处的queryConditionOperator设置
                         domainEntityFields.get(refJavaFieldName).setQueryConditionOperator(QueryConditionOperator.EQ);
@@ -423,7 +423,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
                     String codedSupportPropertyName = getCodedSupportFieldName(refJavaFieldName);
                     String fieldTitle = refJavaFieldName + "的查询结果辅助字段";
                     //为可枚举的字段值生成字段值的对应名称字段，例如为productType字段生成productTypeName字段
-                    DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(codedSupportPropertyName,new FullyQualifiedJavaType("java.lang.String"), fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD, domainEntityColumnConfig, null);
+                    DomainEntityFieldConfig supportFieldConfig = new DomainEntityFieldConfig(codedSupportPropertyName,new FullyQualifiedJavaType("java.lang.String"), fieldTitle, fieldTitle, DomainObjectFieldClass.DOMAIN_ENTITY_SUPPORTS_QUERY_OUTBOUND_FIELD, domainEntityColumnConfig, null);
                     domainEntityFields.put(supportFieldConfig.getFieldName(), supportFieldConfig);
                 }
             }

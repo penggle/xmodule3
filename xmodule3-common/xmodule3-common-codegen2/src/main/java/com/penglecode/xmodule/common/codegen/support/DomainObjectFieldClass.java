@@ -30,18 +30,18 @@ public enum DomainObjectFieldClass {
     },
 
     /**
-     * 领域实体辅助字段(查询场景输入参数)
+     * 领域实体辅助字段(查询场景入站参数)
      */
-    DOMAIN_ENTITY_SUPPORTS_QUERY_INPUT_FIELD {
+    DOMAIN_ENTITY_SUPPORTS_QUERY_INBOUND_FIELD {
         @Override
         public boolean isSupportField() {
             return true;
         }
     },
     /**
-     * 领域实体辅助字段(查询场景输出参数)
+     * 领域实体辅助字段(查询场景出站参数)
      */
-    DOMAIN_ENTITY_SUPPORTS_QUERY_OUTPUT_FIELD {
+    DOMAIN_ENTITY_SUPPORTS_QUERY_OUTBOUND_FIELD {
         @Override
         public boolean isSupportField() {
             return true;
