@@ -7,13 +7,14 @@ import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ApiController的实现代码生成参数Builder
+ * API接口的Controller实现代码生成参数Builder
  * 注意此时生成的ApiController实现不会implements某个ApiClient接口，仅仅是一个SpringMVC的Controller提供HTTP接口服务
  *
  * @author pengpeng
@@ -42,6 +43,7 @@ public class ApiControllerRuntimeCodegenParameterBuilder<D extends DomainObjectC
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(RequestMapping.class.getName()));
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(Tag.class.getName()));
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(Operation.class.getName()));
+        codegenParameter.addTargetImportType(new FullyQualifiedJavaType(MediaType.class.getName()));
         if(getTargetConfig().getApiExtendsClass() != null) {
             codegenParameter.setTargetExtends(getTargetConfig().getApiExtendsClass().getSimpleName());
             codegenParameter.addTargetImportType(new FullyQualifiedJavaType(getTargetConfig().getApiExtendsClass().getName()));

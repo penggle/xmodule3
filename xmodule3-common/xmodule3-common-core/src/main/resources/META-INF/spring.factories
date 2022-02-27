@@ -1,0 +1,1 @@
+org.springframework.boot.env.EnvironmentPostProcessor=com.penglecode.xmodule.common.initializer.DefaultSpringAppEnvInitializer

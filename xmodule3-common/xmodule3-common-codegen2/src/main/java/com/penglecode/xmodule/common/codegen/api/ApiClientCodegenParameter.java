@@ -1,7 +1,7 @@
 package com.penglecode.xmodule.common.codegen.api;
 
 /**
- * ApiClient代码生成参数
+ * API接口Client代码生成参数
  *
  * @author pengpeng
  * @version 1.0

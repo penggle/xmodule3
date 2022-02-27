@@ -1,11 +1,21 @@
 package com.penglecode.xmodule.common.initializer;
 
+import com.penglecode.xmodule.common.consts.ApplicationConstants;
 import com.penglecode.xmodule.common.consts.Constant;
 import com.penglecode.xmodule.common.consts.SpringConstantPool;
 import com.penglecode.xmodule.common.util.SpringUtils;
+import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Spring应用启动之处初始化程序
@@ -39,6 +49,14 @@ public class DefaultSpringAppPreInitializer extends AbstractSpringAppContextInit
 		SpringUtils.setApplicationContext(applicationContext);
 		SpringUtils.setEnvironment(applicationContext.getEnvironment());
 		Constant.setConstantPool(new SpringConstantPool<>());
+
+		//TODO
+		ConfigurableEnvironment environment = applicationContext.getEnvironment();
+		MapPropertySource appDefaultProperties = (MapPropertySource) environment.getPropertySources().get(ApplicationConstants.APP_DEFAULT_PROPERTY_SOURCE_NAME);
+		if(appDefaultProperties != null) {
+			appDefaultProperties.getSource().put("spring.autoconfigure.exclude[0]", DataSourceAutoConfiguration.class.getName());
+			appDefaultProperties.getSource().put("spring.autoconfigure.exclude[1]", MybatisAutoConfiguration.class.getName());
+		}
 	}
 
 }

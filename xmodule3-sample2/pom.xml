@@ -43,10 +43,10 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- xmodule3-sample2-dal -->
+            <!-- xmodule3-sample2-infras -->
             <dependency>
                 <groupId>com.penglecode</groupId>
-                <artifactId>xmodule3-sample2-dal</artifactId>
+                <artifactId>xmodule3-sample2-infras</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -79,7 +79,7 @@
 
     <modules>
         <module>xmodule3-sample2-domain</module>
-        <module>xmodule3-sample2-dal</module>
+        <module>xmodule3-sample2-infras</module>
         <module>xmodule3-sample2-app</module>
         <module>xmodule3-sample2-api</module>
         <module>xmodule3-sample2-codegen</module>

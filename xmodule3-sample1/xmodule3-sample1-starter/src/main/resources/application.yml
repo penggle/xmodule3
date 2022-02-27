@@ -8,11 +8,6 @@ logging:
         name: ${spring.application.name}
         path: /opt/logs/${spring.application.name}
 
-#Spring上下文初始化程序
-context:
-    initializer:
-        classes: com.penglecode.xmodule.common.initializer.DefaultSpringAppPreInitializer
-   
 #Servlet容器配置
 server:
     port: 8181
@@ -20,12 +15,6 @@ server:
 
 #SpringBoot应用的名称
 spring:
-    #被排除的自动配置
-    autoconfigure:
-        exclude:
-            - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-            - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
-          
     application:
         code: SAMPLE1
         name: xmodule3-sample1

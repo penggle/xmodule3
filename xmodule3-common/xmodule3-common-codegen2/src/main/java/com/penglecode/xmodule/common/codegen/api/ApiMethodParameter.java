@@ -11,10 +11,10 @@ import com.penglecode.xmodule.common.codegen.support.CodegenMethodParameter;
  */
 public class ApiMethodParameter extends CodegenMethodParameter {
 
-    /** 主要输入DTO参数名 */
+    /** 输入DTO参数名 */
     private String inputApiModelName;
 
-    /** 主要输出DTO参数名 */
+    /** 输出DTO参数名 */
     private String outputApiModelName;
 
     public String getInputApiModelName() {

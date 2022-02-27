@@ -215,7 +215,7 @@ spring:
                     #API接口实现配置
                     runtimeConfig:
                         #API接口声明Map类型,[key=领域对象名称,value=接口方法名枚举]
-                        #此处出现的API接口声明将仅仅是一个Controller,并不提供Client接口
+                        #此处出现的API接口声明将仅仅是一个Controller,并不提供RPC服务的Client接口
                         #apiDeclarations:
                             #ProductAggregate: CREATE,MODIFY_BY_ID,REMOVE_BY_ID,REMOVE_BY_IDS,GET_BY_ID,GET_BY_IDS,GET_BY_PAGE
                         #API接口继承父类(可以不配置)

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ApiRuntime代码生成参数Builder基类
+ * API接口实现的代码生成参数Builder基类
  *
  * @author pengpeng
  * @version 1.0

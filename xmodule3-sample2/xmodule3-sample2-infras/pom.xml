@@ -8,9 +8,9 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>xmodule3-sample2-dal</artifactId>
-    <name>xmodule3-sample2-dal</name>
-    <description>示例数据库访问层</description>
+    <artifactId>xmodule3-sample2-infras</artifactId>
+    <name>xmodule3-sample2-infras</name>
+    <description>示例基础设施层(包括数据持久化操作、MQ通信、缓存访问、其他中间件访问等操作)</description>
 
     <dependencies>
         <!-- xmodule3-sample2-common -->

@@ -7,13 +7,14 @@ import com.penglecode.xmodule.common.codegen.support.CodegenContext;
 import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ApiClient代码生成参数Builder
+ * API接口Client代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0
@@ -39,6 +40,7 @@ public class ApiClientCodegenParameterBuilder<D extends DomainObjectConfig> exte
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(RequestMapping.class.getName()));
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(Tag.class.getName()));
         codegenParameter.addTargetImportType(new FullyQualifiedJavaType(Operation.class.getName()));
+        codegenParameter.addTargetImportType(new FullyQualifiedJavaType(MediaType.class.getName()));
         return codegenParameter;
     }
 

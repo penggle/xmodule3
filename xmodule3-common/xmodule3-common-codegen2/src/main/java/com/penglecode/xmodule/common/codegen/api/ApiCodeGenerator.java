@@ -37,12 +37,17 @@ public class ApiCodeGenerator extends ModuleCodeGenerator<ApiCodegenConfigProper
         if(!CollectionUtils.isEmpty(domainEntityConfigs)) {
             for (Map.Entry<String,DomainEntityConfig> entry : domainEntityConfigs.entrySet()) {
                 DomainEntityConfig domainEntityConfig = entry.getValue();
-                if(clientApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) { //1、生成指定领域实体的API接口(Client)
-                    generateApiModel(codegenConfig, domainEntityConfig); //生成DTO
-                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainEntityConfig> codegenContext = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainEntityConfig);
-                } else if(runtimeApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) { //2、生成指定领域实体的API接口(Controller/Client实现)
-                    generateApiModel(codegenConfig, domainEntityConfig); //生成DTO
+                if(clientApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) { //1、生成指定领域实体的API接口(Client接口及实现)
+                    generateApiModel(codegenConfig, domainEntityConfig); //生成API接口的DTO
+                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainEntityConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainEntityConfig);
+                    generateTarget(codegenContext1, new ApiClientCodegenParameterBuilder<>(codegenContext1).buildCodegenParameter()); //生成API接口Client
+
+                    CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainEntityConfig> codegenContext2 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainEntityConfig);
+                    generateTarget(codegenContext2, new ApiClientRuntimeCodegenParameterBuilder<>(codegenContext2).buildCodegenParameter()); //生成API接口Client的实现
+                } else if(runtimeApiDeclarations.containsKey(domainEntityConfig.getDomainEntityName())) { //2、生成指定领域实体的API接口(Controller)
+                    generateApiModel(codegenConfig, domainEntityConfig); //生成API接口的DTO
                     CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainEntityConfig> codegenContext = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainEntityConfig);
+                    generateTarget(codegenContext, new ApiControllerRuntimeCodegenParameterBuilder<>(codegenContext).buildCodegenParameter()); //生成API接口Controller实现
                 }
             }
         }
@@ -50,12 +55,17 @@ public class ApiCodeGenerator extends ModuleCodeGenerator<ApiCodegenConfigProper
         if(!CollectionUtils.isEmpty(domainAggregateConfigs)) {
             for (Map.Entry<String, DomainAggregateConfig> entry : domainAggregateConfigs.entrySet()) {
                 DomainAggregateConfig domainAggregateConfig = entry.getValue();
-                if(clientApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) { //3、生成指定聚合根的API接口(Client)
+                if(clientApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) { //3、生成指定聚合根的API接口(Client接口及实现)
                     generateApiModel(codegenConfig, domainAggregateConfig); //生成DTO
-                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainAggregateConfig> codegenContext = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainAggregateConfig);
+                    CodegenContext<ApiCodegenConfigProperties,ApiClientConfig,DomainAggregateConfig> codegenContext1 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getClientConfig(), domainAggregateConfig);
+                    generateTarget(codegenContext1, new ApiClientCodegenParameterBuilder<>(codegenContext1).buildCodegenParameter()); //生成API接口Client
+
+                    CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainAggregateConfig> codegenContext2 = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainAggregateConfig);
+                    generateTarget(codegenContext2, new ApiClientRuntimeCodegenParameterBuilder<>(codegenContext2).buildCodegenParameter()); //生成API接口Client的实现
                 } else if(runtimeApiDeclarations.containsKey(domainAggregateConfig.getDomainAggregateName())) { //4、生成指定聚合根的API接口(Controller/Client实现)
-                    generateApiModel(codegenConfig, domainAggregateConfig); //生成DTO
+                    generateApiModel(codegenConfig, domainAggregateConfig); //生成API接口的DTO
                     CodegenContext<ApiCodegenConfigProperties,ApiRuntimeConfig,DomainAggregateConfig> codegenContext = new CodegenContext<>(codegenConfig, codegenConfig.getApi().getRuntimeConfig(), domainAggregateConfig);
+                    generateTarget(codegenContext, new ApiControllerRuntimeCodegenParameterBuilder<>(codegenContext).buildCodegenParameter()); //生成API接口Controller实现
                 }
             }
         }
@@ -92,7 +102,7 @@ public class ApiCodeGenerator extends ModuleCodeGenerator<ApiCodegenConfigProper
             generateDtoModel(codegenConfig, codegenConfig.getDomain().getDomainEntities().get(domainAggregateSlaveConfig.getAggregateSlaveEntity()));
         }
         //生成聚合根的SAVE_REQUEST/QUERY_REQUEST/QUERY_RESPONSE对象
-        generateApiModel(codegenConfig, domainAggregateConfig);
+        generateApiModel(codegenConfig, (DomainObjectConfig) domainAggregateConfig);
     }
 
     /**

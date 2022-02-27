@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 /**
- * ApiClient的实现代码生成参数Builder
+ * API接口的Client实现代码生成参数Builder
  *
  * @author pengpeng
  * @version 1.0

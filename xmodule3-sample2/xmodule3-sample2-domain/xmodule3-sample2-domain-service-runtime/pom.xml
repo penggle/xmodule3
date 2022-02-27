@@ -19,10 +19,10 @@
             <artifactId>xmodule3-sample2-common</artifactId>
         </dependency>
 
-        <!-- xmodule3-sample2-dal -->
+        <!-- xmodule3-sample2-infras -->
         <dependency>
             <groupId>com.penglecode</groupId>
-            <artifactId>xmodule3-sample2-dal</artifactId>
+            <artifactId>xmodule3-sample2-infras</artifactId>
         </dependency>
 
         <!-- xmodule3-sample2-domain-service-sdk -->

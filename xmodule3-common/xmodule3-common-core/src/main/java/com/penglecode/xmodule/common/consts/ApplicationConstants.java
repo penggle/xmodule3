@@ -28,6 +28,11 @@ import java.util.function.Supplier;
 public abstract class ApplicationConstants {
 
 	/**
+	 * 应用默认的Spring上下文环境变量(Environment)配置
+	 */
+	public static final String APP_DEFAULT_PROPERTY_SOURCE_NAME = "appDefaultProperties";
+
+	/**
 	 * 事件发布默认的线程池
 	 */
 	public static final Executor DEFAULT_EXECUTOR = ThreadPoolUtils.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4, new NamedThreadFactory("DEFAULT-PUBLISHER"));
