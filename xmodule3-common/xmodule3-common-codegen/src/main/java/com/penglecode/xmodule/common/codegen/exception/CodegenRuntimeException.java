@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.exception;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/5 14:48
+ * @created 2021/9/5 14:48
  */
 public class CodegenRuntimeException extends RuntimeException {
 

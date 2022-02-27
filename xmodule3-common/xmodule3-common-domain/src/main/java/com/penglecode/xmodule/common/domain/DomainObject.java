@@ -7,7 +7,7 @@ import com.penglecode.xmodule.common.support.Convertible;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/15 15:15
+ * @created 2021/5/15 15:15
  */
 public interface DomainObject extends Convertible {
 

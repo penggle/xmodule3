@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.support;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 14:15
+ * @created 2021/1/22 14:15
  */
 public enum IdGenStrategy {
     //数据库自动生成(自增主键)

@@ -11,46 +11,46 @@ import java.util.List;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021年10月21日 下午 23:18
+ * @created 2021年10月21日 下午 23:18
  */
 @Schema(description="查询商品响应DTO")
-public class QueryProductResponse extends ProductBaseInfoODTO implements BaseDTO {
+public class QueryProductResponse extends ProductBaseQueryDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
     /** 商品额外信息 */
     @Schema(description="商品额外信息")
-    private ProductExtraInfoODTO productExtra;
+    private ProductExtraQueryDTO productExtra;
 
     /** 商品销售规格信息列表 */
     @Schema(description="商品销售规格信息列表")
-    private List<ProductSaleSpecODTO> productSaleSpecs;
+    private List<ProductSaleSpecQueryDTO> productSaleSpecs;
 
     /** 商品销售库存信息列表 */
     @Schema(description="商品销售库存信息列表")
-    private List<ProductSaleStockODTO> productSaleStocks;
+    private List<ProductSaleStockQueryDTO> productSaleStocks;
 
-    public ProductExtraInfoODTO getProductExtra() {
+    public ProductExtraQueryDTO getProductExtra() {
         return productExtra;
     }
 
-    public void setProductExtra(ProductExtraInfoODTO productExtra) {
+    public void setProductExtra(ProductExtraQueryDTO productExtra) {
         this.productExtra = productExtra;
     }
 
-    public List<ProductSaleSpecODTO> getProductSaleSpecs() {
+    public List<ProductSaleSpecQueryDTO> getProductSaleSpecs() {
         return productSaleSpecs;
     }
 
-    public void setProductSaleSpecs(List<ProductSaleSpecODTO> productSaleSpecs) {
+    public void setProductSaleSpecs(List<ProductSaleSpecQueryDTO> productSaleSpecs) {
         this.productSaleSpecs = productSaleSpecs;
     }
 
-    public List<ProductSaleStockODTO> getProductSaleStocks() {
+    public List<ProductSaleStockQueryDTO> getProductSaleStocks() {
         return productSaleStocks;
     }
 
-    public void setProductSaleStocks(List<ProductSaleStockODTO> productSaleStocks) {
+    public void setProductSaleStocks(List<ProductSaleStockQueryDTO> productSaleStocks) {
         this.productSaleStocks = productSaleStocks;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.core.NestedRuntimeException;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/25 14:48
+ * @created 2021/1/25 14:48
  */
 public class CodegenRuntimeException extends NestedRuntimeException {
 

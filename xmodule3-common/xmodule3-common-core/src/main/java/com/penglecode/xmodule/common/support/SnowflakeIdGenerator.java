@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/27 19:12
+ * @created 2021/5/27 19:12
  */
 public class SnowflakeIdGenerator implements IdGenerator<Long> {
 

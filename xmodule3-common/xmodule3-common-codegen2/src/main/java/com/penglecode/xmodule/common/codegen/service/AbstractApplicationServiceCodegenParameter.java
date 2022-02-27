@@ -8,7 +8,7 @@ import com.penglecode.xmodule.common.codegen.support.DomainObjectParameter;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 21:48
+ * @created 2021/2/6 21:48
  */
 public abstract class AbstractApplicationServiceCodegenParameter extends CodegenParameter {
 

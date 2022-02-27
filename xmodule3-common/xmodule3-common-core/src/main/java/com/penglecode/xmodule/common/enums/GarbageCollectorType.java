@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.enums;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/4/10 17:34
+ * @created 2021/4/10 17:34
  */
 public enum GarbageCollectorType {
 

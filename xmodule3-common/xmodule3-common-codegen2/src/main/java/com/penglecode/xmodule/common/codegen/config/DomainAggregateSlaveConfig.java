@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 14:05
+ * @created 2021/1/22 14:05
  */
 public class DomainAggregateSlaveConfig {
 

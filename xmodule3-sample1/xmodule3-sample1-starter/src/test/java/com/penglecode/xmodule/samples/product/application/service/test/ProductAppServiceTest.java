@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * @author pengpeng
  * @version 1.0
- * @since 2022/1/4 15:39
+ * @created 2022/1/4 15:39
  */
 @SpringBootTest(classes=Sample1Application.class)
 public class ProductAppServiceTest {

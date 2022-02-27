@@ -9,7 +9,7 @@ package com.penglecode.xmodule.common.consts;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/15 14:02
+ * @created 2021/5/15 14:02
  */
 public abstract class SpringBeanConstant<T> extends Constant<T> {
 	

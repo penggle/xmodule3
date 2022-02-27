@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 22:03
+ * @created 2021/2/6 22:03
  */
 public class MybatisXmlMapperCodegenParameterBuilder extends CodegenParameterBuilder<MybatisCodegenConfigProperties, MybatisXmlMapperConfig, DomainEntityConfig, MybatisXmlMapperCodegenParameter> {
 

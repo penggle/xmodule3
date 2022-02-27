@@ -7,7 +7,7 @@ import java.util.Locale;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/15 14:02
+ * @created 2021/5/15 14:02
  */
 public class GlobalConstants {
 

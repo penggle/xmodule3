@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.config;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 15:21
+ * @created 2021/1/22 15:21
  */
 public class ApiConfig extends GenerableTargetLocation {
 

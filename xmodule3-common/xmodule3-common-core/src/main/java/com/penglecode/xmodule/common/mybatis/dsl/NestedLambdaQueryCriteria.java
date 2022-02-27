@@ -27,7 +27,7 @@ import java.util.function.Consumer;
  * @param <E> Example
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/11 23:41
+ * @created 2021/6/11 23:41
  */
 @SuppressWarnings("unchecked")
 public abstract class NestedLambdaQueryCriteria<E extends DomainObject> extends QueryCriteria<E> {

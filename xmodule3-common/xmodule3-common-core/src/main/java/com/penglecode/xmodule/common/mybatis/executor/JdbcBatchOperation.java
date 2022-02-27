@@ -18,7 +18,7 @@ import org.apache.ibatis.session.ExecutorType;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/25 9:37
+ * @created 2021/7/25 9:37
  */
 public final class JdbcBatchOperation implements AutoCloseable {
 

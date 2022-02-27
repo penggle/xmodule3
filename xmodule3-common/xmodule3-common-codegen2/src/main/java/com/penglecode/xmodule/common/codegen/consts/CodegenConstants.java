@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.consts;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 15:24
+ * @created 2021/1/22 15:24
  */
 public class CodegenConstants {
 

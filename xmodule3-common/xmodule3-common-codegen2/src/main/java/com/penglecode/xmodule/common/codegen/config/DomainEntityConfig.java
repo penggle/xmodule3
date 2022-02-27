@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 13:30
+ * @created 2021/1/22 13:30
  */
 public class DomainEntityConfig extends DomainObjectConfig {
 

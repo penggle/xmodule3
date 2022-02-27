@@ -10,7 +10,7 @@ import java.util.Collections;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 15:02
+ * @created 2021/1/22 15:02
  */
 public class ApiModelConfig extends GenerableTargetConfig {
 

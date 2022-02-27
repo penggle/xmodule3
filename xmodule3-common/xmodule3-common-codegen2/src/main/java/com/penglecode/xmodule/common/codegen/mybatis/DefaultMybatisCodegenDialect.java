@@ -7,7 +7,7 @@ import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/26 14:28
+ * @created 2021/1/26 14:28
  */
 public class DefaultMybatisCodegenDialect implements MybatisCodegenDialect {
 

@@ -14,7 +14,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/17 22:47
+ * @created 2021/6/17 22:47
  */
 @Configuration
 @ConditionalOnClass(HibernateValidator.class)

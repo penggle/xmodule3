@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/26 22:26
+ * @created 2021/7/26 22:26
  */
 public class QueryColumns {
 

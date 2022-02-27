@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author pengpeng
  * @version 1.0
- * @since 202q/2/6 22:03
+ * @created 202q/2/6 22:03
  */
 public class DomainAggregateCodegenParameterBuilder extends CodegenParameterBuilder<DomainObjectCodegenConfigProperties, DomainAggregateConfig, DomainAggregateConfig, DomainAggregateCodegenParameter> {
 

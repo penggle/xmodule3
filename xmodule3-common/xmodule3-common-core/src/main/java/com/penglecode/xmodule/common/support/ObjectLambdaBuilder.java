@@ -21,7 +21,7 @@ import java.util.function.Supplier;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/27 11:19
+ * @created 2021/5/27 11:19
  */
 public class ObjectLambdaBuilder<T> {
 

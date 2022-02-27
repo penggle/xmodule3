@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.mybatis.dsl;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/12 15:10
+ * @created 2021/6/12 15:10
  */
 enum ConditionOperator {
     IS_NULL("is null", 0),

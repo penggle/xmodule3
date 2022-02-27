@@ -9,7 +9,7 @@ import com.penglecode.xmodule.common.codegen.support.QueryConditionOperator;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/20 22:15
+ * @created 2021/8/20 22:15
  */
 public class DomainObjectFieldConfigProperties {
 

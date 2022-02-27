@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.support;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/21 14:03
+ * @created 2021/8/21 14:03
  */
 public class PrimaryKeyGenerator {
 

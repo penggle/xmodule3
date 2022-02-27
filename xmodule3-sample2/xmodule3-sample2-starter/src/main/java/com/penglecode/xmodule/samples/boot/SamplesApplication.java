@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.dal.NamedDatabase;
 /**
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/27 16:54
+ * @created 2021/2/27 16:54
  */
 @EnableDalAutoConfigure({@NamedDatabase("default"), @NamedDatabase("product")})
 @SpringBootApplication(scanBasePackageClasses= BasePackage.class)

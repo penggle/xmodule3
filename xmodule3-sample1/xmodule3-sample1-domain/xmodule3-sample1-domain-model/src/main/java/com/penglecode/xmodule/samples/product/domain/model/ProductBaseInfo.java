@@ -14,7 +14,7 @@ import java.util.Optional;
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月21日 下午 23:18
+ * @created 2021年10月21日 下午 23:18
  */
 public class ProductBaseInfo implements EntityObject {
 

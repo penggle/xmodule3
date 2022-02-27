@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/4/8 21:14
+ * @created 2021/4/8 21:14
  */
 @RestController
 @RequestMapping("/api/appmeta")

@@ -10,7 +10,7 @@ import com.penglecode.xmodule.common.codegen.support.CodegenContext;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 22:03
+ * @created 2021/2/6 22:03
  */
 public class ApplicationServiceInterfaceCodegenParameterBuilder extends AbstractApplicationServiceCodegenParameterBuilder<ServiceInterfaceConfig, ApplicationServiceInterfaceCodegenParameter> {
 

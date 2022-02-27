@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/21 13:39
+ * @created 2021/8/21 13:39
  */
 public class MybatisJavaMapperConfigProperties extends GeneratedTargetConfigProperties {
 

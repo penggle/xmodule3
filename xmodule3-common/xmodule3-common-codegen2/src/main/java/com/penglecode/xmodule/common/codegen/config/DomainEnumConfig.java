@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 11:36
+ * @created 2021/1/22 11:36
  */
 public class DomainEnumConfig extends DomainObjectConfig {
 

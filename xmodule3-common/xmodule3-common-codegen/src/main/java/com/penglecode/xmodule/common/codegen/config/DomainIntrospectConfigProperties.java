@@ -7,7 +7,7 @@ import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/4 23:38
+ * @created 2021/9/4 23:38
  */
 public class DomainIntrospectConfigProperties {
 

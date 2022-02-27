@@ -20,7 +20,7 @@ import ${ipm};
  *
  * @author ${commentAuthor}
  * @version 1.0
- * @since ${generateTime}
+ * @created ${generateTime}
  */
 public class ${targetObjectName} extends ${aggregateMasterName} {
 

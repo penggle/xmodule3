@@ -7,8 +7,30 @@ import com.penglecode.xmodule.common.codegen.support.CodegenMethodParameter;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/20 13:59
+ * @created 2021/2/20 13:59
  */
 public class ApiMethodParameter extends CodegenMethodParameter {
+
+    /** 主要输入DTO参数名 */
+    private String inputApiModelName;
+
+    /** 主要输出DTO参数名 */
+    private String outputApiModelName;
+
+    public String getInputApiModelName() {
+        return inputApiModelName;
+    }
+
+    public void setInputApiModelName(String inputApiModelName) {
+        this.inputApiModelName = inputApiModelName;
+    }
+
+    public String getOutputApiModelName() {
+        return outputApiModelName;
+    }
+
+    public void setOutputApiModelName(String outputApiModelName) {
+        this.outputApiModelName = outputApiModelName;
+    }
 
 }

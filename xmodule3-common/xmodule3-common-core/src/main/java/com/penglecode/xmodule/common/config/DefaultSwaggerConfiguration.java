@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/4/13 23:01
+ * @created 2021/4/13 23:01
  */
 @Configuration
 @ConditionalOnClass({OpenAPI.class, GroupedOpenApi.class})

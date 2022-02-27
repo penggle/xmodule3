@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.service;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 21:48
+ * @created 2021/2/6 21:48
  */
 public class ApplicationServiceImplementCodegenParameter extends AbstractApplicationServiceCodegenParameter {
 

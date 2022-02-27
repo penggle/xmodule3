@@ -7,7 +7,7 @@ import org.springframework.util.Assert;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/5 0:24
+ * @created 2021/9/5 0:24
  */
 public class MybatisCodegenConfigProperties extends ModuleCodegenConfigProperties {
 

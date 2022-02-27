@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/25 15:20
+ * @created 2021/7/25 15:20
  */
 public class DomainCommonsConfigProperties extends GeneratedTargetConfigProperties {
 

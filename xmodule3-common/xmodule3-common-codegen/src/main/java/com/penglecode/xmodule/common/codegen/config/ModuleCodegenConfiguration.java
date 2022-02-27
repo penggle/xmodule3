@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/20 0:34
+ * @created 2021/9/20 0:34
  */
 @Configuration
 public class ModuleCodegenConfiguration {

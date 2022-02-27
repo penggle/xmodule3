@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/20 0:18
+ * @created 2021/6/20 0:18
  */
 public interface ErrorCode {
 

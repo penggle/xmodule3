@@ -10,7 +10,7 @@ import org.springframework.core.Ordered;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/19 21:19
+ * @created 2021/9/19 21:19
  */
 public interface MybatisCodegenDialect extends Ordered {
 

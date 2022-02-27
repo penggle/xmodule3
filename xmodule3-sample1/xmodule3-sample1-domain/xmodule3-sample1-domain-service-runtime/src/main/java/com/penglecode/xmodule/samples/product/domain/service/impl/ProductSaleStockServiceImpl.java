@@ -37,7 +37,7 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRES_NE
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月25日 下午 23:29
+ * @created 2021年10月25日 下午 23:29
  */
 @Service("productSaleStockService")
 public class ProductSaleStockServiceImpl implements ProductSaleStockService {

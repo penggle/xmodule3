@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/23 20:48
+ * @created 2021/7/23 20:48
  */
 public class DomainMasterSlaveMapping {
 

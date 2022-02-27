@@ -15,7 +15,7 @@ import java.sql.Types;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/26 14:28
+ * @created 2021/1/26 14:28
  */
 public class OracleMybatisCodegenDialect implements MybatisCodegenDialect {
 

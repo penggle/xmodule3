@@ -30,7 +30,7 @@ import java.util.function.Supplier;
  * @param <E> Example
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/11 23:41
+ * @created 2021/6/11 23:41
  */
 @SuppressWarnings("unchecked")
 public class LambdaQueryCriteria<E extends DomainObject> extends NestedLambdaQueryCriteria<E> {

@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/28 21:01
+ * @created 2021/1/28 21:01
  */
 public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectCodegenConfigProperties> {
 

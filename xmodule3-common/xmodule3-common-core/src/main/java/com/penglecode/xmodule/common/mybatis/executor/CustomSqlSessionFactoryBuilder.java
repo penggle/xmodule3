@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * 自定义的SqlSessionFactoryBuilder
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/24 14:53
+ * @created 2021/7/24 14:53
  */
 public class CustomSqlSessionFactoryBuilder extends SqlSessionFactoryBuilder {
 

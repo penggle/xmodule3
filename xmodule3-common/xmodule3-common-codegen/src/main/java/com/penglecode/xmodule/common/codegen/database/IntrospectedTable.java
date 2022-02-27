@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/3 21:58
+ * @created 2021/9/3 21:58
  */
 public class IntrospectedTable extends TableIndentity {
 

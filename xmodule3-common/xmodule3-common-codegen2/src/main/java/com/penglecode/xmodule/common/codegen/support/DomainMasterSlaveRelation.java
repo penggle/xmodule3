@@ -6,7 +6,7 @@ package com.penglecode.xmodule.common.codegen.support;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 12:48
+ * @created 2021/1/22 12:48
  */
 public enum DomainMasterSlaveRelation {
 

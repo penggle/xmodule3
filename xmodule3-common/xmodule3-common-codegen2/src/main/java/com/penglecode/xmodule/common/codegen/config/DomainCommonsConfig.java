@@ -11,7 +11,7 @@ import java.util.Set;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 11:12
+ * @created 2021/1/22 11:12
  */
 public class DomainCommonsConfig extends GenerableTargetLocation {
 

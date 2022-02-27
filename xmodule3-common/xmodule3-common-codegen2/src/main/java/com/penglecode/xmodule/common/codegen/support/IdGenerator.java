@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 14:15
+ * @created 2021/1/22 14:15
  */
 public class IdGenerator {
 

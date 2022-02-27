@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/14 10:49
+ * @created 2021/6/14 10:49
  */
 public interface Convertible extends Serializable {
 }

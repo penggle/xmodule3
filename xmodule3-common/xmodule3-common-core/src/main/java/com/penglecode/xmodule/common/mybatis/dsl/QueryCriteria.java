@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/10 16:43
+ * @created 2021/6/10 16:43
  */
 public abstract class QueryCriteria<E extends DomainObject> implements DomainObject {
 

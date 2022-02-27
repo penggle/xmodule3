@@ -14,7 +14,7 @@ import com.penglecode.xmodule.common.util.StringUtils;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 21:56
+ * @created 2021/2/6 21:56
  */
 public abstract class CodegenParameterBuilder<C extends ModuleCodegenConfigProperties, T extends GenerableTargetConfig, D extends DomainObjectConfig, P extends CodegenParameter> {
 

@@ -14,7 +14,7 @@ import java.util.Set;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/24 16:46
+ * @created 2021/1/24 16:46
  */
 public class ApiCodegenConfigProperties extends ServiceCodegenConfigProperties {
 

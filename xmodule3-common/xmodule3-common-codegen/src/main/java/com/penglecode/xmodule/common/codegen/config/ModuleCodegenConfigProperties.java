@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/7 22:24
+ * @created 2021/6/7 22:24
  */
 public abstract class ModuleCodegenConfigProperties {
 

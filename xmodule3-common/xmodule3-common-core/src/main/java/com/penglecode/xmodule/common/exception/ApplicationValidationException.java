@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.exception;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/15 15:15
+ * @created 2021/5/15 15:15
  */
 public class ApplicationValidationException extends ApplicationException {
 

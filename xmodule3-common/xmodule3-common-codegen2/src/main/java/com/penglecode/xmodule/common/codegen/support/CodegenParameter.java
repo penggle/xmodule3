@@ -10,7 +10,7 @@ import java.util.*;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/24 15:50
+ * @created 2021/1/24 15:50
  */
 public abstract class CodegenParameter {
 

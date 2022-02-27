@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 21:23
+ * @created 2021/2/6 21:23
  */
 public class DomainServiceParameters extends ArrayList<DomainServiceParameters.DomainServiceParameter> {
 

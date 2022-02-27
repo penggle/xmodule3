@@ -4,14 +4,14 @@ import com.penglecode.xmodule.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * 商品销售规格信息出站DTO
+ * 商品销售规格信息保存(入站)DTO
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月21日 下午 23:18
+ * @created 2021年10月21日 下午 23:18
  */
-@Schema(description="商品销售规格信息出站DTO")
-public class ProductSaleSpecODTO implements BaseDTO {
+@Schema(description="商品销售规格信息保存(入站)DTO")
+public class ProductSaleSpecSaveDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,14 +34,6 @@ public class ProductSaleSpecODTO implements BaseDTO {
     /** 商品规格备注 */
     @Schema(description="商品规格备注")
     private String remark;
-
-    /** 创建时间 */
-    @Schema(description="创建时间")
-    private String createTime;
-
-    /** 最近修改时间 */
-    @Schema(description="最近修改时间")
-    private String updateTime;
 
     public Long getProductId() {
         return productId;
@@ -81,22 +73,6 @@ public class ProductSaleSpecODTO implements BaseDTO {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
     }
 
 }

@@ -8,7 +8,7 @@ import com.penglecode.xmodule.common.codegen.support.DomainObjectParameter;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 22:31
+ * @created 2021/2/6 22:31
  */
 public class ByMasterIdDomainServiceMethodParameter extends DomainServiceMethodParameter {
 

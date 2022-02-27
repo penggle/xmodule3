@@ -20,7 +20,7 @@ import ${targetImport};
  *
  * @author ${targetAuthor}
  * @version ${targetVersion}
- * @since ${targetCreated}
+ * @created ${targetCreated}
  */
 <#list targetAnnotations as targetAnnotation>
 ${targetAnnotation}

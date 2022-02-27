@@ -17,7 +17,7 @@ package com.penglecode.xmodule.common.support;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/20 0:12
+ * @created 2021/6/20 0:12
  */
 public enum GlobalErrorCode implements ErrorCode {
 

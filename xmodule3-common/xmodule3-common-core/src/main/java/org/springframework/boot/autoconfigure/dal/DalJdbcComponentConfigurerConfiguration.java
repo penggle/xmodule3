@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/16 14:58
+ * @created 2021/5/16 14:58
  */
 @Configuration
 @ConditionalOnClass(name="com.zaxxer.hikari.HikariDataSource")

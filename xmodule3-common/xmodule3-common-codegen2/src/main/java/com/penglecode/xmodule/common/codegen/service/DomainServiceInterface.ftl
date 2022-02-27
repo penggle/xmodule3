@@ -20,7 +20,7 @@ import ${targetImport};
  *
  * @author ${targetAuthor}
  * @version ${targetVersion}
- * @since ${targetCreated}
+ * @created ${targetCreated}
  */
 public interface ${targetClass} {
 <#if createDomainObject.activated>

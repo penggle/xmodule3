@@ -19,7 +19,7 @@ import java.util.function.ObjIntConsumer;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 22:03
+ * @created 2021/2/6 22:03
  */
 public abstract class AbstractApplicationServiceCodegenParameterBuilder<T extends GenerableTargetConfig, P extends AbstractApplicationServiceCodegenParameter> extends CodegenParameterBuilder<ServiceCodegenConfigProperties, T, DomainAggregateConfig, P> {
 

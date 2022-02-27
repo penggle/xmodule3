@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * @author pengpeng
  * @version 1.0
- * @since 2021/10/2 15:27
+ * @created 2021/10/2 15:27
  */
 @SpringBootTest(classes=SamplesCodegenApplication.class)
 public class ProductModuleCodegenExample {

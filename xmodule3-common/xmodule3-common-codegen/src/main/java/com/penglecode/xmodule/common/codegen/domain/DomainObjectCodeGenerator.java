@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/7 21:26
+ * @created 2021/9/7 21:26
  */
 public class DomainObjectCodeGenerator extends ModuleCodeGenerator<DomainObjectCodegenConfigProperties> {
 

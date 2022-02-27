@@ -4,14 +4,14 @@ import com.penglecode.xmodule.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * 商品销售库存信息出站DTO
+ * 商品销售规格信息查询(出站)DTO
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月21日 下午 23:18
+ * @created 2021年10月21日 下午 23:18
  */
-@Schema(description="商品销售库存信息出站DTO")
-public class ProductSaleStockODTO implements BaseDTO {
+@Schema(description="商品销售规格信息查询(出站)DTO")
+public class ProductSaleSpecQueryDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,21 +19,21 @@ public class ProductSaleStockODTO implements BaseDTO {
     @Schema(description="商品ID")
     private Long productId;
 
-    /** 商品规格编号,多个t_product_spec.spec_no按顺序拼凑 */
+    /** 商品规格编号,两位数字组成 */
     @Schema(description="商品规格编号")
     private String specNo;
 
-    /** 商品规格编号,多个t_product_spec.spec_name按顺序拼凑 */
-    @Schema(description="商品规格编号")
+    /** 商品规格名称 */
+    @Schema(description="商品规格名称")
     private String specName;
 
-    /** 商品售价(单位分) */
-    @Schema(description="商品售价")
-    private Long sellPrice;
+    /** 商品规格顺序 */
+    @Schema(description="商品规格顺序")
+    private Integer specIndex;
 
-    /** 库存量 */
-    @Schema(description="库存量")
-    private Integer stock;
+    /** 商品规格备注 */
+    @Schema(description="商品规格备注")
+    private String remark;
 
     /** 创建时间 */
     @Schema(description="创建时间")
@@ -67,20 +67,20 @@ public class ProductSaleStockODTO implements BaseDTO {
         this.specName = specName;
     }
 
-    public Long getSellPrice() {
-        return sellPrice;
+    public Integer getSpecIndex() {
+        return specIndex;
     }
 
-    public void setSellPrice(Long sellPrice) {
-        this.sellPrice = sellPrice;
+    public void setSpecIndex(Integer specIndex) {
+        this.specIndex = specIndex;
     }
 
-    public Integer getStock() {
-        return stock;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getCreateTime() {

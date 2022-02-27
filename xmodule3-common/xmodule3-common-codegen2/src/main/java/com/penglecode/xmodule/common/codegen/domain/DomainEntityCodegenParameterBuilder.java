@@ -14,7 +14,7 @@ import java.util.*;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/6 22:03
+ * @created 2021/2/6 22:03
  */
 public class DomainEntityCodegenParameterBuilder extends CodegenParameterBuilder<DomainObjectCodegenConfigProperties, DomainEntityConfig, DomainEntityConfig, DomainEntityCodegenParameter> {
 

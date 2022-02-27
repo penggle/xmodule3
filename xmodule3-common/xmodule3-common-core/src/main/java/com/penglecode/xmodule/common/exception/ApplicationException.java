@@ -8,7 +8,7 @@ import com.penglecode.xmodule.common.support.ErrorCode;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/15 14:21
+ * @created 2021/5/15 14:21
  */
 public abstract class ApplicationException extends RuntimeException {
 

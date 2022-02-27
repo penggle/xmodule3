@@ -5,7 +5,7 @@ package com.penglecode.xmodule.common.codegen.config;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/9/5 0:40
+ * @created 2021/9/5 0:40
  */
 public class MybatisConfigProperties {
 

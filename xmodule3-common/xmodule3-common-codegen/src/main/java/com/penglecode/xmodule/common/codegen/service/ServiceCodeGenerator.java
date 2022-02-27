@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/25 8:52
+ * @created 2021/8/25 8:52
  */
 public class ServiceCodeGenerator extends ModuleCodeGenerator<ServiceCodegenConfigProperties> {
 

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/16 19:15
+ * @created 2021/8/16 19:15
  */
 public class MybatisCodeGenerator extends ModuleCodeGenerator<MybatisCodegenConfigProperties> {
 

@@ -31,7 +31,7 @@ import java.util.function.Supplier;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/27 19:12
+ * @created 2021/5/27 19:12
  */
 @SuppressWarnings("unchecked")
 public class MapLambdaBuilder<T> {

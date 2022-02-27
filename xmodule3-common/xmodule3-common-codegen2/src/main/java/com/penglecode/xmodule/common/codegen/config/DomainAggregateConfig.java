@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 13:59
+ * @created 2021/1/22 13:59
  */
 public class DomainAggregateConfig extends DomainObjectConfig {
 

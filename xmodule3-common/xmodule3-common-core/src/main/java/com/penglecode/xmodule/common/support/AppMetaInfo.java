@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/4/13 22:29
+ * @created 2021/4/13 22:29
  */
 @Schema
 public class AppMetaInfo {

@@ -7,7 +7,7 @@ import java.util.function.BinaryOperator;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/6 17:12
+ * @created 2021/8/6 17:12
  */
 public class StreamUtils {
 

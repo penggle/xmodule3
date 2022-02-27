@@ -6,7 +6,7 @@ package com.penglecode.xmodule.common.codegen.config;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/24 11:14
+ * @created 2021/7/24 11:14
  */
 public class DomainMasterSlaveConfigProperties {
 

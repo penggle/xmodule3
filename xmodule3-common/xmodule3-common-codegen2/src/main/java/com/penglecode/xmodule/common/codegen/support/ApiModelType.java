@@ -5,15 +5,13 @@ package com.penglecode.xmodule.common.codegen.support;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/2/20 22:20
+ * @created 2021/2/20 22:20
  */
 public enum ApiModelType {
 
-    //
-    INBOUND_DTO("dto", "${domainObjectName}IDTO", "${domainObjectTitle}入站DTO"),
-    OUTBOUND_DTO("dto", "${domainObjectName}ODTO", "${domainObjectTitle}出站DTO"),
-    CREATE_REQUEST("request", "Create${domainObjectName}Request", "创建${domainObjectTitle}请求DTO"),
-    MODIFY_REQUEST("request", "Modify${domainObjectName}Request", "修改${domainObjectTitle}请求DTO"),
+    SAVE_DTO("dto", "${domainObjectName}SaveDTO", "${domainObjectTitle}保存(入站)DTO"),
+    QUERY_DTO("dto", "${domainObjectName}QueryDTO", "${domainObjectTitle}查询(出站)DTO"),
+    SAVE_REQUEST("request", "Save${domainObjectName}Request", "保存${domainObjectTitle}请求DTO"),
     QUERY_REQUEST("request", "Query${domainObjectName}Request", "查询${domainObjectTitle}请求DTO"),
     QUERY_RESPONSE("response", "Query${domainObjectName}Response", "查询${domainObjectTitle}响应DTO");
 

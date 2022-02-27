@@ -9,7 +9,7 @@ import com.penglecode.xmodule.common.codegen.config.ModuleCodegenConfigPropertie
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/25 15:18
+ * @created 2021/1/25 15:18
  */
 @FunctionalInterface
 public interface CodegenFilter {

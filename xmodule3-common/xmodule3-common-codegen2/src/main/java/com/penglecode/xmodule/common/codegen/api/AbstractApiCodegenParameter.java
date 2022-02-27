@@ -6,11 +6,14 @@ import com.penglecode.xmodule.common.codegen.support.DomainObjectParameter;
 /**
  * API接口代码生成参数基类
  *
- * @author pengpeng
+ * @author  pengpeng
  * @version 1.0
- * @since 2021/2/20 13:58
+ * @created 2021/2/20 13:58
  */
 public abstract class AbstractApiCodegenParameter extends CodegenParameter {
+
+    /** 是否是聚合根 */
+    private Boolean aggregateRoot;
 
     /** 对应的领域对象参数 */
     private DomainObjectParameter domainObjectParameter;
@@ -38,6 +41,14 @@ public abstract class AbstractApiCodegenParameter extends CodegenParameter {
 
     public AbstractApiCodegenParameter(String targetTemplateName) {
         super(targetTemplateName);
+    }
+
+    public Boolean getAggregateRoot() {
+        return aggregateRoot;
+    }
+
+    public void setAggregateRoot(Boolean aggregateRoot) {
+        this.aggregateRoot = aggregateRoot;
     }
 
     public DomainObjectParameter getDomainObjectParameter() {

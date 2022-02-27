@@ -10,7 +10,7 @@ import java.util.function.Function;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/19 20:18
+ * @created 2021/6/19 20:18
  */
 public interface MessageSupplier extends Function<MessageSourceAccessor,String> {
 

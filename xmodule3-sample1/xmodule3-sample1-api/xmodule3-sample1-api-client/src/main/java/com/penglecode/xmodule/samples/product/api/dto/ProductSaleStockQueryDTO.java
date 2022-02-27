@@ -4,14 +4,14 @@ import com.penglecode.xmodule.common.model.BaseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * 商品销售库存信息入站DTO
+ * 商品销售库存信息查询(出站)DTO
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月21日 下午 23:18
+ * @created 2021年10月21日 下午 23:18
  */
-@Schema(description="商品销售库存信息入站DTO")
-public class ProductSaleStockIDTO implements BaseDTO {
+@Schema(description="商品销售库存信息查询(出站)DTO")
+public class ProductSaleStockQueryDTO implements BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +28,20 @@ public class ProductSaleStockIDTO implements BaseDTO {
     private String specName;
 
     /** 商品售价(单位分) */
-    @Schema(description="商品售价(单位分)")
+    @Schema(description="商品售价")
     private Long sellPrice;
 
     /** 库存量 */
     @Schema(description="库存量")
     private Integer stock;
+
+    /** 创建时间 */
+    @Schema(description="创建时间")
+    private String createTime;
+
+    /** 最近修改时间 */
+    @Schema(description="最近修改时间")
+    private String updateTime;
 
     public Long getProductId() {
         return productId;
@@ -73,6 +81,22 @@ public class ProductSaleStockIDTO implements BaseDTO {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
 }

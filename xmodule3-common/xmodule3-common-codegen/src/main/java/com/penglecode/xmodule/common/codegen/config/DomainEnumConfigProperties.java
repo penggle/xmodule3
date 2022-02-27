@@ -30,7 +30,7 @@ import java.util.Objects;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/8/21 11:28
+ * @created 2021/8/21 11:28
  */
 public class DomainEnumConfigProperties extends GeneratedTargetConfigProperties {
 

@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 16:28
+ * @created 2021/1/22 16:28
  */
 public abstract class ModuleCodegenConfigProperties implements InitializingBean {
 

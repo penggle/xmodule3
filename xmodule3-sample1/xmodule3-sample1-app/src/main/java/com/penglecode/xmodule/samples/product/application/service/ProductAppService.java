@@ -12,7 +12,7 @@ import java.util.function.ObjIntConsumer;
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月23日 上午 10:38
+ * @created 2021年10月23日 上午 10:38
  */
 public interface ProductAppService {
 

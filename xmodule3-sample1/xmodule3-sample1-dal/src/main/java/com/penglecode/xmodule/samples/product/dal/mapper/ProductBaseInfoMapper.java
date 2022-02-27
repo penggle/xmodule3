@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.dal.NamedDatabase;
  *
  * @author AutoCodeGenerator
  * @version 1.0
- * @since 2021年10月28日 下午 23:11
+ * @created 2021年10月28日 下午 23:11
  */
 @NamedDatabase("product")
 public interface ProductBaseInfoMapper extends BaseMybatisMapper<ProductBaseInfo> {

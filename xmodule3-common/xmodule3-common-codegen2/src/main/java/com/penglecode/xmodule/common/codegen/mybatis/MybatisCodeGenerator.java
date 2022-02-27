@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/26 17:13
+ * @created 2021/1/26 17:13
  */
 public class MybatisCodeGenerator extends ModuleCodeGenerator<MybatisCodegenConfigProperties> {
 

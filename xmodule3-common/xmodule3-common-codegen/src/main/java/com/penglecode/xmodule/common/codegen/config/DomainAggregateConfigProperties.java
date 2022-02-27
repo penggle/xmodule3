@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/10/17 17:24
+ * @created 2021/10/17 17:24
  */
 public class DomainAggregateConfigProperties extends GeneratedTargetConfigProperties {
 

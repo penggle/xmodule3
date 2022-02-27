@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 11:16
+ * @created 2021/1/22 11:16
  */
 public class IntrospectedTable extends TableIndentity {
 

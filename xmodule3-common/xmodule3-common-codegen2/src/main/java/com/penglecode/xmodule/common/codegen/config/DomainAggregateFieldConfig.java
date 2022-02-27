@@ -8,7 +8,7 @@ import com.penglecode.xmodule.common.codegen.support.FullyQualifiedJavaType;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/23 17:36
+ * @created 2021/1/23 17:36
  */
 public class DomainAggregateFieldConfig extends DomainObjectFieldConfig {
 

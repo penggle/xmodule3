@@ -20,7 +20,7 @@ import ${targetImport};
  *
  * @author ${targetAuthor}
  * @version ${targetVersion}
- * @since ${targetCreated}
+ * @created ${targetCreated}
  */
 public class ${targetClass}<#if targetExtends??> extends ${targetExtends}</#if><#if (targetImplements?size > 0)> implements <#list targetImplements as targetImplement>${targetImplement}<#if (item_has_next)>, </#if></#list></#if> {
 

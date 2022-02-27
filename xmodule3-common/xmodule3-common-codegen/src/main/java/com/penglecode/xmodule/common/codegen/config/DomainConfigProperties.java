@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/25 15:18
+ * @created 2021/7/25 15:18
  */
 public class DomainConfigProperties {
 

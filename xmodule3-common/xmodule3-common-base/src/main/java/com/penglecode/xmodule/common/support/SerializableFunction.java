@@ -10,7 +10,7 @@ import java.util.function.Function;
  * @param <R>
  * @author pengpeng
  * @version 1.0
- * @since 2020/3/27 11:44
+ * @created 2020/3/27 11:44
  */
 @FunctionalInterface
 public interface SerializableFunction<T,R> extends Function<T,R>, Serializable {

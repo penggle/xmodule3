@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/5/15 23:02
+ * @created 2021/5/15 23:02
  */
 public abstract class AbstractDalComponentAutoConfigurer implements BeanFactoryAware, EnvironmentAware, ResourceLoaderAware, Ordered {
 

@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021年10月21日 下午 23:18
+ * @created 2021年10月21日 下午 23:18
  */
 @Schema(description="查询商品请求DTO")
 public class QueryProductRequest extends Page {

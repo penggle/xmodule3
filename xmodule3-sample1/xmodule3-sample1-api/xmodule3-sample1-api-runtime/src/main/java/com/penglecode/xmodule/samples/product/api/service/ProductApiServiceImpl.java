@@ -4,9 +4,9 @@ import com.penglecode.xmodule.common.model.Page;
 import com.penglecode.xmodule.common.model.PageResult;
 import com.penglecode.xmodule.common.model.Result;
 import com.penglecode.xmodule.common.support.BeanCopier;
-import com.penglecode.xmodule.samples.product.api.request.CreateProductRequest;
-import com.penglecode.xmodule.samples.product.api.request.ModifyProductRequest;
+import com.penglecode.xmodule.common.web.servlet.support.ServletHttpApiSupport;
 import com.penglecode.xmodule.samples.product.api.request.QueryProductRequest;
+import com.penglecode.xmodule.samples.product.api.request.SaveProductRequest;
 import com.penglecode.xmodule.samples.product.api.response.QueryProductResponse;
 import com.penglecode.xmodule.samples.product.application.service.ProductAppService;
 import com.penglecode.xmodule.samples.product.domain.model.ProductAggregate;
@@ -20,23 +20,23 @@ import java.util.List;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/4/10 21:32
+ * @created 2021/4/10 21:32
  */
 @RestController
-public class ProductApiServiceImpl implements ProductApiService {
+public class ProductApiServiceImpl extends ServletHttpApiSupport implements ProductApiService {
 
     @Resource(name="productAppService")
     private ProductAppService productAppService;
 
     @Override
-    public Result<Long> createProduct(CreateProductRequest createRequest) {
+    public Result<Long> createProduct(SaveProductRequest createRequest) {
         ProductAggregate product = BeanCopier.copy(createRequest, ProductAggregate::new);
         productAppService.createProduct(product);
         return Result.success().data(product.getProductId()).build();
     }
 
     @Override
-    public Result<Void> modifyProduct(ModifyProductRequest modifyRequest) {
+    public Result<Void> modifyProduct(SaveProductRequest modifyRequest) {
         ProductAggregate product = BeanCopier.copy(modifyRequest, ProductAggregate::new);
         productAppService.modifyProductById(product);
         return Result.success().build();
@@ -62,11 +62,18 @@ public class ProductApiServiceImpl implements ProductApiService {
     }
 
     @Override
-    public PageResult<QueryProductResponse> getProductsByPage(QueryProductRequest queryRequest, Boolean cascade) {
+    public Result<List<QueryProductResponse>> getProductByIds(List<Long> ids, Boolean cascade) {
+        List<ProductAggregate> products = productAppService.getProductsByIds(ids, cascade);
+        List<QueryProductResponse> queryResponses = BeanCopier.copy(products, QueryProductResponse::new);
+        return Result.success().data(queryResponses).build();
+    }
+
+    @Override
+    public PageResult<List<QueryProductResponse>> getProductsByPage(QueryProductRequest queryRequest, Boolean cascade) {
         ProductAggregate condition = BeanCopier.copy(queryRequest, ProductAggregate::new);
         Page page = Page.copyOf(queryRequest);
-        List<ProductAggregate> productList = productAppService.getProductsByPage(condition, page, cascade);
-        List<QueryProductResponse> queryResponses = BeanCopier.copy(productList, QueryProductResponse::new);
+        List<ProductAggregate> products = productAppService.getProductsByPage(condition, page, cascade);
+        List<QueryProductResponse> queryResponses = BeanCopier.copy(products, QueryProductResponse::new);
         return PageResult.success().data(queryResponses).totalRowCount(page.getTotalRowCount()).build();
     }
 

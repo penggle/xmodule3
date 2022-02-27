@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/6/10 20:02
+ * @created 2021/6/10 20:02
  */
 public interface BaseMybatisMapper<T extends DomainObject> {
 

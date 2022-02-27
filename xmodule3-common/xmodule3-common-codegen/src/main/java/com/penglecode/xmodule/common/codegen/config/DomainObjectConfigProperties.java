@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/25 13:43
+ * @created 2021/7/25 13:43
  */
 public class DomainObjectConfigProperties extends GeneratedTargetConfigProperties {
 

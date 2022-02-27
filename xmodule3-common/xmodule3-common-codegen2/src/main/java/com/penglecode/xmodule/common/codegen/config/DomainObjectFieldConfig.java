@@ -9,7 +9,7 @@ import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/23 16:18
+ * @created 2021/1/23 16:18
  */
 public abstract class DomainObjectFieldConfig {
 

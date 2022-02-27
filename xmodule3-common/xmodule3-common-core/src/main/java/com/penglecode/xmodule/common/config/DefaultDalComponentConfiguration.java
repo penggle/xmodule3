@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/7/16 15:24
+ * @created 2021/7/16 15:24
  */
 @Configuration
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class, MybatisProperties.class})

@@ -7,7 +7,7 @@ import com.penglecode.xmodule.common.codegen.support.ServiceType;
  *
  * @author pengpeng
  * @version 1.0
- * @since 2021/1/22 14:51
+ * @created 2021/1/22 14:51
  */
 public class ServiceInterfaceConfig extends GenerableTargetConfig {
 
