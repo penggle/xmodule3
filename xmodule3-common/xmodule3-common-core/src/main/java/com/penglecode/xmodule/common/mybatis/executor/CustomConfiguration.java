@@ -1,12 +1,14 @@
 package com.penglecode.xmodule.common.mybatis.executor;
 
+import com.penglecode.xmodule.common.util.ReflectionUtils;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.builder.CacheRefResolver;
 import org.apache.ibatis.builder.ResultMapResolver;
 import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.builder.xml.XMLStatementBuilder;
 import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.executor.*;
+import org.apache.ibatis.executor.CachingExecutor;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.loader.ProxyFactory;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
@@ -17,6 +19,7 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.InterceptorChain;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.ReflectorFactory;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
@@ -37,7 +40,6 @@ import java.util.*;
  *
  * @author pengpeng
  * @version 1.0
- * @created 2021/7/24 14:55
  */
 public class CustomConfiguration extends Configuration {
 
@@ -45,6 +47,10 @@ public class CustomConfiguration extends Configuration {
 
     public CustomConfiguration(Configuration delegate) {
         this.delegate = delegate;
+        //将delegate.interceptorChain设置到当前对象上来,在下面newExecutor(..)时要用到
+        String fieldName = "interceptorChain";
+        InterceptorChain interceptorChain = ReflectionUtils.getFieldValue(delegate, fieldName);
+        ReflectionUtils.setFinalFieldValue(this, fieldName, interceptorChain);
     }
 
     @Override
@@ -460,17 +466,19 @@ public class CustomConfiguration extends Configuration {
 
     @Override
     public Executor newExecutor(Transaction transaction) {
-        return delegate.newExecutor(transaction);
+        return newExecutor(transaction, delegate.getDefaultExecutorType());
     }
 
     @Override
     public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
-        executorType = executorType == null ? defaultExecutorType : executorType;
+        executorType = executorType == null ? delegate.getDefaultExecutorType() : executorType;
         executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
         Executor executor = new DynamicExecutor(transaction, executorType, this);
-        if (cacheEnabled) {
+        if (delegate.isCacheEnabled()) {
             executor = new CachingExecutor(executor);
         }
+        //由于无法delegate.getInterceptorChain()，所以需要在上面构造器中初始化interceptorChain
+        //总之，所有Plugin都得应用到当前Configuration上
         executor = (Executor) interceptorChain.pluginAll(executor);
         return executor;
     }

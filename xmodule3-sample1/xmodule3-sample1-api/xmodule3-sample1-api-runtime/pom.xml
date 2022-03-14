@@ -30,7 +30,6 @@
             <groupId>com.penglecode</groupId>
             <artifactId>xmodule3-sample1-api-client</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>
