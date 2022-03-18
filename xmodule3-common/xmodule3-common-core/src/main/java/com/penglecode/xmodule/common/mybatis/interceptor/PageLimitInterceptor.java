@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.mybatis.interceptor;
 
-import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
+import com.penglecode.xmodule.common.mybatis.DatabaseType;
 import com.penglecode.xmodule.common.mybatis.MySQLDialect;
 import com.penglecode.xmodule.common.mybatis.OracleDialect;
 import com.penglecode.xmodule.common.mybatis.SqlDialect;
@@ -94,10 +94,10 @@ public class PageLimitInterceptor implements Interceptor {
 	protected SqlDialect initSqlDialect(MetaObject metaObject) {
 		Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
 		String dialect = configuration.getVariables().getProperty("dialect");
-		SupportedDatabaseType supportedDatabaseType = SupportedDatabaseType.of(dialect);
-		if (SupportedDatabaseType.MYSQL.equals(supportedDatabaseType)) { // MySQL分页
+		DatabaseType databaseType = DatabaseType.of(dialect);
+		if (DatabaseType.MYSQL.equals(databaseType)) { // MySQL分页
 			return new MySQLDialect();
-		} else if(SupportedDatabaseType.ORACLE.equals(supportedDatabaseType)) { // Oracle分页
+		} else if(DatabaseType.ORACLE.equals(databaseType)) { // Oracle分页
 			return new OracleDialect();
 		} else {
 			throw new IllegalStateException("No 'dialect' property found in Mybatis Configuration!");

@@ -4,7 +4,7 @@ import com.penglecode.xmodule.common.codegen.config.DomainEntityConfig;
 import com.penglecode.xmodule.common.codegen.config.MybatisCodegenConfigProperties;
 import com.penglecode.xmodule.common.codegen.config.MybatisXmlMapperConfig;
 import com.penglecode.xmodule.common.codegen.support.CodegenContext;
-import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
+import com.penglecode.xmodule.common.mybatis.DatabaseType;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import org.springframework.core.Ordered;
 
@@ -21,7 +21,7 @@ public interface MybatisCodegenDialect extends Ordered {
      * 返回方言对应的数据库类型
      * @return
      */
-    SupportedDatabaseType getDatabaseType();
+    DatabaseType getDatabaseType();
 
     /**
      * 获取指定数据库列的select列子句,例如a.user_name、DATE_FORMAT(a.create_time, '%Y-%m-%d %T')等

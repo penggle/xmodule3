@@ -1,6 +1,6 @@
 package com.penglecode.xmodule.common.codegen.config;
 
-import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
+import com.penglecode.xmodule.common.mybatis.DatabaseType;
 
 /**
  * 领域对象数据库自省配置
@@ -15,7 +15,7 @@ public class DomainIntrospectConfigProperties {
     private String introspectDataSource;
 
     /** 自省方言数据库 */
-    private SupportedDatabaseType introspectDialect;
+    private DatabaseType introspectDialect;
 
     /** 强制将数据库中的日期时间字段映射为String类型? 默认为Java8日期/时间对象 */
     private boolean forceDateTimeAsString = true;
@@ -34,11 +34,11 @@ public class DomainIntrospectConfigProperties {
         this.introspectDataSource = introspectDataSource;
     }
 
-    public SupportedDatabaseType getIntrospectDialect() {
+    public DatabaseType getIntrospectDialect() {
         return introspectDialect;
     }
 
-    public void setIntrospectDialect(SupportedDatabaseType introspectDialect) {
+    public void setIntrospectDialect(DatabaseType introspectDialect) {
         this.introspectDialect = introspectDialect;
     }
 

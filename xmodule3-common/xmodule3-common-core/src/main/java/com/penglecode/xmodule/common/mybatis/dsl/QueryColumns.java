@@ -47,7 +47,7 @@ public class QueryColumns {
 
     public QueryColumns(Predicate<String> selectPredicate) {
         this.selectPredicate = selectPredicate;
-        this.selectColumns = Collections.unmodifiableSet(Collections.emptySet());
+        this.selectColumns = Collections.emptySet();
     }
 
     public Set<String> getSelectColumns() {

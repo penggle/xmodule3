@@ -6,7 +6,7 @@ import com.penglecode.xmodule.common.codegen.database.IntrospectedColumn;
 import com.penglecode.xmodule.common.codegen.database.IntrospectedTable;
 import com.penglecode.xmodule.common.codegen.support.*;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
-import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
+import com.penglecode.xmodule.common.mybatis.DatabaseType;
 import com.penglecode.xmodule.common.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -195,7 +195,7 @@ public abstract class ModuleCodegenConfigProperties implements InitializingBean 
         domainIntrospectConfig.setIntrospectDataSource(domainCommonsConfig.getIntrospectDataSource());
         if(domainIntrospectConfig.getIntrospectDatabaseType() == null) { //推断数据库类型
             String inferJdbcUrl = SpringUtils.getEnvProperty(String.format("spring.datasource.%s.url", domain.getDomainCommons().getIntrospectDataSource()), String.class);
-            domainIntrospectConfig.setIntrospectDatabaseType(SupportedDatabaseType.of(JdbcUtils.getDbType(inferJdbcUrl)));
+            domainIntrospectConfig.setIntrospectDatabaseType(DatabaseType.of(JdbcUtils.getDbType(inferJdbcUrl)));
         }
         Set<DomainEnumConfig> domainEnumConfigs = domain.getDomainCommons().getDomainEnums();
         if(!CollectionUtils.isEmpty(domainEnumConfigs)) {

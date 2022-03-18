@@ -6,7 +6,7 @@ import com.penglecode.xmodule.common.codegen.database.IntrospectedColumn;
 import com.penglecode.xmodule.common.codegen.database.IntrospectedTable;
 import com.penglecode.xmodule.common.codegen.support.*;
 import com.penglecode.xmodule.common.codegen.util.CodegenUtils;
-import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
+import com.penglecode.xmodule.common.mybatis.DatabaseType;
 import com.penglecode.xmodule.common.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,7 +181,7 @@ public abstract class ModuleCodegenConfigProperties {
 		domain.getDomainCommons().setCommentAuthor(StringUtils.defaultIfBlank(domain.getDomainCommons().getCommentAuthor(), CodegenConstants.DEFAULT_CODEGEN_COMMENT_AUTHOR));
 		if(domain.getDomainCommons().getIntrospectConfig().getIntrospectDialect() == null) { //补充数据库方言
 			String inferJdbcUrl = SpringUtils.getEnvProperty(String.format("spring.datasource.%s.url", domain.getDomainCommons().getIntrospectDataSource()), String.class);
-			domain.getDomainCommons().getIntrospectConfig().setIntrospectDialect(SupportedDatabaseType.of(JdbcUtils.getDbType(inferJdbcUrl)));
+			domain.getDomainCommons().getIntrospectConfig().setIntrospectDialect(DatabaseType.of(JdbcUtils.getDbType(inferJdbcUrl)));
 		}
 		domain.getDomainCommons().getIntrospectConfig().setIntrospectDataSource(domain.getDomainCommons().getIntrospectDataSource());
 		Set<DomainEnumConfigProperties> domainEnumConfigs = domain.getDomainCommons().getDomainEnums();

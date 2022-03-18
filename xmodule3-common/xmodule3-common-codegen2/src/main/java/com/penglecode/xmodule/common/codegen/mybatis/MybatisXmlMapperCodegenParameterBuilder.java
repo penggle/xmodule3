@@ -7,7 +7,7 @@ import com.penglecode.xmodule.common.codegen.config.MybatisXmlMapperConfig;
 import com.penglecode.xmodule.common.codegen.mybatis.MybatisXmlMapperCodegenParameter.*;
 import com.penglecode.xmodule.common.codegen.support.*;
 import com.penglecode.xmodule.common.mybatis.MapperHelper;
-import com.penglecode.xmodule.common.mybatis.SupportedDatabaseType;
+import com.penglecode.xmodule.common.mybatis.DatabaseType;
 import com.penglecode.xmodule.common.mybatis.dsl.QueryCriteria;
 import com.penglecode.xmodule.common.util.SpringUtils;
 import org.springframework.core.OrderComparator;
@@ -28,7 +28,7 @@ public class MybatisXmlMapperCodegenParameterBuilder extends CodegenParameterBui
 
     private final MybatisCodegenDialect defaultMybatisCodegenDialect = new DefaultMybatisCodegenDialect();
 
-    private volatile Map<SupportedDatabaseType,MybatisCodegenDialect> dbTypedMybatisCodegenDialects;
+    private volatile Map<DatabaseType,MybatisCodegenDialect> dbTypedMybatisCodegenDialects;
 
     public MybatisXmlMapperCodegenParameterBuilder(CodegenContext<MybatisCodegenConfigProperties, MybatisXmlMapperConfig, DomainEntityConfig> codegenContext) {
         super(codegenContext);
@@ -128,15 +128,15 @@ public class MybatisXmlMapperCodegenParameterBuilder extends CodegenParameterBui
         codegenParameter.setIdColumns(idColumns);
     }
 
-    protected MybatisCodegenDialect getMybatisCodegenDialect(SupportedDatabaseType dialectDbType) {
-        Map<SupportedDatabaseType,MybatisCodegenDialect> mybatisCodegenDialects = dbTypedMybatisCodegenDialects;
+    protected MybatisCodegenDialect getMybatisCodegenDialect(DatabaseType dialectDbType) {
+        Map<DatabaseType,MybatisCodegenDialect> mybatisCodegenDialects = dbTypedMybatisCodegenDialects;
         if(mybatisCodegenDialects == null) { //DCL Check
             mybatisCodegenDialects = getDbTypedMybatisCodegenDialects();
         }
         return mybatisCodegenDialects.getOrDefault(dialectDbType, defaultMybatisCodegenDialect);
     }
 
-    protected synchronized Map<SupportedDatabaseType,MybatisCodegenDialect> getDbTypedMybatisCodegenDialects() {
+    protected synchronized Map<DatabaseType,MybatisCodegenDialect> getDbTypedMybatisCodegenDialects() {
         if(dbTypedMybatisCodegenDialects == null) {
             Map<String,MybatisCodegenDialect> allMybatisCodegenDialects = SpringUtils.getBeansOfType(MybatisCodegenDialect.class);
             dbTypedMybatisCodegenDialects = allMybatisCodegenDialects.values()
