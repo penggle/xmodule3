@@ -42,7 +42,7 @@ public abstract class CodegenParameterBuilder<C extends ModuleCodegenConfigPrope
      * @return
      */
     public P buildCodegenParameter() {
-        Class<P> parameterType = ClassUtils.getSuperClassGenericType(getClass(), CodegenParameterBuilder.class, 4);
+        Class<P> parameterType = ClassUtils.getSuperClassGenericType(getClass(), CodegenParameterBuilder.class, 3);
         try {
             P codegenParameter = parameterType.getConstructor(String.class).newInstance(getTargetTemplateName());
             return setCustomCodegenParameter(setCommonCodegenParameter(codegenParameter));

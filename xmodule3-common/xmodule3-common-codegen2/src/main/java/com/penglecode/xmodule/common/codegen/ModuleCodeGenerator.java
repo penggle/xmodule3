@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.concurrent.NotThreadSafe;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 
@@ -161,6 +162,7 @@ public abstract class ModuleCodeGenerator<C extends ModuleCodegenConfigPropertie
 		String targetCodeFileName = CodegenUtils.calculateGeneratedCodeFileName(codegenParameter.getTargetFileName(), new File(targetFilePath));
 		targetFilePath = FileUtils.normalizePath(targetFilePath + FileUtils.STANDARD_PATH_DELIMITER + targetCodeFileName);
 		Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+		configuration.setDefaultEncoding(StandardCharsets.UTF_8.name());
 		Class<?> resourceLoadClass = getClass();
 		configuration.setClassForTemplateLoading(resourceLoadClass, "/" + resourceLoadClass.getPackage().getName().replace(".", "/"));
 		Template codeTemplate = configuration.getTemplate(codegenParameter.getTargetTemplateName());
